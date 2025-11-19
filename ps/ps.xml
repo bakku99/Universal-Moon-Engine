@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="partysheet">
+		<frame>partysheet</frame>
+		<sizelimits>
+			<minimum width="840" height="650" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<helplinkres>help_tool_ps</helplinkres>
+		<script>
+			function onInit()
+				WindowTabManager.populate(self);
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_partysheet name="title">
+				<resource>ps_window_title</resource>
+			</windowtitlebar_partysheet>
+			<windowmenubar_partysheet name="menubar" />
+
+			<anchor_content_partysheet_top />
+			<anchor_content_partysheet_bottom />
+
+			<resize_partysheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="partysheet_host" copy="partysheet" />
+	<windowclass name="partysheet_client" copy="partysheet" />
+</root>

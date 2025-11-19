@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!--
+		Use anchor_content_top as the base anchor
+		Can use other templates; but these inject some extra padding for columned records
+		Labels do not advance anchoring; but fields do.
+		Assumes labels on the left; and fields start at 100 pixels from the left
+
+		NOTE: Column fields assume framed by default
+	-->
+
+	<!-- SPACERS -->
+	<template name="sub_content_column">
+		<sub_content_top>
+			<script file="common/scripts/column_sub.lua" />
+		</sub_content_top>
+	</template>
+	<template name="sub_content_column_hidden">
+		<sub_content_top>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+			<script file="common/scripts/column_sub.lua" />
+		</sub_content_top>
+	</template>
+	<template name="list_content_column">
+		<list_content_noscroll_top>
+			<script file="common/scripts/column_list.lua" />
+		</list_content_noscroll_top>
+	</template>
+
+	<!-- LABELS -->
+	<template name="label_content_column">
+		<label>
+			<anchored to="contentanchor">
+				<top relation="current" offset="3" />
+				<left />
+			</anchored>
+		</label>
+	</template>
+	<template name="label_content_column_right">
+		<label>
+			<anchored to="contentanchor">
+				<top relation="current" offset="-23" />
+				<right parent="" offset="-60" />
+			</anchored>
+		</label>
+	</template>
+
+	<!-- STRING FIELDS -->
+	<template name="string_content_column">
+		<string_content_base>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_content_base>
+	</template>
+	<template name="string_content_columnh">
+		<string_content_column>
+			<script file="common/scripts/column_string.lua" />
+		</string_content_column>
+	</template>
+	<template name="string_content_columnh_multiroll">
+		<string_content_columnh>
+			<nodragselect />
+			<script file="common/scripts/string_multiroll.lua" />
+		</string_content_columnh>
+	</template>
+	<template name="string_content_column_single">
+		<string_content_base>
+			<anchored height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+			</anchored>
+		</string_content_base>
+	</template>
+	<template name="string_content_column_full">
+		<string_content_base>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_content_base>
+	</template>
+	<template name="string_content_columnh_full">
+		<string_content_column_full>
+			<script file="common/scripts/column_string.lua" />
+		</string_content_column_full>
+	</template>
+	<template name="string_content_column_remainder">
+		<string_listitem_base>
+			<anchored position="righthigh" offset="15,0" height="20">
+				<right parent="" offset="-10" />
+			</anchored>
+		</string_listitem_base>
+	</template>
+
+	<template name="stringc_content_column">
+		<stringc_content_base>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</stringc_content_base>
+	</template>
+	<template name="stringc_content_column_single">
+		<stringc_content_base>
+			<anchored height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+			</anchored>
+		</stringc_content_base>
+	</template>
+	<template name="stringc_content_column_noframe_static">
+		<stringc_content_noframe_noscroll_static_base>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="100" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</stringc_content_noframe_noscroll_static_base>
+	</template>
+
+	<!-- FORMATTED TEXT FIELDS -->
+	<template name="ft_content_column_base">
+		<simpleft>
+			<anchored to="contentanchor">
+				<left offset="10" />
+				<right offset="-10" />
+				<sizelimits>
+					<minimum height="20" />
+				</sizelimits>
+			</anchored>
+			<frame mergerule="replace" name="fielddark" offset="10,5,10,5" hidereadonly="true" />
+			<stateframe>
+				<keyedit name="fieldfocus" offset="10,5,10,5" />
+				<hover name="fieldfocus" offset="10,5,10,5" hidereadonly="true" />
+				<drophilight name="fieldfocus" offset="10,5,10,5" hidereadonly="true" />
+			</stateframe>
+			<empty textres="ft_empty" hidereadonly="true" />
+		</simpleft>
+	</template>
+	<template name="ft_content_column">
+		<ft_content_column_base>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+			</anchored>
+		</ft_content_column_base>
+	</template>
+	<template name="ft_content_columnh">
+		<ft_content_column>
+			<script file="common/scripts/column_ft.lua" />
+		</ft_content_column>
+	</template>
+	<template name="ft_content_column_full">
+		<ft_content_column_base>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+			</anchored>
+		</ft_content_column_base>
+	</template>
+	<template name="ft_content_columnh_full">
+		<ft_content_column_full>
+			<script file="common/scripts/column_ft.lua" />
+		</ft_content_column_full>
+	</template>
+
+	<!-- NUMBER FIELDS -->
+	<template name="number_content_column">
+		<number_content_base>
+			<anchored width="40">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="105" />
+			</anchored>
+		</number_content_base>
+	</template>
+	<template name="number_content_columnh">
+		<number_content_column>
+			<script file="common/scripts/column_number.lua" />
+		</number_content_column>
+	</template>
+	<template name="number_content_column_right">
+		<number_content_base>
+			<anchored width="40">
+				<top relation="current" offset="-23" />
+				<right parent="" offset="-5" />
+			</anchored>
+		</number_content_base>
+	</template>
+	<template name="numberc_content_column">
+		<numberc_content_base>
+			<anchored width="40">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="105" />
+			</anchored>
+		</numberc_content_base>
+	</template>
+	<template name="numberc_content_columnh">
+		<numberc_content_column>
+			<script file="common/scripts/column_number.lua" />
+		</numberc_content_column>
+	</template>
+	<template name="numberc_content_column_right">
+		<numberc_content_base>
+			<anchored width="40">
+				<top relation="current" offset="-23" />
+				<right parent="" offset="-5" />
+			</anchored>
+		</numberc_content_base>
+	</template>
+
+	<!-- BUTTONS -->
+	<template name="button_checkbox_content_column">
+		<button_checkbox>
+			<anchored to="contentanchor" width="20" height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="100" />
+			</anchored>
+		</button_checkbox>
+	</template>
+	<template name="button_checkbox_content_columnh">
+		<button_checkbox_content_column>
+			<script file="common/scripts/column_number.lua" />
+		</button_checkbox_content_column>
+	</template>
+
+	<!-- SPECIALIZED -->
+	<template name="button_stringcycler_content_column">
+		<button_stringcycler>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+				<right offset="-10" />
+			</anchored>
+		</button_stringcycler>
+	</template>
+	<template name="button_stringcycler_content_columnh">
+		<button_stringcycler_content_column>
+			<script file="common/scripts/column_select.lua" />
+		</button_stringcycler_content_column>
+	</template>
+	<template name="combobox_content_column">
+		<combobox>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+				<right offset="-10" />
+			</anchored>
+			<frame>
+				<name>fieldlight</name>
+				<offset>10,5,10,5</offset>
+				<hidereadonly />
+			</frame>
+			<listdirection>down</listdirection>
+		</combobox>
+	</template>
+	<template name="combobox_content_columnh">
+		<combobox_content_column>
+			<script file="common/scripts/column_combobox.lua" />
+		</combobox_content_column>
+	</template>
+	<template name="comboboxc_content_column">
+		<comboboxc>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+				<right offset="-10" />
+			</anchored>
+			<frame>
+				<name>fieldlight</name>
+				<offset>10,5,10,5</offset>
+				<hidereadonly />
+			</frame>
+			<listdirection>down</listdirection>
+		</comboboxc>
+	</template>
+	<template name="summary_content_column">
+		<stringcontrol>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left />
+				<right />
+			</anchored>
+			<font>reference-i</font>
+			<multilinespacing>20</multilinespacing>
+			<nodrag />
+			<readonly />
+		</stringcontrol>
+	</template>
+</root>

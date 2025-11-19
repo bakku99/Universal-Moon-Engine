@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="reference_list">
+		<frame>referencelist</frame>
+		<placement>
+			<size width="400" height="500" />
+			<nosave />
+		</placement>
+		<sizelimits>
+			<minimum width="250" height="350" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onInit()
+				ListManager.initSimpleListFromNode(self);
+			end
+			function onFilterChanged()
+				ListManager.onFilterChanged(self, filter.getValue());
+			end
+			function onClose()
+				ListManager.onCloseWindow(self);
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_referencelist name="title">
+				<field>name</field>
+			</windowtitlebar_referencelist>
+			<windowmenubar_referencelist name="menubar" />
+
+			<anchor_content_referencelist_top />
+			<anchor_content_referencelist_bottom />
+
+			<filter_content_bottom name="filter" />
+			<sub_content_framed_groupbox_hidden_bottom name="notes" />
+			<sub_content_paging name="sub_paging" />
+
+			<list_content_framed_groupbox_alternating name="list">
+				<class>reference_list_item</class>
+				<sortby><control>name</control></sortby>
+				<readonly />
+			</list_content_framed_groupbox_alternating>
+			<scrollbar_content_list />
+
+			<resize_referencelist />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="reference_list_item">
+		<margins control="0,0,0,2" />
+		<script>
+			function setItemRecordType(sRecordType)
+				local sDisplayClass = RecordDataManager.getRecordTypeDisplayClass(sRecordType, getDatabaseNode());
+				setItemClass(sDisplayClass);
+			end
+			function setItemClass(sDisplayClass)
+				local node = getDatabaseNode();
+				if node and sDisplayClass ~= "" then
+					link.setValue(sDisplayClass, DB.getPath(node));
+				else
+					link.setVisible(false);
+					link.setEnabled(false);
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<linkc_listitem_left name="link" />
+			<string_listitem_center_noframe_static_linked name="name" />
+		</sheetdata>
+	</windowclass>
+
+	<template name="ft_reflist_notes">
+		<ft_content_noframe_static_top>
+			<anchored position="insidetop">
+				<sizelimits><maximum height="80" /></sizelimits>
+			</anchored>
+		</ft_content_noframe_static_top>
+	</template>
+	<windowclass name="reference_list_notes">
+		<sheetdata>
+			<anchor_content_top />
+		</sheetdata>
+	</windowclass>
+</root>

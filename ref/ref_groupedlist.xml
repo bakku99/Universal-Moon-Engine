@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Grouped list definitions -->
+	<template name="label_groupedlist_source">
+		<simplestringc>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" />
+				<left offset="5" />
+			</anchored>
+			<font>reference-header</font>
+		</simplestringc>
+	</template>
+	<template name="string_groupedlist_source_module">
+		<stringc_static>
+			<anchored to="contentanchor" height="20">
+				<top parent="label_source" />
+				<left offset="60" />
+				<right offset="-10" />
+			</anchored>
+			<center />
+			<invisible />
+		</stringc_static>
+	</template>
+	<template name="combo_groupedlist_source_category">
+		<comboboxc>
+			<anchored to="contentanchor" height="20">
+				<top parent="label_source" />
+				<left offset="60" />
+				<right offset="-10" />
+			</anchored>
+			<listdirection>down</listdirection>
+			<listmaxsize>12</listmaxsize>
+			<center />
+			<invisible />
+			<script>
+				function onValueChanged()
+					ListManager.onCategoryChanged(window, self.getSelectedValue());
+				end
+			</script>
+		</comboboxc>
+	</template>
+	<template name="label_refgroupedlist">
+		<label>
+			<anchored to="labelleftanchor" height="20" width="50">
+				<left anchor="right" relation="relative" offset="5" />
+				<top />
+			</anchored>
+		</label>
+	</template>
+	<template name="label_refgroupedlist_center">
+		<label_refgroupedlist>
+			<center />
+		</label_refgroupedlist>
+	</template>
+
+	<!-- GROUP ITEM -->
+	<template name="string_refgroupedlistgroupitem">
+		<simplestring>
+			<anchored to="leftanchor" height="20" width="50">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<empty>-</empty>
+			<readonly />
+		</simplestring>
+	</template>
+	<template name="string_refgroupedlistgroupitem_wrap">
+		<simplestring>
+			<anchored to="leftanchor" width="50">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+			<empty>-</empty>
+			<readonly />
+		</simplestring>
+	</template>
+	<template name="string_refgroupedlistgroupitem_link">
+		<string_refgroupedlistgroupitem>
+			<script file="common/scripts/string_reflistitem_link.lua" />
+		</string_refgroupedlistgroupitem>
+	</template>
+	<template name="string_refgroupedlistgroupitem_link_wrap">
+		<string_refgroupedlistgroupitem_wrap>
+			<script file="common/scripts/string_reflistitem_link.lua" />
+		</string_refgroupedlistgroupitem_wrap>
+	</template>
+	<template name="string_refgroupedlistgroupitem_center">
+		<string_refgroupedlistgroupitem>
+			<center />
+		</string_refgroupedlistgroupitem>
+	</template>
+	<template name="string_refgroupedlistgroupitem_center_wrap">
+		<string_refgroupedlistgroupitem_wrap>
+			<center />
+		</string_refgroupedlistgroupitem_wrap>
+	</template>
+	<template name="number_refgroupedlistgroupitem">
+		<number_text_noframe_static>
+			<anchored to="leftanchor" height="20" width="50">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+		</number_text_noframe_static>
+	</template>
+	<template name="number_signed_refgroupedlistgroupitem">
+		<number_refgroupedlistgroupitem>
+			<displaysign />
+		</number_refgroupedlistgroupitem>
+	</template>
+	<template name="string_refgroupedlistgroupitem_ft">
+		<simplestringc>
+			<anchored to="leftanchor" height="20" width="50">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<empty>-</empty>
+			<readonly />
+		</simplestringc>
+	</template>
+	<template name="string_refgroupedlistgroupitem_ft_wrap">
+		<simplestringc>
+			<anchored to="leftanchor" width="50">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+			<empty>-</empty>
+			<readonly />
+		</simplestringc>
+	</template>
+	<template name="string_refgroupedlistgroupitem_custom">
+		<simplestringc>
+			<anchored to="leftanchor" height="20" width="50">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<empty>-</empty>
+			<readonly />
+		</simplestringc>
+	</template>
+	<template name="string_refgroupedlistgroupitem_custom_wrap">
+		<simplestringc>
+			<anchored to="leftanchor" width="50">
+				<top />
+				<left anchor="right" relation="relative" offset="5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+			<empty>-</empty>
+			<readonly />
+		</simplestringc>
+	</template>
+	<template name="string_refgroupedlistgroupitem_custom_center">
+		<string_refgroupedlistgroupitem_custom>
+			<center />
+		</string_refgroupedlistgroupitem_custom>
+	</template>
+	<template name="string_refgroupedlistgroupitem_custom_center_wrap">
+		<string_refgroupedlistgroupitem_custom_wrap>
+			<center />
+		</string_refgroupedlistgroupitem_custom_wrap>
+	</template>
+
+	<windowclass name="reference_groupedlist">
+		<frame>referencelist</frame>
+		<placement>
+			<nosave />
+		</placement>
+		<sizelimits>
+			<minimum width="450" height="450" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<tooltip field="name" />
+		<script>
+			function onInit()
+				ListManager.initViewFromNode(self);
+			end
+			function onFilterChanged()
+				ListManager.onFilterChanged(self, filter.getValue());
+			end
+			function onClose()
+				ListManager.onCloseWindow(self);
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_referencelist name="title">
+				<field>name</field>
+			</windowtitlebar_referencelist>
+			<windowmenubar_referencelist name="menubar" />
+
+			<anchor_content_referencelist_top />
+			<anchor_content_referencelist_bottom />
+
+			<label_groupedlist_source name="label_source" />
+			<string_groupedlist_source_module name="source_module" />
+			<combo_groupedlist_source_category name="source_category" />
+			<spacer_content_top name="spacer_top" />
+
+			<filter_content_bottom name="filter" />
+			<sub_content_framed_groupbox_hidden_bottom name="notes" />
+			<sub_content_paging name="sub_paging" />
+
+			<list_content_labeled_framed_groupbox name="list">
+				<class>reference_groupedlist_groupitem</class>
+				<sortby><control>order</control></sortby>
+				<readonly />
+			</list_content_labeled_framed_groupbox>
+			<scrollbar_content_list />
+
+			<anchor_list_content_label_left />
+			<spacer_list_content_link_label_left name="list_spacer_link"/>
+
+			<resize_referencelist />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="reference_groupedlist_group">
+		<margins control="0,0,0,2" />
+		<script>
+			function onToggle()
+				ListManager.onGroupToggle(windowlist.window, group.getValue());
+			end
+		</script>
+		<sheetdata>
+			<hnc name="order" />
+
+			<anchor_content_top />
+			<header_content_groupdesc name="group" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="reference_groupedlist_groupitem">
+		<margins control="0,0,0,2" />
+		<script file="ref/scripts/ref_groupedlist_groupitem.lua" />
+		<sheetdata>
+			<hnc name="order" />
+
+			<anchor_listitem_left_sm />
+			<linkc_listitem_left name="link" />
+		</sheetdata>
+	</windowclass>
+</root>

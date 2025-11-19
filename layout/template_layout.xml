@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<!--
+	Layout Templates
+
+	Goals:
+		Make high level window layout easier
+		Make theming easier
+		Minimize disruption through tiered release of changes by frame usage
+
+	Design Notes:
+		Templates should account for desired frame offsets.
+		Each template should be able to be placed as a simple block that aligns directly to other blocks.
+
+	Implementation Notes:
+		Templates are organized by top-level, noframe, groupbox, list helpers, filters, fields.
+		Lists and formatted text fields should indent extra 10 for scrollbars
+		Top Anchors
+			Named "contentanchor"
+			Should contain top, left and right positions
+			May be anchored to title on top, if top-level window expects windowtitle template
+		Bottom Anchors
+			Named "bottomanchor"
+			Should anchor to top anchor for left/right edges, and to window for bottom edge.
+			Top-level anchors should use height to create offset, instead of a negative offset.
+			Only relevant in fixed size space; only use if top/bottom anchors or height defined (including top-level windows)
+				Otherwise, for variable size space, use top anchor and window control margins or spacers
+		Areas/Subwindows/Lists
+			Provide options for top expansion, bottom expansion, center fill, split center fill
+
+	Window Frame usage guidelines:
+		tokenbag = Graphic/Asset Selection
+		utilitybox = Tools, Settings, Dialogs, Library, Story Books
+
+	Deprecated Frames: calendar, utilitybox2, utilitybox3
+
+	Tiered Release By Frame Usage:
+		*tokenbag/utilitybox (i.e. tools, dialogs, options, settings) (deprecate calendar/utilitybox2/utilitybox3)
+		*referencelist/charselect (deprecate referencepage)
+		*chatbox/dicetower
+		*Party Sheet
+		*Record/Story/Image Sheet
+		*Combat Tracker
+		Character Sheet
+
+	Naming Guidelines
+		TYPE(_(SUBTYPE))_content(_scroll/_noscroll)(_framed_(FRAME)/_noframe)(_(SPECIAL))(_base/_top/_bottom)(_hidden)
+		(TYPE) = area, label, list, spacer, string, stringc, sub,
+		(SUBTYPE) = listitem_(left/right/center), ...
+		(_scroll/_noscroll) = Specified if non-standard for type
+		(_framed_(FRAME)/_noframe) = Specified if non-standard for type
+		(SPECIAL) = column, static, alternating, ...
+-->
+
+<root>
+	<includefile source="layout/template_layout_content_button.xml" />
+	<includefile source="layout/template_layout_content_ft.xml" />
+	<includefile source="layout/template_layout_content_label.xml" />
+	<includefile source="layout/template_layout_content_list.xml" />
+	<includefile source="layout/template_layout_content_number.xml" />
+	<includefile source="layout/template_layout_content_string.xml" />
+	<includefile source="layout/template_layout_content_sub.xml" />
+
+	<includefile source="layout/template_layout_content_column.xml" />
+	<includefile source="layout/template_layout_content_filter.xml" />
+	<includefile source="layout/template_layout_content_list_item.xml" />
+	<includefile source="layout/template_layout_content_list_label.xml" />
+
+	<includefile source="layout/template_layout_content_misc.xml" />
+</root>

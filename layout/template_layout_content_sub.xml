@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!--
+		NOTE: noscroll is default
+	-->
+
+	<template name="sub_content_base">
+		<subwindow>
+			<anchored to="contentanchor">
+				<left />
+				<right />
+			</anchored>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="sub_content_top">
+		<sub_content_base>
+			<anchored>
+				<top relation="relative" offset="0" postoffset="0" />
+			</anchored>
+			<noscroll />
+		</sub_content_base>
+	</template>
+	<template name="sub_content_hidden_top">
+		<sub_content_top>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content_top>
+	</template>
+	<template name="sub_content_bottom">
+		<sub_content_base>
+			<anchored>
+				<bottom parent="bottomanchor" relation="relative" offset="0" postoffset="0" />
+			</anchored>
+			<noscroll />
+		</sub_content_base>
+	</template>
+	<template name="sub_content">
+		<sub_content_base>
+			<anchored>
+				<top relation="current" offset="0" />
+				<bottom parent="bottomanchor" relation="current" offset="0" />
+			</anchored>
+		</sub_content_base>
+	</template>
+	<template name="sub_content_left">
+		<sub_content>
+			<anchored>
+				<right anchor="center" />
+			</anchored>
+		</sub_content>
+	</template>
+	<template name="sub_content_right">
+		<sub_content>
+			<anchored>
+				<left anchor="center" />
+			</anchored>
+		</sub_content>
+	</template>
+	<template name="sub_content_hidden">
+		<sub_content>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content>
+	</template>
+	<template name="sub_content_hidden_bottom">
+		<sub_content_bottom>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content_bottom>
+	</template>
+	<template name="sub_content_hidden_left">
+		<sub_content_left>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content_left>
+	</template>
+	<template name="sub_content_hidden_right">
+		<sub_content_right>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content_right>
+	</template>
+
+	<template name="sub_content_scroll_base">
+		<subwindow>
+			<anchored to="contentanchor">
+				<left />
+				<right offset="-15" />
+			</anchored>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="sub_content_scroll">
+		<sub_content_scroll_base>
+			<anchored>
+				<top relation="current" offset="0" />
+				<bottom parent="bottomanchor" relation="current" offset="0" />
+			</anchored>
+		</sub_content_scroll_base>
+	</template>
+
+	<template name="sub_content_framed_groupbox_base">
+		<subwindow>
+			<anchored to="contentanchor">
+				<left offset="15" />
+				<right offset="-15" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,15,15" />
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="sub_content_framed_groupbox_top">
+		<sub_content_framed_groupbox_base>
+			<anchored>
+				<top relation="relative" offset="15" postoffset="15" />
+			</anchored>
+			<noscroll />
+		</sub_content_framed_groupbox_base>
+	</template>
+	<template name="sub_content_framed_groupbox_bottom">
+		<sub_content_framed_groupbox_base>
+			<anchored>
+				<bottom parent="bottomanchor" relation="relative" offset="-15" postoffset="-15" />
+			</anchored>
+		</sub_content_framed_groupbox_base>
+	</template>
+	<template name="sub_content_framed_groupbox">
+		<sub_content_framed_groupbox_base>
+			<anchored>
+				<top relation="current" offset="15" />
+				<bottom parent="bottomanchor" relation="current" offset="-15" />
+			</anchored>
+		</sub_content_framed_groupbox_base>
+	</template>
+	<template name="sub_content_framed_groupbox_left">
+		<sub_content_framed_groupbox>
+			<anchored>
+				<right anchor="center" offset="-15" />
+			</anchored>
+		</sub_content_framed_groupbox>
+	</template>
+	<template name="sub_content_framed_groupbox_right">
+		<sub_content_framed_groupbox>
+			<anchored>
+				<left anchor="center" offset="15" />
+			</anchored>
+		</sub_content_framed_groupbox>
+	</template>
+	<template name="sub_content_framed_groupbox_hidden">
+		<sub_content_framed_groupbox>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content_framed_groupbox>
+	</template>
+	<template name="sub_content_framed_groupbox_hidden_bottom">
+		<sub_content_framed_groupbox_bottom>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content_framed_groupbox_bottom>
+	</template>
+
+	<template name="sub_content_framed_groupbox_narrow_base">
+		<subwindow>
+			<anchored to="contentanchor">
+				<left offset="10" />
+				<right offset="-10" />
+			</anchored>
+			<frame name="groupbox" offset="10,10,10,10" />
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="sub_content_framed_groupbox_narrow_top">
+		<sub_content_framed_groupbox_base>
+			<anchored>
+				<top relation="relative" offset="10" postoffset="10" />
+			</anchored>
+			<noscroll />
+		</sub_content_framed_groupbox_base>
+	</template>
+	<template name="sub_content_framed_groupbox_narrow_bottom">
+		<sub_content_framed_groupbox_base>
+			<anchored>
+				<bottom parent="bottomanchor" relation="relative" offset="-10" postoffset="-10" />
+			</anchored>
+			<noscroll />
+		</sub_content_framed_groupbox_base>
+	</template>
+	<template name="sub_content_framed_groupbox_narrow">
+		<sub_content_framed_groupbox_base>
+			<anchored>
+				<top relation="current" offset="10" />
+				<bottom parent="bottomanchor" relation="current" offset="-10" />
+			</anchored>
+		</sub_content_framed_groupbox_base>
+	</template>
+	<template name="sub_content_framed_groupbox_narrow_hidden_bottom">
+		<sub_content_framed_groupbox_narrow_bottom>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content_framed_groupbox_narrow_bottom>
+	</template>
+	<template name="sub_content_framed_groupbox_narrow_hidden">
+		<sub_content_framed_groupbox_narrow>
+			<fastinit merge="delete" />
+			<activate merge="delete" />
+		</sub_content_framed_groupbox_narrow>
+	</template>
+
+	<!-- Buttons Grouping -->
+	<template name="sub_content_buttons_bottom">
+		<sub_content_base name="sub_buttons">
+			<anchored height="30">
+				<bottom parent="bottomanchor" relation="relative" postoffset="-5" />
+			</anchored>
+		</sub_content_base>
+	</template>
+	<template name="sub_content_buttons_groupbox_bottom">
+		<sub_content_framed_groupbox_narrow_base name="sub_buttons">
+			<anchored height="30">
+				<bottom parent="bottomanchor" relation="relative" offset="-10" postoffset="-10" />
+			</anchored>
+		</sub_content_framed_groupbox_narrow_base>
+	</template>
+</root>

@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<!--
+	Implementation Notes:
+		See template_layout_content_list_item.xml for guidelines
+-->
+
+<root>
+	<!-- List Item (Base) -->
+	<template name="button_listitem_base">
+		<buttonfield>
+			<anchored width="20" height="20" />
+		</buttonfield>
+	</template>
+	<template name="buttonc_listitem_base">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+		</buttoncontrol>
+	</template>
+	<template name="button_listitem_checkbox_base">
+		<button_checkbox>
+			<anchored width="10" height="20" />
+		</button_checkbox>
+	</template>
+	<template name="buttonc_listitem_checkbox_base">
+		<buttonc_checkbox>
+			<anchored width="10" height="20" />
+		</buttonc_checkbox>
+	</template>
+	<template name="stringcycler_listitem_base">
+		<button_stringcycler>
+			<frame name="fielddark" offset="10,5,10,5" hidereadonly="true" />
+			<stateframe>
+				<hover name="fieldfocus" offset="10,5,10,5" hidereadonly="true" />
+			</stateframe>
+		</button_stringcycler>
+	</template>
+	<template name="iconcycler_listitem_base">
+		<button_iconcycler>
+			<anchored width="20" height="20" />
+		</button_iconcycler>
+	</template>
+	<template name="buttonc_listitem_icon_simple_base">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<frame name="fieldlight" offset="4,4,4,4" />
+			<script>
+				function onInit()
+					self.setStandardColor();
+				end
+				function getBaseColor()
+					return UtilityManager.getControlFontColor(window, target and target[1] or "name");
+				end
+				function setStandardColor()
+					setColor(self.getBaseColor());
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<!-- List Item (Right) -->
+	<template name="button_listitem_right">
+		<button_listitem_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_listitem_base>
+	</template>
+	<template name="buttonc_listitem_right">
+		<buttonc_listitem_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</buttonc_listitem_base>
+	</template>
+
+	<template name="button_listitem_text_right">
+		<button_text>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+		</button_text>
+	</template>
+	<template name="button_listitem_text_right_sm">
+		<button_text_sm>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_text_sm>
+	</template>
+	<template name="button_listitem_text_toggle_right">
+		<button_text_toggle>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+		</button_text_toggle>
+	</template>
+	<template name="button_listitem_text_toggle_right_sm">
+		<button_text_toggle_sm>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_text_toggle_sm>
+	</template>
+	<template name="button_listitem_icon_right">
+		<button_icon>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+			<tintable />
+		</button_icon>
+	</template>
+	<template name="button_listitem_icon_right_sm">
+		<button_icon_sm>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+			<tintable />
+		</button_icon_sm>
+	</template>
+
+	<template name="button_listitem_checkbox_right">
+		<button_listitem_checkbox_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_listitem_checkbox_base>
+	</template>
+	<template name="buttonc_listitem_checkbox_right">
+		<buttonc_listitem_checkbox_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</buttonc_listitem_checkbox_base>
+	</template>
+	<template name="stringcycler_listitem_right">
+		<stringcycler_listitem_base>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-10" postoffset="-10" />
+			</anchored>
+		</stringcycler_listitem_base>
+	</template>
+	<template name="iconcycler_listitem_right">
+		<iconcycler_listitem_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</iconcycler_listitem_base>
+	</template>
+	<template name="buttonc_listitem_icon_simple_right">
+		<buttonc_listitem_icon_simple_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</buttonc_listitem_icon_simple_base>
+	</template>
+
+	<template name="button_listitem_iadd_left">
+		<button_iadd_base name="iadd">
+			<anchored to="leftanchor" >
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_iadd_base>
+	</template>
+	<template name="button_listitem_idelete">
+		<button_idelete name="idelete">
+			<anchored to="rightanchor" >
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_idelete>
+	</template>
+	<template name="button_listitem_idelete_left">
+		<button_idelete name="idelete">
+			<anchored to="leftanchor" >
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_idelete>
+	</template>
+	<template name="spacer_listitem_idelete">
+		<genericcontrol name="idelete_spacer">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+			<invisible />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="spacer_listitem_idelete_left">
+		<genericcontrol name="idelete_spacer">
+			<anchored to="leftanchor" width="20" height="20">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+			<invisible />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="button_listitem_isidentified_right">
+		<buttoncontrol name="isidentified">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+			<state icon="record_unidentified" tooltipres="tooltip_nonid" />
+			<state icon="record_identified" tooltipres="tooltip_id" />
+			<gmeditonly />
+			<gmvisibleonly />
+			<script file="common/scripts/button_record_isidentified.lua" />
+		</buttoncontrol>
+	</template>
+	<template name="button_listitem_details_right">
+		<button_details>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_details>
+	</template>
+	<template name="button_listitem_toggledetail_right">
+		<button_toggledetail>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_toggledetail>
+	</template>
+	<template name="button_listitem_ireorder_right">
+		<button_ireorder name="ireorder">
+			<anchored to="rightanchor" >
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_ireorder>
+	</template>
+	<template name="button_listitem_carried_right">
+		<button_char_inv_carried>
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_char_inv_carried>
+	</template>
+
+	<template name="button_listitem_roll_right">
+		<button_roll>
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_roll>
+	</template>
+	<template name="button_listitem_roll_light_right">
+		<button_roll_light>
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_roll_light>
+	</template>
+
+	<template name="button_listitem_refresh_right_sm">
+		<button_icon_sm>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+			<icon normal="button_toolbar_refresh" />
+			<tintable />
+		</button_icon_sm>
+	</template>
+
+	<!-- List Item (Left) -->
+	<template name="button_listitem_left">
+		<button_listitem_base>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_listitem_base>
+	</template>
+	<template name="buttonc_listitem_left">
+		<buttonc_listitem_base>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</buttonc_listitem_base>
+	</template>
+
+	<template name="button_listitem_text_left">
+		<button_text>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+		</button_text>
+	</template>
+	<template name="button_listitem_text_left_sm">
+		<button_text_sm>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_text_sm>
+	</template>
+	<template name="button_listitem_text_toggle_left">
+		<button_text_toggle>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+		</button_text_toggle>
+	</template>
+	<template name="button_listitem_text_toggle_left_sm">
+		<button_text_toggle_sm>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_text_toggle_sm>
+	</template>
+	<template name="button_listitem_icon_left">
+		<button_icon>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+			<tintable />
+		</button_icon>
+	</template>
+	<template name="button_listitem_icon_left_sm">
+		<button_icon_sm>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+			<tintable />
+		</button_icon_sm>
+	</template>
+	<template name="buttonc_listitem_icon_simple_left">
+		<buttonc_listitem_icon_simple_base>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</buttonc_listitem_icon_simple_base>
+	</template>
+
+	<template name="button_listitem_checkbox_left">
+		<button_listitem_checkbox_base>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_listitem_checkbox_base>
+	</template>
+	<template name="buttonc_listitem_checkbox_left">
+		<buttonc_listitem_checkbox_base>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</buttonc_listitem_checkbox_base>
+	</template>
+	<template name="stringcycler_listitem_left">
+		<stringcycler_listitem_base>
+			<anchored to="leftanchor" width="80" height="20">
+				<top />
+				<left relation="relative" offset="10" postoffset="10" />
+			</anchored>
+		</stringcycler_listitem_base>
+	</template>
+	<template name="iconcycler_listitem_left">
+		<iconcycler_listitem_base>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</iconcycler_listitem_base>
+	</template>
+	<template name="button_listitem_carried_left">
+		<button_char_inv_carried>
+			<anchored to="leftanchor" width="20" height="20">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_char_inv_carried>
+	</template>
+
+	<template name="button_listitem_roll_left">
+		<button_roll>
+			<anchored to="leftanchor" width="20" height="20">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_roll>
+	</template>
+	<template name="button_listitem_roll_light_left">
+		<button_roll_light>
+			<anchored to="leftanchor" width="20" height="20">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</button_roll_light>
+	</template>
+
+	<template name="button_listitem_refresh_left_sm">
+		<button_icon_sm>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+			<icon normal="button_toolbar_refresh" />
+			<tintable />
+		</button_icon_sm>
+	</template>
+
+	<!-- List Item (Center) -->
+	<template name="stringcycler_listitem_center">
+		<stringcycler_listitem_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="10" />
+				<right relation="current" offset="-10" />
+			</anchored>
+		</stringcycler_listitem_base>
+	</template>
+</root>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Fills -->
+	<template name="button_text_content_top">
+		<button_text>
+			<anchored to="contentanchor" position="insidetop" offset="-5,0">
+				<top relation="relative" offset="5" postoffset="5" />
+			</anchored>
+		</button_text>
+	</template>
+
+	<!-- Centered; Fixed Size -->
+	<template name="button_text_content_center_top">
+		<button_text>
+			<anchored to="contentanchor" width="100">
+				<left anchor="center" offset="-50" />
+				<top relation="relative" offset="10" postoffset="10" />
+			</anchored>
+		</button_text>
+	</template>
+	<template name="button_text_content_center_bottom">
+		<button_text>
+			<anchored to="contentanchor" width="100">
+				<left anchor="center" offset="-50" />
+				<bottom parent="bottomanchor" relation="relative" offset="-10" postoffset="-10" />
+			</anchored>
+		</button_text>
+	</template>
+
+	<!-- Assets navigation -->
+	<template name="button_assets_content_page_prev">
+		<button_assets_page_prev>
+			<anchored height="60" width="20">
+				<top parent="assets" anchor="center" offset="-30"/>
+				<right parent="contentanchor" anchor="left" offset="0" />
+			</anchored>
+		</button_assets_page_prev>
+	</template>
+	<template name="button_assets_content_page_next">
+		<button_assets_page_next>
+			<anchored height="60" width="20">
+				<top parent="assets" anchor="center" offset="-30"/>
+				<left parent="contentanchor" anchor="right" offset="0" />
+			</anchored>
+		</button_assets_page_next>
+	</template>
+</root>

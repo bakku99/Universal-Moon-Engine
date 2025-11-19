@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<!--
+	Implementation Notes:
+		See template_layout_content_list_item.xml for guidelines
+-->
+
+<root>
+	<!-- List Item (Base) -->
+	<template name="string_listitem_base">
+		<simplestring>
+			<frame mergerule="replace" name="fielddark" offset="10,5,10,5" hidereadonly="true" />
+			<stateframe>
+				<keyedit name="fieldfocus" offset="10,5,10,5" />
+				<hover name="fieldfocus" offset="10,5,10,5" hidereadonly="true" />
+				<drophilight name="fieldfocus" offset="10,5,10,5" hidereadonly="true" />
+			</stateframe>
+			<nodrag />
+			<delaykeyupdate />
+		</simplestring>
+	</template>
+	<template name="string_listitem_underline_base">
+		<stringu>
+			<nodrag />
+			<delaykeyupdate />
+		</stringu>
+	</template>
+	<template name="string_listitem_static_base">
+		<simplestring>
+			<frame mergerule="replace" name="fieldlight" offset="10,5,10,5" />
+			<nodrag />
+			<readonly />
+		</simplestring>
+	</template>
+	<template name="string_listitem_underline_static_base">
+		<stringu>
+			<nodrag />
+			<readonly />
+		</stringu>
+	</template>
+	<template name="string_listitem_noframe_static_base">
+		<simplestring>
+			<nodrag />
+			<readonly />
+		</simplestring>
+	</template>
+	<template name="stringc_listitem_static_base">
+		<simplestringc>
+			<frame mergerule="replace" name="fieldlight" offset="10,5,10,5" />
+			<nodrag />
+			<readonly />
+		</simplestringc>
+	</template>
+	<template name="stringc_listitem_noframe_static_base">
+		<simplestringc>
+			<nodrag />
+			<readonly />
+		</simplestringc>
+	</template>
+	<template name="stringc_listitem_underline_base">
+		<stringcu>
+			<nodrag />
+			<delaykeyupdate />
+		</stringcu>
+	</template>
+
+	<!-- List Item (Right) -->
+	<template name="string_listitem_right">
+		<string_listitem_base>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-10" postoffset="-10" />
+			</anchored>
+		</string_listitem_base>
+	</template>
+	<template name="string_listitem_right_static">
+		<string_listitem_static_base>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-10" postoffset="-10" />
+			</anchored>
+		</string_listitem_static_base>
+	</template>
+	<template name="stringc_listitem_right_static">
+		<stringc_listitem_static_base>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-10" postoffset="-10" />
+			</anchored>
+		</stringc_listitem_static_base>
+	</template>
+	<template name="string_listitem_right_noframe_static">
+		<string_listitem_noframe_static_base>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+		</string_listitem_noframe_static_base>
+	</template>
+	<template name="stringc_listitem_right_noframe_static">
+		<stringc_listitem_noframe_static_base>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+		</stringc_listitem_noframe_static_base>
+	</template>
+	<template name="stringc_listitem_right_noframe_static_wrapped">
+		<stringc_listitem_noframe_static_base>
+			<anchored to="rightanchor" width="80">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</stringc_listitem_noframe_static_base>
+	</template>
+	<template name="string_listitem_right_underline">
+		<string_listitem_underline_base>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+		</string_listitem_underline_base>
+	</template>
+	<template name="string_listitem_right_underline_multiline">
+		<string_listitem_underline_base>
+			<anchored to="rightanchor" width="80">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_listitem_underline_base>
+	</template>
+	<template name="label_listitem_right">
+		<label>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</label>
+	</template>
+
+	<!-- List Item (Left) -->
+	<template name="string_listitem_left">
+		<string_listitem_base>
+			<anchored to="leftanchor" width="80" height="20">
+				<top />
+				<left relation="relative" offset="10" postoffset="10" />
+			</anchored>
+		</string_listitem_base>
+	</template>
+	<template name="string_listitem_left_static">
+		<string_listitem_static_base>
+			<anchored to="leftanchor" width="80" height="20">
+				<top />
+				<left relation="relative" offset="10" postoffset="10" />
+			</anchored>
+		</string_listitem_static_base>
+	</template>
+	<template name="string_listitem_left_noframe_static">
+		<string_listitem_noframe_static_base>
+			<anchored to="leftanchor" width="80" height="20">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_listitem_noframe_static_base>
+	</template>
+	<template name="string_listitem_left_noframe_static_linked">
+		<string_listitem_left_noframe_static>
+			<script file="common/scripts/stringc_list_link.lua" />
+		</string_listitem_left_noframe_static>
+	</template>
+	<template name="stringc_listitem_left_noframe_static">
+		<stringc_listitem_noframe_static_base>
+			<anchored to="leftanchor" width="80" height="20">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</stringc_listitem_noframe_static_base>
+	</template>
+	<template name="stringc_listitem_left_noframe_static_linked">
+		<stringc_listitem_left_noframe_static>
+			<script file="common/scripts/stringc_list_link.lua" />
+		</stringc_listitem_left_noframe_static>
+	</template>
+	<template name="stringc_listitem_left_noframe_static_inherit">
+		<stringc_listitem_left_noframe_static>
+			<script>
+				function onInit()
+					UtilityManager.resolveLinkedControl(self);
+				end
+			</script>
+		</stringc_listitem_left_noframe_static>
+	</template>
+	<template name="string_listitem_left_underline">
+		<string_listitem_underline_base>
+			<anchored to="leftanchor" width="80" height="20">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+		</string_listitem_underline_base>
+	</template>
+	<template name="string_listitem_left_underline_static">
+		<string_listitem_underline_static_base>
+			<anchored to="leftanchor" width="80" height="20">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+		</string_listitem_underline_static_base>
+	</template>
+	<template name="string_listitem_left_underline_multiline">
+		<string_listitem_underline_base>
+			<anchored to="leftanchor" width="80">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_listitem_underline_base>
+	</template>
+	<template name="label_listitem_left">
+		<label>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+		</label>
+	</template>
+
+	<!-- List Item (Center) -->
+	<template name="string_listitem_center">
+		<string_listitem_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="10" />
+				<right relation="current" offset="-10" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_listitem_base>
+	</template>
+	<template name="string_listitem_center_bold">
+		<string_listitem_center>
+			<font>sheetlabel</font>
+		</string_listitem_center>
+	</template>
+	<template name="string_listitem_center_underline">
+		<string_listitem_underline_base>
+			<anchored to="rightanchor" height="20">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+		</string_listitem_underline_base>
+	</template>
+	<template name="string_listitem_center_underline_multiline">
+		<string_listitem_underline_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_listitem_underline_base>
+	</template>
+	<template name="string_listitem_center_static">
+		<string_listitem_static_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="10" />
+				<right relation="current" offset="-10" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_listitem_static_base>
+	</template>
+	<template name="string_listitem_center_noframe_static">
+		<string_listitem_noframe_static_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_listitem_noframe_static_base>
+	</template>
+	<template name="string_listitem_center_noframe_static_linked">
+		<string_listitem_center_noframe_static>
+			<script file="common/scripts/string_list_link.lua" />
+		</string_listitem_center_noframe_static>
+	</template>
+	<template name="string_listitem_underline_center_static">
+		<string_listitem_underline_static_base>
+			<anchored to="rightanchor" height="20">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+		</string_listitem_underline_static_base>
+	</template>
+	<template name="stringc_listitem_center_static">
+		<stringc_listitem_static_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="10" />
+				<right relation="current" offset="-10" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</stringc_listitem_static_base>
+	</template>
+	<template name="stringc_listitem_center_noframe_static">
+		<stringc_listitem_noframe_static_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</stringc_listitem_noframe_static_base>
+	</template>
+	<template name="stringc_listitem_center_noframe_static_linked">
+		<stringc_listitem_center_noframe_static>
+			<script file="common/scripts/stringc_list_link.lua" />
+		</stringc_listitem_center_noframe_static>
+	</template>
+	<template name="stringc_listitem_center_noframe_static_inherit">
+		<stringc_listitem_center_noframe_static>
+			<script>
+				function onInit()
+					UtilityManager.resolveLinkedControl(self);
+				end
+			</script>
+		</stringc_listitem_center_noframe_static>
+	</template>
+	<template name="stringc_listitem_center_underline">
+		<stringc_listitem_underline_base>
+			<anchored to="rightanchor" height="20">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+		</stringc_listitem_underline_base>
+	</template>
+	<template name="label_listitem_center">
+		<label>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+		</label>
+	</template>
+</root>

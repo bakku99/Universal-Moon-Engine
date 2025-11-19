@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!--
+		NOTE: scroll is default
+	-->
+
+	<template name="list_content_base">
+		<windowlist>
+			<anchored to="contentanchor">
+				<left />
+				<right offset="-15" />
+			</anchored>
+		</windowlist>
+	</template>
+	<template name="list_content_top">
+		<list_content_base>
+			<anchored>
+				<top relation="relative" offset="0" postoffset="0" />
+			</anchored>
+		</list_content_base>
+	</template>
+	<template name="list_content_bottom">
+		<list_content_base>
+			<anchored>
+				<bottom parent="bottomanchor" relation="relative" offset="0" postoffset="0" />
+			</anchored>
+		</list_content_base>
+	</template>
+	<template name="list_content">
+		<list_content_base>
+			<anchored>
+				<top relation="current" offset="0" />
+				<bottom parent="bottomanchor" relation="current" offset="0" />
+			</anchored>
+		</list_content_base>
+	</template>
+	<template name="list_content_alternating_top">
+		<list_content_top>
+			<child merge="resetandadd"></child>
+			<child merge="add"><backcolor>1A40301E</backcolor></child>
+		</list_content_top>
+	</template>
+	<template name="list_content_alternating">
+		<list_content>
+			<child merge="resetandadd"></child>
+			<child merge="add"><backcolor>1A40301E</backcolor></child>
+		</list_content>
+	</template>
+
+	<template name="list_content_noscroll_base">
+		<windowlist>
+			<anchored to="contentanchor">
+				<left />
+				<right />
+			</anchored>
+			<noscroll />
+		</windowlist>
+	</template>
+	<template name="list_content_noscroll_top">
+		<list_content_noscroll_base>
+			<anchored>
+				<top relation="relative" offset="0" postoffset="0" />
+			</anchored>
+		</list_content_noscroll_base>
+	</template>
+	<template name="list_content_noscroll_alternating_top">
+		<list_content_noscroll_top>
+			<child merge="resetandadd"></child>
+			<child merge="add"><backcolor>1A40301E</backcolor></child>
+		</list_content_noscroll_top>
+	</template>
+
+	<template name="list_content_framed_groupbox_base">
+		<windowlist name="list">
+			<anchored to="contentanchor">
+				<left offset="15" />
+				<right offset="-25" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,25,15" />
+		</windowlist>
+	</template>
+	<template name="list_content_framed_groupbox_top">
+		<list_content_framed_groupbox_base>
+			<anchored>
+				<top relation="relative" offset="15" postoffset="15" />
+			</anchored>
+		</list_content_framed_groupbox_base>
+	</template>
+	<template name="list_content_framed_groupbox_bottom">
+		<list_content_framed_groupbox_base>
+			<anchored to="contentanchor">
+				<bottom parent="bottomanchor" relation="relative" offset="-15" postoffset="-15" />
+			</anchored>
+		</list_content_framed_groupbox_base>
+	</template>
+	<template name="list_content_framed_groupbox">
+		<list_content_framed_groupbox_base>
+			<anchored>
+				<top relation="current" offset="15" />
+				<bottom parent="bottomanchor" relation="current" offset="-15" />
+			</anchored>
+		</list_content_framed_groupbox_base>
+	</template>
+	<template name="list_content_framed_groupbox_left">
+		<list_content_framed_groupbox>
+			<anchored>
+				<right anchor="center" offset="-25" />
+			</anchored>
+		</list_content_framed_groupbox>
+	</template>
+	<template name="list_content_framed_groupbox_right">
+		<list_content_framed_groupbox>
+			<anchored>
+				<left anchor="center" offset="15" />
+			</anchored>
+		</list_content_framed_groupbox>
+	</template>
+	<template name="list_content_framed_groupbox_alternating">
+		<list_content_framed_groupbox>
+			<child merge="resetandadd"></child>
+			<child merge="add"><backcolor>1A40301E</backcolor></child>
+		</list_content_framed_groupbox>
+	</template>
+	<template name="list_content_framed_groupbox_alternating_filtered">
+		<list_content_framed_groupbox_alternating>
+			<filter control="filter" />
+			<filteron control="name" />
+		</list_content_framed_groupbox_alternating>
+	</template>
+
+	<template name="list_content_labeled_top">
+		<list_content_base>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="20" />
+			</anchored>
+		</list_content_base>
+	</template>
+	<template name="list_content_labeled_alternating_top">
+		<list_content_labeled_top>
+			<child merge="resetandadd"></child>
+			<child merge="add"><backcolor>1A40301E</backcolor></child>
+		</list_content_labeled_top>
+	</template>
+	<template name="list_content_labeled">
+		<list_content_base>
+			<anchored to="contentanchor">
+				<top relation="current" offset="20" />
+				<bottom parent="bottomanchor" relation="current" offset="0" />
+			</anchored>
+		</list_content_base>
+	</template>
+	<template name="list_content_labeled_alternating">
+		<list_content_labeled>
+			<child merge="resetandadd"></child>
+			<child merge="add"><backcolor>1A40301E</backcolor></child>
+		</list_content_labeled>
+	</template>
+	<template name="list_content_labeled_alternating_filtered">
+		<list_content_labeled_alternating>
+			<filter control="filter" />
+			<filteron control="name" />
+		</list_content_labeled_alternating>
+	</template>
+	<template name="list_content_labeled_framed_groupbox">
+		<windowlist>
+			<anchored to="contentanchor">
+				<left offset="15" />
+				<right offset="-25" />
+				<top relation="current" offset="30" />
+				<bottom parent="bottomanchor" relation="current" offset="-15" />
+			</anchored>
+			<frame name="groupbox" offset="15,30,25,15" />
+		</windowlist>
+	</template>
+</root>
