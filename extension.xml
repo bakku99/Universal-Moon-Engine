@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root version="4.1">
+
+  <properties>
+    <name>Feature: Universal Moon Engine</name>
+    <version>1.0.0</version>
+    <author>Caleb (bakku)</author>
+    <description>
+      Calendar-agnostic moon phase engine for Fantasy Grounds, built on modern CoreRPG APIs.
+    </description>
+  </properties>
+
+  <!-- Make this available to CoreRPG and descendants -->
+  <ruleset>
+    <id>CoreRPG</id>
+    <id>5E</id>
+    <id>2E</id>
+    <id>PFRPG2</id>
+    <!-- Add other rulesets as you test them -->
+  </ruleset>
+
+  <base>
+    <!-- Core UME engine -->
+    <script file="scripts/universal_moon_engine.lua" />
+
+    <!-- Graphics -->
+    <includefile source="graphics/ume_moon_icons.xml" />
+
+    <!-- UI Layers -->
+    <includefile source="campaign/ume_utility_moon.xml" />
+    <includefile source="campaign/ume_utility_calendar.xml" />
+  </base>
+
+</root>

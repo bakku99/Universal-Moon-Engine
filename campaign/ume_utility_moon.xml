@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root version="4.1">
+
+  <!-- ============================================= -->
+  <!-- WINDOWCLASS: Universal Moon Manager           -->
+  <!-- ============================================= -->
+  <windowclass name="ume_moon_manager">
+    <frame>recordsheet</frame>
+    <sizelimits>
+      <minimum width="460" height="420" />
+    </sizelimits>
+
+    <sheetdata>
+      <!-- Header -->
+      <stringcontrol name="label_header">
+        <anchored>
+          <top offset="10" />
+          <left offset="10" />
+        </anchored>
+        <static text="Universal Moon Configuration" />
+        <font>sheettitle</font>
+      </stringcontrol>
+
+      <stringcontrol name="label_subheader">
+        <anchored>
+          <top relative="label_header" offset="5" />
+          <left offset="10" />
+          <right offset="-10" />
+        </anchored>
+        <static text="Configure moons used by the Universal Moon Engine for the active campaign calendar." />
+        <font>sheettext</font>
+        <multilinespacing>14</multilinespacing>
+        <wordwrap />
+      </stringcontrol>
+
+      <!-- Column labels -->
+      <stringcontrol name="col_name">
+        <anchored>
+          <top relative="label_subheader" offset="20" />
+          <left offset="10" />
+          <width>140</width>
+        </anchored>
+        <static text="Name" />
+        <font>sheetlabel</font>
+      </stringcontrol>
+
+      <stringcontrol name="col_cycle">
+        <anchored>
+          <top relative="label_subheader" offset="20" />
+          <left relative="col_name" offset="150" />
+          <width>50</width>
+        </anchored>
+        <static text="Cycle" />
+        <font>sheetlabel</font>
+      </stringcontrol>
+
+      <stringcontrol name="col_shift">
+        <anchored>
+          <top relative="label_subheader" offset="20" />
+          <left relative="col_cycle" offset="70" />
+          <width>50</width>
+        </anchored>
+        <static text="Shift" />
+        <font>sheetlabel</font>
+      </stringcontrol>
+
+      <stringcontrol name="col_duration">
+        <anchored>
+          <top relative="label_subheader" offset="20" />
+          <left relative="col_shift" offset="70" />
+          <width>60</width>
+        </anchored>
+        <static text="Full" />
+        <font>sheetlabel</font>
+      </stringcontrol>
+
+      <!-- Add/Clear buttons -->
+      <buttoncontrol name="button_addmoon">
+        <anchored>
+          <top relative="label_subheader" offset="20" />
+          <right offset="-10" />
+          <width>80</width>
+        </anchored>
+        <label>Add</label>
+        <tooltip text="Create a new moon definition for the current calendar" />
+        <script>
+          function onButtonPress()
+            if UniversalMoonEngine then
+              UniversalMoonEngine.addMoon({})
+            end
+          end
+        </script>
+      </buttoncontrol>
+
+      <buttoncontrol name="button_clear">
+        <anchored>
+          <top relative="button_addmoon" offset="5" />
+          <right offset="-10" />
+          <width>80</width>
+        </anchored>
+        <label>Clear</label>
+        <tooltip text="Remove all moons for the current calendar" />
+        <script>
+          function onButtonPress()
+            if UniversalMoonEngine then
+              UniversalMoonEngine.clearMoonsForActiveCalendar()
+            end
+          end
+        </script>
+      </buttoncontrol>
+
+      <!-- Moon list (DB is set in onInit script) -->
+      <windowlist name="moonlist">
+        <anchored>
+          <top relative="col_name" offset="16" />
+          <left offset="10" />
+          <right offset="-10" />
+          <bottom offset="-10" />
+        </anchored>
+        <class>ume_moon_entry</class>
+      </windowlist>
+
+      <!-- Bind the list to the active calendar's moons -->
+      <script>
+        function onInit()
+          if not UniversalMoonEngine or not UniversalMoonEngine.getActiveCalendarKey then
+            return
+          end
+
+          local sKey = UniversalMoonEngine.getActiveCalendarKey()
+          local nodeCal = DB.createNode("ume.calendars." .. sKey)
+          local nodeMoons = DB.createChild(nodeCal, "moons")
+
+          if moonlist then
+            moonlist.setDatabaseNode(nodeMoons)
+          end
+        end
+      </script>
+    </sheetdata>
+  </windowclass>
+
+  <!-- ============================================= -->
+  <!-- WINDOWCLASS: Per-moon entry row               -->
+  <!-- ============================================= -->
+  <windowclass name="ume_moon_entry">
+    <frame>rowshade</frame>
+    <dynamicframe>record_listitem</dynamicframe>
+    <sizelimits>
+      <minimum height="28" />
+    </sizelimits>
+
+    <sheetdata>
+      <!-- Name (stringfield = bound+editable) -->
+      <stringfield name="name">
+        <anchored>
+          <top offset="2" />
+          <left offset="10" />
+          <width>140</width>
+        </anchored>
+        <frame>
+          <name>textline</name>
+        </frame>
+        <font>sheettext</font>
+      </stringfield>
+
+      <!-- Cycle length in days -->
+      <numberfield name="cycle">
+        <anchored>
+          <top offset="2" />
+          <left relative="name" offset="150" />
+          <width>50</width>
+        </anchored>
+        <frame>
+          <name>textline</name>
+        </frame>
+        <font>sheettext</font>
+        <tooltip text="Length of the full lunar cycle in days." />
+      </numberfield>
+
+      <!-- Phase shift (offset) -->
+      <numberfield name="shift">
+        <anchored>
+          <top offset="2" />
+          <left relative="cycle" offset="70" />
+          <width>50</width>
+        </anchored>
+        <frame>
+          <name>textline</name>
+        </frame>
+        <font>sheettext</font>
+        <tooltip text="Offset in days from the calendar start." />
+      </numberfield>
+
+      <!-- Full-moon width (duration) -->
+      <numberfield name="duration">
+        <anchored>
+          <top offset="2" />
+          <left relative="shift" offset="70" />
+          <width>50</width>
+        </anchored>
+        <frame>
+          <name>textline</name>
+        </frame>
+        <font>sheettext</font>
+        <tooltip text="Width of the full-moon band in days." />
+      </numberfield>
+
+      <!-- Delete button -->
+      <buttoncontrol name="delete">
+        <anchored>
+          <top offset="2" />
+          <right offset="-10" />
+          <width>60</width>
+        </anchored>
+        <label>Delete</label>
+        <script>
+          function onButtonPress()
+            local node = window.getDatabaseNode()
+            if node then
+              node.delete()
+            end
+          end
+        </script>
+      </buttoncontrol>
+    </sheetdata>
+  </windowclass>
+
+</root>

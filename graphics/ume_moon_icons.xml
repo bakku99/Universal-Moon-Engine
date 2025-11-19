@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root version="4.1">
+
+  <!--
+    Universal Moon Engine - Phase Icons
+
+    Expected PNGs (recommended ~24x24 or 32x32):
+      graphics/ume_moon_phase_1.png   New Moon
+      graphics/ume_moon_phase_2.png   Evening Crescent
+      graphics/ume_moon_phase_3.png   First Quarter
+      graphics/ume_moon_phase_4.png   Waxing Gibbous
+      graphics/ume_moon_phase_5.png   Full Moon
+      graphics/ume_moon_phase_6.png   Waning Gibbous
+      graphics/ume_moon_phase_7.png   Last Quarter
+      graphics/ume_moon_phase_8.png   Morning Crescent
+  -->
+
+  <icon name="ume_moon_phase_1" file="graphics/ume_moon_phase_1.png" />
+  <icon name="ume_moon_phase_2" file="graphics/ume_moon_phase_2.png" />
+  <icon name="ume_moon_phase_3" file="graphics/ume_moon_phase_3.png" />
+  <icon name="ume_moon_phase_4" file="graphics/ume_moon_phase_4.png" />
+  <icon name="ume_moon_phase_5" file="graphics/ume_moon_phase_5.png" />
+  <icon name="ume_moon_phase_6" file="graphics/ume_moon_phase_6.png" />
+  <icon name="ume_moon_phase_7" file="graphics/ume_moon_phase_7.png" />
+  <icon name="ume_moon_phase_8" file="graphics/ume_moon_phase_8.png" />
+
+</root>
