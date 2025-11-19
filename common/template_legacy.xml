@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- DEPRECATED - 2024-03-05 (Long Release) -->
+	<script name="ReferenceManualManager">
+		function addBlockFrame(s)
+			Debug.console("ReferenceManualManager - DEPRECATED - 2024-03-05 - StoryManager.addBlockFrame");
+			ChatManager.SystemMessage("ReferenceManualManager.addBlockFrame - DEPRECATED - 2024-03 - Contact ruleset/extension/forge author");
+			StoryManager.addBlockFrame(s);
+		end
+	</script>
+	<template name="button_record_locked">
+		<buttoncontrol name="locked">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="0" />
+			</anchored>
+			<state icon="padlock_open" tooltipres="tooltip_unlock" />
+			<state icon="padlock_closed" tooltipres="tooltip_lock" />
+			<script file="common/scripts/button_record_locked.lua" />
+		</buttoncontrol>
+	</template>
+
+	<!-- TO BE DEPRECATED (2025-03) (Long Release) -->
+	<template name="masterindexcategory_idelete">
+		<button_idelete>
+			<anchored to="rightanchor">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+		</button_idelete>
+	</template>
+	<template name="button_masterindexitem_idelete">
+		<button_listitem_idelete>
+			<editmode>list_iedit</editmode>
+			<script>
+				function onInit()
+					super.onInit();
+
+					if DB.isStatic(window.getDatabaseNode()) then
+						self.setStaticDisplay();
+					end
+				end
+				function setStaticDisplay()
+					setReadOnly(true);
+					setFrame("fieldlight", 4,4,4,4);
+					setStateIcons(0, "button_toolbar_readonly");
+					setStateColor(0, UtilityManager.getControlFontColor(window, "name"));
+					setTooltipText(Interface.getString("button_toolbar_readonly"));
+				end
+			</script>
+		</button_listitem_idelete>
+	</template>
+
+	<template name="number_charinv">
+		<basicnumber>
+			<nodrag />
+			<hideonvalue>0</hideonvalue>
+			<min>0</min>
+		</basicnumber>
+	</template>
+	<template name="string_charinvname">
+		<string_textlistitem>
+			<nodrop />
+			<script file="campaign/scripts/char_invname.lua" />
+		</string_textlistitem>
+	</template>
+	<template name="string_charinvloc">
+		<string_textlistitem>
+			<nodrop />
+			<delaykeyupdate merge="delete" />
+			<script file="campaign/scripts/char_invloc.lua" />
+		</string_textlistitem>
+	</template>
+
+ 	<template name="anchor_listitem_left_encounter">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" height="30" width="0" />
+		</genericcontrol>
+	</template>
+	<template name="token_listitem_encounter">
+		<token_listitem_left name="token">
+			<script>
+				function onValueChanged()
+					if window.synchTokenView then window.synchTokenView(); end
+				end
+			</script>
+		</token_listitem_left>
+	</template>
+	<template name="string_listitem_name_encounter">
+		<string_listitem_center_underline name="name" />
+	</template>
+	<template name="number_listitem_count_encounter">
+		<number_listitem_left name="count">
+			<anchored width="25" />
+			<default>1</default>
+			<min>1</min>
+			<script>
+				function onValueChanged()
+					window.synchToCount();
+				end
+			</script>
+		</number_listitem_left>
+	</template>
+	<template name="string_listitem_expr_encounterrandom">
+		<string_listitem_left name="expr">
+			<anchored width="60" />
+			<empty textres="battlerandom_empty_expr" />
+			<center />
+		</string_listitem_left>
+	</template>
+
+	<template name="number_parcel">
+		<number_dropadd>
+			<anchored width="25" height="20">
+				<top parent="rightanchor" />
+				<left offset="5" />
+			</anchored>
+		</number_dropadd>
+	</template>
+	<template name="string_parcel">
+		<string_textlistitem>
+			<anchored>
+				<left offset="40" />
+				<top parent="rightanchor" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<frame />
+			<multilinespacing>20</multilinespacing>
+		</string_textlistitem>
+	</template>
+	<template name="button_parcel_id_all">
+		<buttoncontrol>
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<frame name="fieldlight" offset="7,7,7,7" />
+			<icon normal="record_identified" />
+			<tooltip textres="parcel_tooltip_id_all" />
+			<gmvisibleonly />
+			<script>
+				function onButtonPress()
+					for _,nodeItem in ipairs(DB.getChildList(window.getDatabaseNode(), "itemlist")) do
+						DB.setValue(nodeItem, "isidentified", "number", 1);
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="string_textlistitem">
+		<stringu>
+			<delaykeyupdate />
+			<script file="common/scripts/list_textitem.lua" />
+		</stringu>
+	</template>
+	<template name="anchor_listitem_column_right">
+		<anchor_listitem_right_sm />
+	</template>
+	<template name="link_listitem_column">
+		<linkcontrol_record name="shortcut">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+		</linkcontrol_record>
+	</template>
+	<template name="button_listitem_column_delete">
+		<button_idelete name="idelete">
+			<anchored to="rightanchor">
+				<top />
+				<right anchor="left" offset="-5" />
+			</anchored>
+		</button_idelete>
+	</template>
+	<template name="string_listitem_column_name">
+		<stringfield name="name">
+			<anchored position="insidetopleft" offset="5,2">
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<font>sheetlabel</font>
+			<multilinespacing>20</multilinespacing>
+		</stringfield>
+	</template>
+	<template name="string_listitem_right_text">
+		<string_textlistitem>
+			<anchored to="rightanchor" width="80" height="20">
+				<top />
+				<right relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+			<delaykeyupdate />
+		</string_textlistitem>
+	</template>
+	<template name="string_listitem_center_text">
+		<string_textlistitem>
+			<anchored to="rightanchor" height="20">
+				<top />
+				<left parent="leftanchor" relation="current" offset="5" />
+				<right relation="current" offset="-5" />
+			</anchored>
+			<delaykeyupdate />
+		</string_textlistitem>
+	</template>
+
+	<template name="linkfield_statich">
+		<linkfield>
+			<invisible />
+			<readonly />
+			<script>
+				function onInit()
+					self.onValueChanged();
+				end
+				function onValueChanged()
+					setVisible(not isEmpty());
+				end
+			</script>
+		</linkfield>
+	</template>
+	<template name="linkcontrol_static">
+		<linkcontrol>
+			<readonly />
+			<description field="name" />
+		</linkcontrol>
+	</template>
+
+	<template name="button_activateid">
+		<buttoncontrol>
+			<icon normal="button_speak" pressed="button_speak_down" />
+			<script>
+				function onButtonPress()
+					local node = window.getDatabaseNode();
+					local sName = ActorManager.getDisplayName(node);
+					GmIdentityManager.addIdentity(sName);
+				end
+			</script>
+			<gmvisibleonly />
+		</buttoncontrol>
+	</template>
+	<template name="button_charweaponcarried">
+		<button_listitem_carried_left />
+	</template>
+
+	<template name="button_setup_column_help">
+		<button_help>
+			<anchored to="header" position="insidetopright" offset="5,0" />
+		</button_help>
+	</template>
+</root>

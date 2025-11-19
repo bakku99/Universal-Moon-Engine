@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="button_text">
+		<buttoncontrol>
+			<anchored height="20" />
+			<frame name="buttonup" offset="5,5,5,5" />
+			<stateframe>
+				<disabled name="buttondisabled" offset="5,5,5,5" nobaseframe="true" />
+				<pressed name="buttondown" offset="5,5,5,5" nobaseframe="true" />
+			</stateframe>
+			<font>button-white</font>
+			<pressed offset="1,1" />
+			<script>
+				function onInit()
+					setColor(ColorManager.getButtonTextColor());
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_text_sm">
+		<buttoncontrol>
+			<anchored height="20" />
+			<frame name="buttonup" offset="2,2,2,2" />
+			<stateframe>
+				<disabled name="buttondisabled" offset="2,2,2,2" nobaseframe="true" />
+				<pressed name="buttondown" offset="2,2,2,2" nobaseframe="true" />
+			</stateframe>
+			<font>button-white</font>
+			<pressed offset="1,1" />
+			<script>
+				function onInit()
+					setColor(ColorManager.getButtonTextColor());
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_text_toggle">
+		<buttoncontrol>
+			<anchored height="20" />
+			<state frame="buttonup" frameoffset="5,5,5,5" />
+			<state frame="buttondown" frameoffset="5,5,5,5" offset="1,1" />
+			<font>button-white</font>
+			<script>
+				function onInit()
+					setColor(ColorManager.getButtonTextColor());
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_text_toggle_sm">
+		<buttoncontrol>
+			<anchored height="20" />
+			<state frame="buttonup" frameoffset="2,2,2,2" />
+			<state frame="buttondown" frameoffset="2,2,2,2" offset="1,1" />
+			<font>button-white</font>
+			<script>
+				function onInit()
+					setColor(ColorManager.getButtonTextColor());
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_icon">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<frame name="buttonup" offset="5,5,5,5" />
+			<stateframe>
+				<disabled name="buttondisabled" offset="5,5,5,5" nobaseframe="true" />
+				<pressed name="buttondown" offset="5,5,5,5" nobaseframe="true" />
+			</stateframe>
+			<pressed offset="1,1" />
+			<script>
+				function onInit()
+					if tintable then
+						setColor(ColorManager.getButtonIconColor());
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_icon_sm">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<frame name="buttonup" offset="2,2,2,2" />
+			<stateframe>
+				<disabled name="buttondisabled" offset="2,2,2,2" nobaseframe="true" />
+				<pressed name="buttondown" offset="2,2,2,2" nobaseframe="true" />
+			</stateframe>
+			<pressed offset="1,1" />
+			<script>
+				function onInit()
+					if tintable then
+						setColor(ColorManager.getButtonIconColor());
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="button_collapse_expand_toggle">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<state icon="button_toolbar_collapse" tooltiptextres="tooltip_collapse" />
+			<state icon="button_toolbar_expand" tooltiptextres="tooltip_expand" />
+			<script>
+				function onInit()
+					if colortarget and colortarget[1] then
+						setColor(UtilityManager.getControlFontColor(window, colortarget[1]));
+					elseif window.name then
+						setColor(UtilityManager.getControlFontColor(window, "name"));
+					elseif window.label then
+						setColor(UtilityManager.getControlFontColor(window, "label"));
+					end
+				end
+				function onValueChanged()
+					if window.toggle then
+						window.toggle();
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_collapse_base">
+		<button_icon>
+			<icon normal="button_toolbar_collapse" />
+			<tintable />
+		</button_icon>
+	</template>
+	<template name="button_collapse">
+		<button_collapse_base>
+			<tooltip textres="tooltip_collapse" />
+			<target>grouplist,list</target>
+			<collapse />
+			<script file="common/scripts/button_expand_collapse.lua" />
+		</button_collapse_base>
+	</template>
+	<template name="button_expand_base">
+		<button_icon>
+			<icon normal="button_toolbar_expand" />
+			<tintable />
+		</button_icon>
+	</template>
+	<template name="button_expand">
+		<button_expand_base>
+			<tooltip textres="tooltip_expand" />
+			<target>grouplist,list</target>
+			<expand />
+			<script file="common/scripts/button_expand_collapse.lua" />
+		</button_expand_base>
+	</template>
+
+	<template name="button_arrow_left">
+		<buttoncontrol>
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state icon="arrow_sm_left" />
+		</buttoncontrol>
+	</template>
+	<template name="button_arrow_right">
+		<buttoncontrol>
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state icon="arrow_sm_right" />
+		</buttoncontrol>
+	</template>
+	<template name="button_arrow_up">
+		<buttoncontrol>
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state icon="arrow_sm_up" />
+		</buttoncontrol>
+	</template>
+	<template name="button_arrow_down">
+		<buttoncontrol>
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state icon="arrow_sm_down" />
+		</buttoncontrol>
+	</template>
+
+	<template name="button_refresh">
+		<button_icon>
+			<icon normal="button_toolbar_refresh" />
+			<tintable />
+		</button_icon>
+	</template>
+	<template name="button_help">
+		<button_icon>
+			<icon normal="button_toolbar_help" />
+			<tintable />
+		</button_icon>
+	</template>
+
+	<template name="label_page_info">
+		<simplestringc name="page_info">
+			<anchored height="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<invisible />
+			<center />
+			<readonly />
+		</simplestringc>
+	</template>
+	<template name="button_page_top">
+		<buttoncontrol name="page_top">
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state tooltipres="tooltip_page_top" icon="button_page_top" />
+			<invisible />
+			<script>
+				function onButtonPress()
+					WindowManager.callOuterWindowFunction(window, "handlePageTop");
+					return true;
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_page_start">
+		<buttoncontrol name="page_start">
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state tooltipres="tooltip_page_start" icon="button_page_start" />
+			<invisible />
+			<script>
+				function onButtonPress()
+					ListManager.handlePageStart(window);
+					return true;
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_page_prev">
+		<buttoncontrol name="page_prev">
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state tooltipres="tooltip_page_prev" icon="button_page_prev" />
+			<invisible />
+			<script>
+				function onButtonPress()
+					ListManager.handlePagePrev(window);
+					return true;
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_page_next">
+		<buttoncontrol name="page_next">
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state tooltipres="tooltip_page_next" icon="button_page_next" />
+			<invisible />
+			<script>
+				function onButtonPress()
+					ListManager.handlePageNext(window);
+					return true;
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_page_end">
+		<buttoncontrol name="page_end">
+			<anchored height="24" width="24" />
+			<frame name="fieldlight" offset="2,2,2,2" />
+			<state tooltipres="tooltip_page_end" icon="button_page_end" />
+			<invisible />
+			<script>
+				function onButtonPress()
+					ListManager.handlePageEnd(window);
+					return true;
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="list_page_info">
+		<label_page_info>
+			<anchored to="pageanchor">
+				<left offset="48" />
+				<right offset="-48" />
+				<top />
+			</anchored>
+		</label_page_info>
+	</template>
+	<template name="list_page_start">
+		<button_page_start>
+			<anchored to="page_info" position="lefthigh" offset="24,0" />
+		</button_page_start>
+	</template>
+	<template name="list_page_prev">
+		<button_page_prev>
+			<anchored to="page_info" position="lefthigh" offset="0,0" />
+		</button_page_prev>
+	</template>
+	<template name="list_page_next">
+		<button_page_next>
+			<anchored to="page_info" position="righthigh" offset="0,0" />
+		</button_page_next>
+	</template>
+	<template name="list_page_end">
+		<button_page_end>
+			<anchored to="page_info" position="righthigh" offset="24,0" />
+		</button_page_end>
+	</template>
+
+	<template name="button_roll">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_roll" pressed="button_roll_down" />
+		</buttoncontrol>
+	</template>
+	<template name="button_roll_light">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_roll_light" pressed="button_roll_light_down" />
+		</buttoncontrol>
+	</template>
+	<template name="button_details">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_details" pressed="button_details_down" />
+		</buttoncontrol>
+	</template>
+
+	<template name="button_checkbox">
+		<buttonfield>
+			<state icon="button_checkoff" />
+			<state icon="button_checkon" />
+		</buttonfield>
+	</template>
+	<template name="buttonc_checkbox">
+		<buttoncontrol>
+			<state icon="button_checkoff" />
+			<state icon="button_checkon" />
+		</buttoncontrol>
+	</template>
+
+	<template name="buttongroup_counter">
+		<genericcontrol>
+			<script file="common/scripts/buttongroup_counter.lua" />
+			<!-- Possible parameters
+			<stateicons>
+				<on>button_checkon</on>
+				<off>button_checkoff</off>
+			</stateicons>
+			<maxslotperrow>10</maxslotperrow>
+			<spacing>10</spacing>
+			<sourcefields>
+				<current>field</current>
+				<maximum>field</maximum>
+			</sourcefields>
+			<values>
+				<current>0</current>
+				<maximum>0</maximum>
+			</values>
+			-->
+		</genericcontrol>
+	</template>
+
+	<template name="buttongroup_tabs">
+		<genericcontrol>
+			<frame name="tabs" />
+			<tab mergerule="resetandadd" />
+			<script file="common/scripts/buttongroup_tabs.lua" />
+		</genericcontrol>
+	</template>
+	<template name="buttongroup_tabs_h">
+		<genericcontrol>
+			<frame name="tabs_h" />
+			<tab mergerule="resetandadd" />
+			<horizontal />
+			<script file="common/scripts/buttongroup_tabs.lua" />
+		</genericcontrol>
+	</template>
+
+	<template name="sub_content_button_tabs">
+		<sub_content_framed_groupbox_top>
+			<anchored height="20" />
+			<class>sub_content_button_tabs</class>
+			<fastinit />
+			<script file="common/scripts/buttongroup_tab_buttons.lua" />
+		</sub_content_framed_groupbox_top>
+	</template>
+	<windowclass name="sub_content_button_tabs">
+		<sheetdata>
+			<genericcontrol name="leftanchor">
+				<anchored position="insidetopleft" offset="0,0" width="0" height="20" />
+				<disabled />
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+	<template name="button_content_tab">
+		<button_text_toggle_sm>
+			<anchored to="leftanchor" width="100">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+			<script>
+				local _nIndex;
+				function setIndex(n)
+					_nIndex = n;
+				end
+				function onClickDown()
+					return true;
+				end
+				function onClickRelease()
+					window.parentcontrol.activateTab(_nIndex);
+					return true;
+				end
+			</script>
+		</button_text_toggle_sm>
+	</template>
+
+	<template name="button_toggledetail">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<state icon="button_details" />
+			<state icon="button_details_down" />
+			<script>
+				function onValueChanged()
+					if window.toggleDetail then
+						window.toggleDetail();
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="colorpick">
+		<buttoncontrol>
+			<anchored width="50" height="50" />
+			<script file="common/scripts/colorpick.lua" />
+		</buttoncontrol>
+	</template>
+	<template name="colorpick_sm">
+		<colorpick>
+			<anchored width="20" height="20" />
+		</colorpick>
+	</template>
+</root>

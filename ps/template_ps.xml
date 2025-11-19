@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="sub_ps">
+		<subwindow>
+			<anchored to="contentanchor" position="below">
+				<bottom parent="" offset="-10" />
+			</anchored>
+		</subwindow>
+	</template>
+
+	<template name="string_ps">
+		<stringu>
+			<anchored height="20" />
+			<readonly />
+			<nodrag />
+			<script file="common/scripts/string_crosslink.lua" />
+		</stringu>
+	</template>
+	<template name="number_ps">
+		<number_static>
+			<anchored height="20" />
+		</number_static>
+	</template>
+	<template name="number_ps_linked">
+		<number_ps>
+			<nodrag />
+			<script file="common/scripts/number_crosslink.lua" />
+		</number_ps>
+	</template>
+
+	<template name="portrait_ps">
+		<genericcontrol>
+			<script>
+				function onInit()
+					self.update();
+				end
+
+				function getTargetNode()
+					return PartyManager.mapPStoChar(window.getDatabaseNode());
+				end
+				function isOwner()
+					return Session.IsHost or DB.isOwner(self.getTargetNode());
+				end
+				function update()
+					local _,sCharNode = window.link.getValue();
+					local sCharNodeName = sCharNode:match("%.([%w-]+)$");
+					if sCharNodeName then
+						setIcon("portrait_" .. sCharNodeName .. "_charlist", true);
+					else
+						setIcon("charlist_base");
+					end
+				end
+
+				function onClickDown()
+					return self.isOwner();
+				end
+				function onClickRelease()
+					if self.isOwner() then
+						window.link.activate();
+						return true;
+					end
+				end
+				function onDragStart(button, x, y, draginfo)
+					local nodeChar = self.getTargetNode();
+					if DB.isOwner(nodeChar) then
+						draginfo.setType("shortcut");
+						draginfo.setIcon("portrait_" .. DB.getName(nodeChar) .. "_charlist");
+						local sToken = DB.getValue(nodeChar, "token", "");
+						if sToken ~= "" then
+							draginfo.setTokenData(sToken);
+						end
+						draginfo.setShortcutData("charsheet", DB.getPath(nodeChar));
+						draginfo.setDescription(DB.getValue(nodeChar, "name", ""));
+						return true;
+					end
+				end
+			</script>
+		</genericcontrol>
+	</template>
+
+	<template name="ps_formation_slot">
+		<genericcontrol>
+			<frame name="ps_formation_slot_base" />
+			<script file="ps/scripts/ps_formation_slot.lua" />
+		</genericcontrol>
+	</template>
+</root>

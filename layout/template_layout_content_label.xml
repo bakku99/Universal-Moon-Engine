@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- HEADERS -->
+	<template name="header_content_framed_headersimple">
+		<label>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="5" postoffset="5" />
+				<left offset="5" />
+				<right offset="-5" />
+			</anchored>
+			<frame name="headersimple" offset="0,2,0,2" />
+			<center />
+		</label>
+	</template>
+	<template name="header_content_framed_rowshade">
+		<label>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="2" postoffset="2" />
+				<left />
+				<right />
+			</anchored>
+			<frame name="rowshade" offset="0,0,0,0" />
+			<center />
+		</label>
+	</template>
+	<template name="header_content_framed_headerref">
+		<label>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="2" postoffset="2" />
+				<left />
+				<right />
+			</anchored>
+			<frame name="headerref" offset="0,0,0,0" />
+			<center />
+		</label>
+	</template>
+	<template name="header_content_framed_metalplate">
+		<stringcontrol>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" offset="5" postoffset="5" />
+				<left />
+				<right />
+			</anchored>
+			<frame name="metalplate" offset="0,2,0,2"/>
+			<font>subwindowsmalltitle</font>
+			<center />
+			<nodrag />
+			<readonly />
+		</stringcontrol>
+	</template>
+	<template name="header_content_framed_groupbox">
+		<label>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="15" postoffset="15" />
+				<left offset="15" />
+				<right offset="-15" />
+			</anchored>
+			<frame name="groupbox" offset="15,15,15,15" />
+			<center />
+		</label>
+	</template>
+
+	<!-- Note: Template assumes that icons are 35x35 -->
+	<template name="header_content_framed_metalplate_with_icon_top">
+		<stringcontrol>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" offset="8" postoffset="8" />
+				<left offset="15" />
+				<right />
+			</anchored>
+			<frame name="metalplate" offset="0,2,0,2"/>
+			<font>subwindowsmalltitle</font>
+			<center />
+			<nodrag />
+			<readonly />
+			<script>
+				function onInit()
+					if icon and icon[1] then
+						widget = addBitmapWidget({ icon = icon[1], position="topleft", x = 3, y = 10 });
+					end
+				end
+			</script>
+		</stringcontrol>
+	</template>
+</root>

@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- General combat tracker entry -->
+	<template name="anchor_ct_entry_left">
+		<genericcontrol name="leftanchor">
+			<anchored width="0" height="0">
+				<top parent="active_spacer_top" anchor="bottom" offset="10" />
+				<left offset="30" />
+			</anchored>
+			<invisible />
+		</genericcontrol>
+	</template>
+	<template name="anchor_ct_entry_right">
+		<genericcontrol name="rightanchor">
+			<anchored width="0" height="0">
+				<top parent="active_spacer_top" anchor="bottom" offset="10" />
+				<right offset="-7" />
+			</anchored>
+			<invisible />
+		</genericcontrol>
+	</template>
+	<template name="button_ct_entry_idelete">
+		<button_idelete name="idelete">
+			<anchored to="rightanchor">
+				<top />
+				<right anchor="left" relation="relative" offset="-3" />
+			</anchored>
+		</button_idelete>
+	</template>
+
+	<!-- General combat tracker entry -->
+	<template name="string_ct">
+		<stringu>
+			<script file="common/scripts/string_crosslink.lua" />
+		</stringu>
+	</template>
+	<template name="number_ct_static">
+		<number_static>
+			<nodrag />
+			<hideonvalue value="0" />
+		</number_static>
+	</template>
+	<template name="number_ct_crosslink">
+		<basicnumber>
+			<script file="common/scripts/number_crosslink.lua" />
+		</basicnumber>
+	</template>
+	<template name="number_ct">
+		<basicnumber>
+			<anchored width="25" height="20" />
+			<script file="common/scripts/number_crosslink.lua" />
+		</basicnumber>
+	</template>
+	<template name="checkbox_ct_crosslink">
+		<button_checkbox>
+			<anchored width="10" height="20" />
+			<script file="common/scripts/button_crosslink.lua" />
+		</button_checkbox>
+	</template>
+
+	<template name="spacer_ctentry_active_top">
+		<genericcontrol name="active_spacer_top">
+			<anchored position="insidetopleft" width="0" height="5" />
+			<invisible />
+		</genericcontrol>
+	</template>
+	<template name="spacer_ctentry_active_bottom">
+		<genericcontrol name="active_spacer_bottom">
+			<anchored width="0" height="5">
+				<top parent="active_spacer_top" anchor="bottom" relation="relative" />
+				<left />
+			</anchored>
+			<invisible />
+		</genericcontrol>
+	</template>
+	<template name="spacer_ctentry_middle">
+		<genericcontrol name="spacer">
+			<anchored width="0" height="7">
+				<top parent="active_spacer_top" anchor="bottom" relation="relative" />
+				<left />
+			</anchored>
+		</genericcontrol>
+	</template>
+
+	<template name="button_ctentry_active_base">
+		<buttonfield>
+			<anchored width="33" height="40">
+				<top parent="active_spacer_top" anchor="bottom" />
+				<left />
+			</anchored>
+			<state icon="ct_passive" />
+			<state icon="ct_active" />
+		</buttonfield>
+	</template>
+	<template name="token_ctentry_base">
+		<tokenfield>
+			<anchored to="leftanchor" width="25" height="25">
+				<top offset="-3" />
+				<left relation="relative" offset="2" postoffset="13" />
+			</anchored>
+			<empty>token_empty</empty>
+			<script file="common/scripts/token_crosslink.lua" />
+		</tokenfield>
+	</template>
+
+	<!-- Assume health fields are 30 width with 10 separation; default assumes 3 health fields -->
+	<template name="base_clientct_health">
+		<genericcontrol name="healthbase">
+			<anchored to="rightanchor" width="110" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="base_clientct_health_2x">
+		<base_clientct_health>
+			<anchored width="70" />
+		</base_clientct_health>
+	</template>
+	<template name="base_clientct_health_4x">
+		<base_clientct_health>
+			<anchored width="150" />
+		</base_clientct_health>
+	</template>
+	<template name="string_clientct_status">
+		<string_static name="status">
+			<anchored to="healthbase" position="over" />
+			<center />
+			<invisible />
+		</string_static>
+	</template>
+
+	<!-- GM combat tracker entry -->
+	<template name="link_ct_entry">
+		<linkfield>
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-3" />
+			</anchored>
+			<class>npc</class>
+			<selfonempty />
+			<readonly />
+			<script>
+				function onValueChanged()
+					window.onLinkChanged();
+				end
+			</script>
+		</linkfield>
+	</template>
+	<template name="button_ct_entry_token_decorator_base">
+		<buttonfield>
+			<anchored width="20" height="16" />
+			<frame name="tempmodmini" />
+			<invisible />
+			<script>
+				function onInit()
+					self.updateColor();
+				end
+				function updateColor()
+					local sFullColor, sDisabledColor = UtilityManager.getFullAndDisabledControlFontColors(window, "name");
+					if getValue() == 0 then
+						setColor(sDisabledColor);
+					else
+						setColor(sFullColor);
+					end
+				end
+				function onValueChanged()
+					self.updateColor();
+				end
+			</script>
+		</buttonfield>
+	</template>
+	<template name="button_ct_entry_isidentified">
+		<button_ct_entry_token_decorator_base>
+			<anchored to="token" position="righthigh" offset="-4,-3" />
+			<state icon="button_toolbar_id_false" tooltipres="tooltip_nonid" merge="resetandadd" />
+			<state icon="button_toolbar_id_true" tooltipres="tooltip_id" merge="add" />
+			<gmeditonly />
+			<script>
+				function onValueChanged()
+					super.onValueChanged();
+					if window.onIDChanged then
+						window.onIDChanged();
+					end
+				end
+			</script>
+		</button_ct_entry_token_decorator_base>
+	</template>
+	<template name="button_ct_entry_tokenvis">
+		<button_ct_entry_token_decorator_base>
+			<anchored to="token" position="rightlow" offset="-4,-3" />
+			<state icon="button_toolbar_visibility_off" tooltipres="ct_tooltip_shownpcon" merge="resetandadd" />
+			<state icon="button_toolbar_visibility_on" tooltipres="ct_tooltip_shownpcoff" merge="add" />
+			<script>
+				function onValueChanged()
+					super.onValueChanged();
+					if window.onVisibilityChanged then
+						window.onVisibilityChanged();
+					end
+				end
+			</script>
+		</button_ct_entry_token_decorator_base>
+	</template>
+	<template name="string_ct_entry_name">
+		<string_ct>
+			<anchored to="leftanchor" height="20">
+				<top parent="active_spacer_top" anchor="bottom"  relation="relative" offset="10" />
+				<left relation="relative" offset="5" />
+				<right parent="rightanchor" relation="relative" offset="-10" />
+			</anchored>
+			<tabtarget next="initresult" />
+			<script file="ct/scripts/ct_name.lua" />
+		</string_ct>
+	</template>
+	<template name="string_ct_entry_name_nonid">
+		<string_ct_entry_name>
+			<empty textres="library_recordtype_empty_nonid_npc" />
+			<invisible />
+		</string_ct_entry_name>
+	</template>
+
+	<!-- GM combat tracker entry -->
+	<template name="button_ctentry_active">
+		<button_ctentry_active_base>
+			<script file="ct/scripts/ct_active.lua" />
+		</button_ctentry_active_base>
+	</template>
+	<template name="token_ctentry">
+		<token_ctentry_base>
+			<script file="ct/scripts/ct_token.lua" />
+		</token_ctentry_base>
+	</template>
+	<template name="button_ctentry_friendfoe">
+		<button_faction>
+			<anchored to="rightanchor">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" />
+			</anchored>
+			<script>
+				function onValueChanged()
+					window.onFactionChanged();
+				end
+			</script>
+		</button_faction>
+	</template>
+	<template name="number_ctentry_initresult">
+		<number_ct_crosslink name="initresult">
+			<anchored to="rightanchor" width="30" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-15" />
+			</anchored>
+			<hideonvalue>0</hideonvalue>
+			<tabtarget prev="nonid_name" />
+			<script>
+				function update()
+					window.windowlist.applySort();
+				end
+				function onDragStart(button, x, y, draginfo)
+					return CombatManager.handleCTInitDragStart(window.getDatabaseNode(), draginfo);
+				end
+			</script>
+		</number_ct_crosslink>
+	</template>
+
+	<!-- Player combat tracker entry -->
+	<template name="button_clientct_active">
+		<button_ctentry_active_base>
+			<readonly />
+			<script>
+				function onValueChanged()
+					local bActive = (getValue() == 1);
+					window.onActiveChanged(bActive);
+					CombatManager.onEntryActivationChanged(window.getDatabaseNode());
+				end
+			</script>
+		</button_ctentry_active_base>
+	</template>
+	<template name="token_clientct">
+		<token_ctentry_base>
+			<readonly />
+			<nodrag />
+			<script>
+				function onClickDown(button, x, y)
+					if button == 1 then
+						return true;
+					end
+				end
+				function onClickRelease(button, x, y)
+					if button == 1 then
+						return CombatManager.handleCTTokenPressed(window.getDatabaseNode());
+					end
+				end
+				function onDoubleClick(x, y)
+					CombatManager.handleCTTokenDoubleClick(window.getDatabaseNode());
+					return true;
+				end
+			</script>
+		</token_ctentry_base>
+	</template>
+	<template name="hlink_clientct">
+		<hlink name="link">
+			<script>
+				function onValueChanged()
+					if window.onLinkChanged then
+						window.onLinkChanged();
+					elseif window.onIDChanged then
+						window.onIDChanged();
+					end
+				end
+			</script>
+		</hlink>
+	</template>
+	<template name="number_clientct_init">
+		<number_ct_static name="initresult">
+			<anchored to="rightanchor" width="30" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-15" />
+			</anchored>
+			<script>
+				function onValueChanged()
+					window.windowlist.applySort();
+				end
+				function onDragStart(button, x, y, draginfo)
+					return CombatManager.handleCTInitDragStart(window.getDatabaseNode(), draginfo);
+				end
+			</script>
+		</number_ct_static>
+	</template>
+	<template name="string_clientct_name">
+		<stringu name="name">
+			<anchored to="leftanchor" height="20">
+				<top parent="active_spacer_top" anchor="bottom"  relation="relative" offset="10" />
+				<left relation="relative" offset="5" />
+				<right parent="rightanchor" relation="relative" offset="-10" />
+			</anchored>
+			<readonly />
+		</stringu>
+	</template>
+</root>

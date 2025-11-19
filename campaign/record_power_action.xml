@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="list_poweraction">
+		<windowlist>
+			<anchored>
+				<top parent="header" anchor="bottom" relation="relative" offset="5" />
+				<left offset="20" />
+				<right offset="-20" />
+			</anchored>
+			<datasource>.actions</datasource>
+			<class>power_action</class>
+			<noscroll />
+			<sortby><field>order</field></sortby>
+			<script>
+				function reset()
+					DB.deleteChildren(getDatabaseNode());
+				end
+			</script>
+		</windowlist>
+	</template>
+	<template name="list_poweraction_mini">
+		<windowlist>
+			<anchored to="rightanchor">
+				<top parent="" offset="0" />
+				<right anchor="left" relation="relative" offset="-5" />
+				<left parent="" anchor="center" offset="10" />
+			</anchored>
+			<datasource>.actions</datasource>
+			<class>power_action_mini</class>
+			<noscroll />
+			<readonly />
+			<sortby><field>order</field></sortby>
+			<columns width="25" fillwidth="true" />
+			<invisible />
+		</windowlist>
+	</template>
+	<template name="button_poweraction">
+		<button_roll>
+			<script>
+				function onButtonPress(x, y)
+					self.action();
+				end
+				function onDragStart(button, x, y, draginfo)
+					self.action(draginfo);
+					return true;
+				end
+				function action(draginfo)
+					window.performAction(draginfo, subroll and subroll[1]);
+				end
+			</script>
+		</button_roll>
+	</template>
+	<template name="string_poweractionview">
+		<stringc_static>
+			<multilinespacing>20</multilinespacing>
+			<center />
+			<nodrag />
+			<cursor hover="hand" />
+			<script>
+				function onDoubleClick(x, y)
+					self.action();
+					return true;
+				end
+				function onDragStart(button, x, y, draginfo)
+					self.action(draginfo);
+					return true;
+				end
+				function action(draginfo)
+					window.performAction(draginfo, subroll and subroll[1]);
+				end
+			</script>
+		</stringc_static>
+	</template>
+	<template name="button_poweractioneditor">
+		<button_details>
+			<script>
+				function onButtonPress()
+					Interface.openWindow((editor and editor[1]) or "power_action_editor", window.getDatabaseNode());
+				end
+			</script>
+		</button_details>
+	</template>
+	<template name="button_listitem_poweractioneditor_right">
+		<button_listitem_details_right>
+			<script>
+				function onButtonPress()
+					Interface.openWindow((editor and editor[1]) or "power_action_editor", window.getDatabaseNode());
+				end
+			</script>
+		</button_listitem_details_right>
+	</template>
+
+	<!--
+		NOTE - Requires definition of:
+			windowclass = "power_action_" .. type
+	-->
+	<windowclass name="power_action">
+		<margins control="0,0,0,5" />
+		<script file="campaign/scripts/power_action.lua" />
+		<sheetdata>
+			<hs name="type">
+				<script>
+					function onValueChanged()
+						window.onTypeChanged();
+					end
+				</script>
+			</hs>
+
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_idelete_left name="idelete">
+				<editmode>actions_iedit</editmode>
+			</button_listitem_idelete_left>
+
+			<button_poweractioneditor name="detail">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-2" postoffset="-2" />
+				</anchored>
+			</button_poweractioneditor>
+			<button_listitem_ireorder_right name="ireorder">
+				<editmode>actions_iedit</editmode>
+			</button_listitem_ireorder_right>
+
+			<sub_listitem_center name="contents" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="power_action_mini">
+		<margins control="0,0,1,1" />
+		<script file="campaign/scripts/power_action_mini.lua" />
+		<sheetdata>
+			<button_poweraction name="button">
+				<bounds>1,1,20,20</bounds>
+			</button_poweraction>
+		</sheetdata>
+	</windowclass>
+
+	<!--
+		NOTE - Requires definition of:
+			string = "power_title_" .. type
+			windowclass = "power_action_editor_" .. type
+	-->
+	<windowclass name="power_action_editor_core" copy="charsheethelper_base">
+		<sizelimits>
+			<minimum width="500" height="350" />
+		</sizelimits>
+		<script file="campaign/scripts/power_action_editor.lua" />
+		<sheetdata>
+			<hs name="type">
+				<script>
+					function onValueChanged()
+						window.onTypeChanged();
+					end
+				</script>
+			</hs>
+
+			<sub_content_framed_groupbox name="main" />
+			<scrollbar_content_main />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="power_action_editor" copy="power_action_editor_core" />
+</root>

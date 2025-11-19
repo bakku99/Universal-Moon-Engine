@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="loglist">
+		<frame>referencelist</frame>
+		<sizelimits>
+			<minimum width="350" height="350" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<sheetdata>
+			<windowtitlebar_referencelist name="title">
+				<resource>calendar_loglist_title</resource>
+			</windowtitlebar_referencelist>
+			<windowmenubar_referencelist name="menubar" />
+
+			<anchor_content_referencelist_top />
+			<anchor_content_referencelist_bottom />
+
+			<filter_content_bottom />
+
+			<list_content_framed_groupbox_alternating_filtered name="list">
+				<datasource>.</datasource>
+				<class>logsmall</class>
+				<sortby>
+					<control>year</control>
+					<control>month</control>
+					<control>day</control>
+				</sortby>
+				<allowdelete />
+			</list_content_framed_groupbox_alternating_filtered>
+			<scrollbar_content_list />
+
+			<resize_referencelist />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="logsmall">
+		<margins control="0,0,0,2" />
+		<script file="utility/scripts/calendar_log_entry.lua" />
+		<sheetdata>
+			<hn name="day">
+				<script>
+					function onValueChanged()
+						window.onDateChanged();
+					end
+				</script>
+			</hn>
+			<hn name="month">
+				<script>
+					function onValueChanged()
+						window.onDateChanged();
+					end
+				</script>
+			</hn>
+			<hn name="year">
+				<script>
+					function onValueChanged()
+						window.onDateChanged();
+					end
+				</script>
+			</hn>
+			<hs name="epoch">
+				<script>
+					function onValueChanged()
+						window.onDateChanged();
+					end
+				</script>
+			</hs>
+
+			<anchor_listitem_left_sm />
+			<linkc_listitem_left name="link">
+				<class>advlogentry</class>
+			</linkc_listitem_left>
+
+			<anchor_listitem_right_sm />
+			<icon_access name="access" />
+			<icon_modified name="modified" />
+
+			<string_listitem_center_noframe_static_linked name="name">
+				<empty textres="calendar_logentry_emptyname" />
+			</string_listitem_center_noframe_static_linked>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="advlogentry" copy="record_window">
+		<windowmenu>
+			<showlink />
+			<right>chat_output</right>
+		</windowmenu>
+		<sheetdata>
+			<!-- NOTE: Legacy override short term for layout -->
+			<sub_content_framed_groupbox_top name="header">
+				<anchored to="contentanchor">
+					<left offset="10" />
+					<right offset="-10" />
+					<top relation="relative" offset="10" postoffset="10" />
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+				<class>logentry_header</class>
+			</sub_content_framed_groupbox_top>
+			<sub_content_framed_groupbox name="content">
+				<class>logentry_main</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="logentry_header" copy="record_header">
+		<script>
+			function onInit()
+				if super and super.onInit then
+					super.onInit();
+				end
+				self.onDateChanged();
+			end
+			function onDateChanged()
+				local sEpoch = epoch.getValue();
+				local nYear = year.getValue();
+				local nMonth = month.getValue();
+				local nDay = day.getValue();
+
+				name.setValue(CalendarManager.getDateString(sEpoch, nYear, nMonth, nDay, false, false));
+				if holiday then
+					holiday.setValue(CalendarManager.getHolidayName(nMonth, nDay));
+				end
+			end
+		</script>
+		<sheetdata>
+			<hn name="day">
+				<script>
+					function onValueChanged()
+						window.onDateChanged();
+					end
+				</script>
+			</hn>
+			<hn name="month">
+				<script>
+					function onValueChanged()
+						window.onDateChanged();
+					end
+				</script>
+			</hn>
+			<hn name="year">
+				<script>
+					function onValueChanged()
+						window.onDateChanged();
+					end
+				</script>
+			</hn>
+			<hs name="epoch">
+				<script>
+					function onValueChanged()
+						window.onDateChanged();
+					end
+				</script>
+			</hs>
+
+			<string_record_header_name name="name">
+				<empty textres="calendar_logentry_emptyname" />
+			</string_record_header_name>
+			<stringcontrol name="holiday">
+				<anchored to="name" position="below" offset="0,10" height="20" />
+				<font>sheetlabel</font>
+				<static />
+				<invisible />
+				<script>
+					function onInit()
+						onValueChanged();
+					end
+					function onValueChanged()
+						setVisible(not isEmpty());
+					end
+				</script>
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="logentry_main">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<header_column name="logentry_header">
+				<static textres="header_playernotes" />
+			</header_column>
+			<ft_column name="logentry" />
+
+			<header_column name="gmheader">
+				<static textres="header_gmnotes" />
+				<gmvisibleonly />
+			</header_column>
+			<ft_column name="gmlogentry">
+				<gmvisibleonly />
+			</ft_column>
+		</sheetdata>
+	</windowclass>
+</root>

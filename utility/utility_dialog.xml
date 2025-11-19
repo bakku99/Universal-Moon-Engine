@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="dialog_okcancel">
+		<frame>utilitybox</frame>
+		<placement>
+			<size width="300" height="300" />
+			<nosave />
+		</placement>
+		<script>
+			local _tData;
+			local _sResult;
+			function setData(tData)
+				_tData = tData;
+				self.initDisplay();
+			end
+			function initDisplay()
+				if _tData then
+					if _tData.sTitleRes then
+						title.setValue(Interface.getString(_tData.sTitleRes));
+					elseif _tData.sTitle then
+						title.setValue(_tData.sTitle);
+					end
+
+					if _tData.sTextRes then
+						text.setValue(Interface.getString(_tData.sTextRes));
+					elseif _tData.sText then
+						text.setValue(_tData.sText);
+					end
+				end
+			end
+			function onClose()
+				DialogManager.onDialogClose(_sResult, _tData);
+			end
+			function processOK()
+				_sResult = "ok";
+				close();
+			end
+			function processCancel()
+				_sResult = "cancel";
+				close();
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title" />
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+
+			<anchor_content_utilitybox_bottom />
+			<sub_content_bottom name="sub_buttons">
+				<class>dialog_buttons_okcancel</class>
+			</sub_content_bottom>
+
+			<stringc_content_framed_groupbox name="text" />
+			<scrollbar_content_text />
+		</sheetdata>
+	</windowclass>
+</root>

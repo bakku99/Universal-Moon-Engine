@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="imagedeathmarkerlist">
+		<frame>utilitybox</frame>
+		<placement>
+			<size width="500" height="650" />
+			<nosave />
+		</placement>
+		<sizelimits>
+			<minimum width="400" height="350" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_utility</minimize>
+		<tooltip textres="imagedeathmarkerlist_window_title" />
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title" />
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+			<anchor_content_utilitybox_bottom />
+
+			<button_text_content_center_bottom name="button_imagedeathmarkerset">
+				<state textres="imagedeathmarkerlist_button_sets" />
+				<script>
+					function onButtonPress()
+						Interface.openWindow("imagedeathmarkersetlist", "settings.imagedeathmarkerset");
+					end
+				</script>
+			</button_text_content_center_bottom>
+
+			<list_utility_setting_labeled name="list">
+				<class>imagedeathmarkeritem</class>
+				<datasource>.</datasource>
+			</list_utility_setting_labeled>
+			<scrollbar_content_list name="scrollbar_list" />
+
+			<anchor_list_content_label_left />
+			<anchor_list_content_label_right />
+			<label_list_content_centered_right name="label_set">
+				<anchored width="200" />
+				<static textres="imagedeathmarkerlist_label_set" />
+			</label_list_content_centered_right>
+			<label_list_content_noframe name="label_type">
+				<static textres="imagedeathmarkerlist_label_type" />
+			</label_list_content_noframe>
+
+			<resize_utilitybox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="imagedeathmarkeritem">
+		<margins control="0,0,0,5" />
+		<script file="utility/scripts/image_deathmarker_item.lua" />
+		<sheetdata>
+			<hs name="id" />
+
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<combobox_listitem_right name="set">
+				<anchored width="180" />
+			</combobox_listitem_right>
+
+			<stringc_listitem_center_noframe_static name="name">
+				<font>sheetlabel</font>
+				<empty textres="imagedeathmarkerlist_empty_type" />
+			</stringc_listitem_center_noframe_static>
+		</sheetdata>
+	</windowclass>
+</root>

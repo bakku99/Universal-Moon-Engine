@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!--
+		NOTE: framed is default (fielddark is editable; fieldlight is static)
+	-->
+
+	<template name="number_content_base">
+		<simplenumber>
+			<anchored to="contentanchor" height="20" />
+			<frame mergerule="replace" name="fielddark" offset="5,5,5,5" hidereadonly="true" />
+			<stateframe>
+				<keyedit name="fieldfocus" offset="5,5,5,5" />
+				<hover name="fieldfocus" offset="5,5,5,5" hidereadonly="true" />
+				<drophilight name="fieldfocus" offset="5,5,5,5" hidereadonly="true" />
+			</stateframe>
+		</simplenumber>
+	</template>
+	<template name="numberc_content_base">
+		<simplenumberc>
+			<anchored to="contentanchor" height="20" />
+			<frame mergerule="replace" name="fielddark" offset="5,5,5,5" hidereadonly="true" />
+			<stateframe>
+				<keyedit name="fieldfocus" offset="5,5,5,5" />
+				<hover name="fieldfocus" offset="5,5,5,5" hidereadonly="true" />
+				<drophilight name="fieldfocus" offset="5,5,5,5" hidereadonly="true" />
+			</stateframe>
+		</simplenumberc>
+	</template>
+</root>

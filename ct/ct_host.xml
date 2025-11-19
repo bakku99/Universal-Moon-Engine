@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- General combat tracker window -->
+	<windowclass name="combattracker_host">
+		<frame>ctbox</frame>
+		<sizelimits>
+			<minimum width="400" height="400" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<helplinkres>help_tool_ct</helplinkres>
+		<sheetdata>
+			<windowtitlebar_ctbox name="title">
+				<resource>ct_window_title</resource>
+			</windowtitlebar_ctbox>
+			<windowmenubar_ctbox name="menubar" />
+
+			<anchor_content_ctbox_top name="contentanchor" />
+			<anchor_content_ctbox_bottom name="bottomanchor" />
+
+			<sub_ct_header_host name="sub_header" />
+
+			<sub_ct_controls_host name="sub_controls" />
+
+			<list_ct_host name="list" />
+			<scrollbar_content_list />
+
+			<resize_ctbox />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="sub_ct_header_host">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_ct_header_left />
+			<anchor_ct_header_right />
+
+			<spacer_ct_header_active name="spacer_header_active" />
+			<spacer_ct_header_token name="spacer_header_token" />
+			<button_ct_header_visibility name="button_global_visibility" />
+
+			<spacer_ct_header_buttons_host name="spacer_buttons_header" />
+			<label_ct_header_initresult name="label_init" />
+			<label_ct_header_name_v2 name="label_name" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="sub_ct_controls_host">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_ct_controls_left />
+			<anchor_ct_controls_right />
+
+			<button_ct_controls_setactive name="button_setactive" />
+			<button_ct_controls_nextturn name="button_nextactor" />
+			<button_ct_controls_menu name="button_menu" />
+
+			<button_ct_controls_nextround name="button_nextround" />
+			<number_ct_controls_rounds name="round" />
+			<label_ct_controls_rounds name="label_round" />
+
+			<area_ct_controls_center name="area_center" />
+			<button_ct_controls_faction_friend name="button_faction_friend" />
+			<button_ct_controls_faction_neutral name="button_faction_neutral" />
+			<button_ct_controls_faction_foe name="button_faction_foe" />
+		</sheetdata>
+	</windowclass>
+</root>

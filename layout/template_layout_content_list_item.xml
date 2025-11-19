@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<!--
+	Implementation Notes:
+		Always use left and right anchors
+		Standard field sizes:
+			buttons (noframe)/links (noframe): 20*20, 2/2 horizontal offsets 
+				(to provide separation)
+			button (framed): 20*20, 5/5 horizontal offsets 
+				(to provide separation and buttonup/buttondown spacing)
+			strings (noframe)/labels: 90*20, 5/5 horizontal offsets 
+				(to provide separation)
+			strings (framed): 80*20, 10/10 horizontal offsets
+				(to provide separation and fieldlight/fielddark spacing, extra because strings are usually left-aligned)
+			numbers: 40*20, 5/5 horizontal offsets 
+				(to provide separation and fieldlight/fielddark spacing)
+			combo: 100*20, 10/10 horizontal offsets 
+				(to provide separation and fieldlight/fielddark spacing, extra because strings are usually left-aligned)
+		Centered field sizes:
+			(Same as above, but width is remaining space.)
+-->
+
+<root>
+	<!-- List Item (Anchoring) -->
+	<template name="anchor_listitem_left">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" offset="0,5" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_left_sm">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" offset="0,2" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_left_lg">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" offset="0,10" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_left_flat">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" offset="0,0" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_right">
+		<genericcontrol name="rightanchor">
+			<anchored position="insidetopright" offset="0,5" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_right_sm">
+		<genericcontrol name="rightanchor">
+			<anchored position="insidetopright" offset="0,2" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_right_lg">
+		<genericcontrol name="rightanchor">
+			<anchored position="insidetopright" offset="0,10" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_right_flat">
+		<genericcontrol name="rightanchor">
+			<anchored position="insidetopright" offset="0,0" width="0" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+
+	<template name="anchor_listitem_top">
+		<genericcontrol name="contentanchor">
+			<anchored to="leftanchor" position="insidetopleft" offset="0,0" height="0">
+				<right parent="rightanchor" offset="0" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_listitem_left_relative">
+		<anchor_listitem_left_flat>
+			<anchored to="contentanchor" />
+		</anchor_listitem_left_flat>
+	</template>
+	<template name="anchor_listitem_right_relative">
+		<anchor_listitem_right_flat>
+			<anchored to="contentanchor" />
+		</anchor_listitem_right_flat>
+	</template>
+
+	<includefile source="layout/template_layout_content_list_item_button.xml" />
+	<includefile source="layout/template_layout_content_list_item_number.xml" />
+	<includefile source="layout/template_layout_content_list_item_string.xml" />
+
+	<includefile source="layout/template_layout_content_list_item_misc.xml" />
+
+	<includefile source="layout/template_layout_content_list_item_specific.xml" />
+</root>

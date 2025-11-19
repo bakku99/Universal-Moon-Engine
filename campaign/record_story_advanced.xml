@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="referencemanualpage" copy="record_window_story">
+		<placement>
+			<size width="650" height="650" />
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="300" />
+		</sizelimits>
+		<sheetdata>
+			<!-- NOTE: Legacy override short term for layout -->
+			<sub_content_framed_groupbox_top name="header">
+				<anchored to="contentanchor">
+					<left offset="10" />
+					<right offset="-10" />
+					<top relation="relative" offset="10" postoffset="10" />
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+				<class>story_header_advanced</class>
+			</sub_content_framed_groupbox_top>
+			<sub_content_framed_groupbox name="content">
+				<class>story_content_advanced</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_header_advanced" copy="record_header_story">
+		<script>
+			function onStateChanged()
+				super.onStateChanged();
+				story_paste.onStateChanged();
+			end
+		</script>
+		<sheetdata>
+			<toolbar_action_header_right name="story_paste" insertbefore="name">
+				<script>
+					function onStoryPasteChanged()
+						self.onStateChanged();
+					end
+					function onStateChanged()
+						if Session.IsHost then
+							local bReadOnly = WindowManager.getReadOnlyState(window.getDatabaseNode());
+							local bCanPaste = StoryManager.hasPasteRecord();
+							setVisible(bCanPaste and not bReadOnly);
+						end
+					end
+				</script>
+			</toolbar_action_header_right>
+			<toolbar_action_header_right name="story_copy" insertbefore="name" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_content_advanced">
+		<script file="campaign/scripts/story_advanced_content.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<list_story_blocks name="blocks" />
+			<footer_story_blocks name="footer" />
+
+			<anchor_story_block_iadd_right />
+			<button_story_block_iadd name="button_iadd_block_textrimagel">
+				<blocktype>textrimagel</blocktype>
+			</button_story_block_iadd>
+			<button_story_block_iadd name="button_iadd_block_textlimager">
+				<blocktype>textlimager</blocktype>
+			</button_story_block_iadd>
+			<button_story_block_iadd name="button_iadd_block_image">
+				<blocktype>image</blocktype>
+			</button_story_block_iadd>
+			<button_story_block_iadd name="button_iadd_block_header">
+				<blocktype>header</blocktype>
+			</button_story_block_iadd>
+			<button_story_block_iadd name="button_iadd_block_dualtext">
+				<blocktype>dualtext</blocktype>
+			</button_story_block_iadd>
+			<button_story_block_iadd name="button_iadd_block_text">
+				<blocktype>text</blocktype>
+			</button_story_block_iadd>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="story_block">
+		<script file="campaign/scripts/story_advanced_block.lua" />
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete_left />
+			<button_story_block_ireorder name="ireorder" />
+
+			<sub_listitem_center name="contents" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="story_block_contents_center">
+		<script>
+			function onInit()
+				StoryManager.rebuildCenterBlock(self);
+			end
+			function onFrameChanged()
+				StoryManager.rebuildCenterBlock(self);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<sub_content_top name="block_center" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_contents_dual">
+		<script>
+			function onInit()
+				StoryManager.rebuildDualBlock(self);
+			end
+			function onFrameChanged()
+				StoryManager.rebuildDualBlock(self);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<sub_content_top name="block_left">
+				<anchored>
+					<top relation="current" />
+					<right anchor="center" offset="-5" />
+				</anchored>
+			</sub_content_top>
+			<sub_content_base name="block_right">
+				<anchored to="contentanchor">
+					<left anchor="center" offset="5" />
+					<top parent="block_left" />
+				</anchored>
+			</sub_content_base>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_contents_stack">
+		<script>
+			function onInit()
+				StoryManager.rebuildStackedBlock(self);
+			end
+			function onFrameChanged()
+				StoryManager.rebuildStackedBlock(self);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<sub_content_top name="block_left" />
+			<sub_content_top name="block_right" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_contents_stack_reverse">
+		<script>
+			function onInit()
+				StoryManager.rebuildStackedBlock(self);
+			end
+			function onFrameChanged()
+				StoryManager.rebuildStackedBlock(self);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<sub_content_top name="block_right" />
+			<sub_content_top name="block_left" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_contents_imageleft">
+		<script>
+			function onInit()
+				StoryManager.rebuildDualBlock(self);
+			end
+			function onFrameChanged()
+				StoryManager.rebuildDualBlock(self);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<sub_content_base name="block_left">
+				<anchored to="contentanchor">
+					<top relation="current" />
+					<left />
+					<right merge="delete" />
+				</anchored>
+			</sub_content_base>
+			<sub_content_base name="block_right">
+				<anchored to="contentanchor">
+					<top parent="block_left" />
+					<left parent="block_left" anchor="right" />
+					<right />
+				</anchored>
+			</sub_content_base>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_contents_imageright">
+		<script>
+			function onInit()
+				StoryManager.rebuildDualBlock(self);
+			end
+			function onFrameChanged()
+				StoryManager.rebuildDualBlock(self);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<sub_content_base name="block_right">
+				<anchored to="contentanchor">
+					<top relation="current" />
+					<left merge="delete" />
+					<right />
+				</anchored>
+			</sub_content_base>
+			<sub_content_base name="block_left">
+				<anchored to="contentanchor">
+					<top parent="block_right" />
+					<left />
+					<right parent="block_right" anchor="left" />
+				</anchored>
+			</sub_content_base>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="story_block_contents_unframed">
+		<margins control="0,0,0,5" />
+		<script>
+			function onInit()
+				StoryManager.rebuildBlockContent(self);
+				self.onLockModeChanged(StoryManager.getBlockReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				local bImage = StoryManager.isBlockContentImage(self, StoryManager.getBlockContentAlign(self));
+				WindowManager.callSafeControlsSetVisible(self, { "button_frameselect" }, not bReadOnly and not bImage);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_story_block_frameselect />
+			<sub_listitem_center name="block">
+				<anchored>
+					<left offset="5" />
+					<top offset="5" />
+					<right offset="-5" />
+				</anchored>
+			</sub_listitem_center>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_contents_framed">
+		<margins control="0,0,0,35" />
+		<script>
+			function onInit()
+				StoryManager.rebuildBlockContent(self);
+				self.onLockModeChanged(StoryManager.getBlockReadOnlyState(self));
+			end
+			function onFrameChanged()
+				StoryManager.rebuildBlockContent(self);
+			end
+			function onLockModeChanged(bReadOnly)
+				local bImage = StoryManager.isBlockContentImage(self, StoryManager.getBlockContentAlign(self));
+				WindowManager.callSafeControlsSetVisible(self, { "button_frameselect" }, not bReadOnly and not bImage);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_story_block_frameselect />
+			<sub_listitem_center name="block">
+				<anchored>
+					<left offset="20" />
+					<top offset="35" />
+					<right offset="-20" />
+				</anchored>
+			</sub_listitem_center>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="story_block_header">
+		<script>
+			function onInit()
+				self.onLockModeChanged(StoryManager.getBlockReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlSetLockMode(self, "text", bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_flat />
+			<anchor_listitem_right_flat />
+
+			<header_story_block name="text" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_text">
+		<script>
+			function onInit()
+				self.onLockModeChanged(StoryManager.getBlockReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlSetLockMode(self, "text", bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_flat />
+			<anchor_listitem_right_flat />
+
+			<ft_story_block name="text" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_text2" copy="story_block_text">
+		<sheetdata>
+			<ft_story_block name="text" source="text2" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_image">
+		<script>
+			function onInit()
+				StoryManager.rebuildBlockContentImage(self);
+				self.onLockModeChanged(StoryManager.getBlockReadOnlyState(self));
+
+				local node = getDatabaseNode();
+				DB.addHandler(DB.getPath(node, "picture"), "onUpdate", self.onDataChanged);
+				DB.addHandler(DB.getPath(node, "image"), "onUpdate", self.onDataChanged);
+				DB.addHandler(DB.getPath(node, "scale"), "onUpdate", self.onDataChanged);
+				DB.addHandler(DB.getPath(node, "scale"), "onDelete", self.onDataChanged);
+				DB.addHandler(DB.getPath(node, "size"), "onDelete", self.onDataChanged);
+			end
+			function onClose()
+				local node = getDatabaseNode();
+				DB.removeHandler(DB.getPath(node, "picture"), "onUpdate", self.onDataChanged);
+				DB.removeHandler(DB.getPath(node, "image"), "onUpdate", self.onDataChanged);
+				DB.removeHandler(DB.getPath(node, "scale"), "onUpdate", self.onDataChanged);
+				DB.removeHandler(DB.getPath(node, "scale"), "onDelete", self.onDataChanged);
+				DB.removeHandler(DB.getPath(node, "size"), "onDelete", self.onDataChanged);
+			end
+			function onLayoutSizeChanged()
+				StoryManager.rebuildBlockContentImage(self);
+			end
+			function onDataChanged()
+				StoryManager.rebuildBlockContentImage(self);
+				self.onLockModeChanged(StoryManager.getBlockReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlSetLockMode(self, "caption", bReadOnly);
+				WindowManager.callSafeControlSetVisible(self, "caption", not bReadOnly or not caption.isEmpty());
+
+				local tLegacySize = StoryManager.getBlockImageLegacySize(self);
+				local nScale = StoryManager.getBlockImageScale(self);
+				WindowManager.callSafeControlsSetVisible(self, { "spacer_image_scale" }, not bReadOnly);
+				WindowManager.callSafeControlsSetVisible(self, { "button_image_scaleup" }, (not bReadOnly) and (nScale &lt; 100));
+				WindowManager.callSafeControlsSetVisible(self, { "button_image_scaledown" }, (not bReadOnly) and (nScale > 10));
+				WindowManager.callSafeControlsSetVisible(self, { "button_image_sizeclear" }, (not bReadOnly) and tLegacySize);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_flat />
+			<anchor_listitem_right_flat />
+
+			<spacer_story_block_image_scale />
+			<button_story_block_image_scaleup />
+			<button_story_block_image_scaledown />
+			<button_story_block_image_sizeclear />
+
+			<image_story_block name="image" />
+			<string_story_block_image_caption name="caption">
+				<empty textres="ft_empty" />
+			</string_story_block_image_caption>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="story_block_icon">
+		<script>
+			function onInit()
+				StoryManager.rebuildBlockContentIcon(self);
+			end
+			function onLayoutSizeChanged()
+				StoryManager.rebuildBlockContentIcon(self);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_flat />
+			<anchor_listitem_right_flat />
+
+			<icon_story_block name="icon" />
+
+			<ft_story_block name="text" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="frameselect">
+		<frame>tokenbag</frame>
+		<placement>
+			<size width="500" height="300" />
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<script file="campaign/scripts/story_frameselect.lua" />
+		<sheetdata>
+			<windowtitlebar_tokenbag name="title" />
+			<windowmenubar_tokenbag name="menubar" />
+
+			<anchor_content_tokenbag_top />
+			<anchor_content_tokenbag_bottom />
+
+			<list_content name="list">
+				<class>frameselect_entry</class>
+				<columns width="110" fillwidth="true" dynamic="true" />
+			</list_content>
+			<scrollbar_content_list />
+
+			<resize_tokenbag />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="frameselect_entry">
+		<frame>tokenbagasset</frame>
+		<margins control="0,0,0,5" />
+		<script>
+			local _sName;
+			function setData(sName)
+				_sName = sName;
+				if (_sName or "") ~= "" then
+					base.setFrame("referenceblock-" .. _sName);
+				end
+			end
+			function activate()
+				windowlist.window.activate(_sName);
+				return true;
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="base">
+				<anchored width="100" height="100">
+					<top offset="5" />
+					<left anchor="center" offset="-50" />
+				</anchored>
+				<script>
+					function onClickDown()
+						return true;
+					end
+					function onClickRelease()
+						return window.activate();
+					end
+				</script>
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

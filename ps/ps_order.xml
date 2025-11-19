@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_order">
+		<script>
+			function onDrop(x, y, draginfo)
+				return PartyManager.onDrop(draginfo);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content name="sub_party">
+				<anchored>
+					<right anchor="left" offset="260" />
+				</anchored>
+				<class>ps_order_party</class>
+			</sub_content>
+			<sub_content name="sub_formation">
+				<anchored>
+					<left offset="260" />
+				</anchored>
+				<class>ps_order_formation</class>
+			</sub_content>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_order_party">
+		<frame>groupbox</frame>
+		<sheetdata>
+			<anchor_content_groupbox_top />
+			<anchor_content_groupbox_bottom />
+
+			<header_content_framed_headersimple name="header">
+				<static textres="ps_label_order" />
+			</header_content_framed_headersimple>
+
+			<list_content name="list">
+				<datasource>.partyinformation</datasource>
+				<class>ps_watchitem</class>
+				<sortby><control>watchid</control></sortby>
+				<empty font="list-empty" textres="ps_emptylist" />
+				<allowdelete />
+			</list_content>
+			<scrollbar_content_list />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ps_watchitem">
+		<margins control="0,0,0,10" />
+		<frame>fieldlight</frame>
+		<sheetdata>
+			<hlink name="link">
+				<script>
+					function onValueChanged()
+						window.portrait.update();
+					end
+				</script>
+			</hlink>
+
+			<portrait_ps name="portrait">
+				<bounds>10,10,40,40</bounds>
+			</portrait_ps>
+
+			<basicnumber name="watchid">
+				<bounds>60,20,20,20</bounds>
+			</basicnumber>
+
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top offset="20" />
+					<right offset="-5" />
+				</anchored>
+			</genericcontrol>
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<editmode>list_iedit</editmode>
+			</button_idelete>
+
+			<stringu name="name">
+				<anchored to="rightanchor" height="20">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+					<left parent="" offset="90" />
+				</anchored>
+				<empty textres="library_recordtype_empty_charsheet" />
+				<readonly />
+				<nodrag />
+			</stringu>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_order_formation">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_buttons_groupbox_bottom name="sub_buttons">
+				<class>ps_order_formation_buttons</class>
+			</sub_content_buttons_groupbox_bottom>
+
+			<sub_content_framed_groupbox name="sub_content">
+				<class>ps_order_formation_content</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ps_order_formation_content">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<header_content_framed_headersimple name="header">
+				<static textres="ps_label_formation" />
+			</header_content_framed_headersimple>
+
+			<sub_content name="formation">
+				<class>ps_formation</class>
+			</sub_content>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ps_order_formation_buttons">
+		<sheetdata>
+			<genericcontrol>
+				<anchored position="insidetopleft" offset="0,0" width="30" height="30" />
+				<icon>ct_faction_friend</icon>
+				<cursor hover="hand" />
+				<tooltip textres="ps_tooltip_formation_drag" />
+				<gmvisibleonly />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						draginfo.setType("combattrackerff");
+						draginfo.setIcon("ct_faction_friend");
+						draginfo.setStringData("friend");
+						return true;
+					end
+				</script>
+			</genericcontrol>
+			<button_text name="button_formation_column1">
+				<anchored width="20">
+					<top offset="5"/>
+					<left anchor="center" offset="-95" />
+				</anchored>
+				<icon normal="num1" />
+				<tooltip textres="ps_tooltip_formation_column1" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						PartyFormationManager.fillFormation("column1");
+					end
+				</script>
+			</button_text>
+			<button_text name="button_formation_column2">
+				<anchored to="button_formation_column1" position="righthigh" offset="10,0" width="20" />
+				<icon normal="num2" />
+				<tooltip textres="ps_tooltip_formation_column2" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						PartyFormationManager.fillFormation("column2");
+					end
+				</script>
+			</button_text>
+			<button_text name="button_formation_column3">
+				<anchored to="button_formation_column2" position="righthigh" offset="10,0" width="20" />
+				<icon normal="num3" />
+				<tooltip textres="ps_tooltip_formation_column3" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						PartyFormationManager.fillFormation("column3");
+					end
+				</script>
+			</button_text>
+			<button_text name="button_formation_rotate_left">
+				<anchored width="20">
+					<top offset="5"/>
+					<left anchor="center" offset="15" />
+				</anchored>
+				<icon normal="rotateccw" />
+				<tooltip textres="ps_tooltip_formation_rotateccw" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						PartyFormationManager.rotateFormationLeft();
+					end
+				</script>
+			</button_text>
+			<button_text name="button_formation_rotate_right">
+				<anchored to="button_formation_rotate_left" position="righthigh" offset="10,0" width="20" />
+				<icon normal="rotatecw" />
+				<tooltip textres="ps_tooltip_formation_rotatecw" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						PartyFormationManager.rotateFormationRight();
+					end
+				</script>
+			</button_text>
+			<button_text name="button_formation_rotate_clear">
+				<anchored position="insidetopright" offset="5,5" width="20" />
+				<icon normal="listdelete" />
+				<tooltip textres="ps_tooltip_formation_clear" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						PartyFormationManager.clearFormation();
+					end
+				</script>
+			</button_text>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="ps_formation">
+		<script>
+			function onInit()
+				PartyFormationManager.registerPartyFormationWindow(self);
+			end
+			function onClose()
+				PartyFormationManager.unregisterPartyFormationWindow(self);
+			end
+		</script>
+		<sheetdata />
+	</windowclass>
+</root>

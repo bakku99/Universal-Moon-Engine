@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<includefile source="common/template_records_window.xml" />
+	<includefile source="common/template_records_header.xml" />
+	<includefile source="common/template_records_content.xml" />
+
+	<template name="button_record_isidentified">
+		<button_listitem_right name="isidentified">
+			<state icon="record_unidentified" tooltipres="tooltip_nonid" merge="resetandadd" />
+			<state icon="record_identified" tooltipres="tooltip_id" merge="add" />
+			<gmeditonly />
+			<gmvisibleonly />
+			<script file="common/scripts/button_record_isidentified.lua" />
+		</button_listitem_right>
+	</template>
+	<template name="hidden_record_isidentified">
+		<genericcontrol>
+			<bounds>0,0,0,0</bounds>
+			<invisible />
+			<script file="common/scripts/hidden_record_isidentified.lua" />
+		</genericcontrol>
+	</template>
+
+	<template name="string_labeled">
+		<stringu>
+			<anchored height="20" />
+			<script file="common/scripts/field_underlabeled.lua" />
+		</stringu>
+	</template>
+	<template name="stringc_labeled">
+		<stringcu>
+			<anchored height="20" />
+			<script file="common/scripts/field_underlabeled.lua" />
+		</stringcu>
+	</template>
+	<template name="number_labeled">
+		<simplenumber>
+			<anchored width="40" height="20" />
+			<stateframe>
+				<keyedit name="fieldfocus" offset="5,5,5,0" />
+				<hover name="fieldfocus" offset="5,5,5,0" hidereadonly="true" />
+			</stateframe>
+			<font>sheettext</font>
+			<controlline />
+			<script file="common/scripts/field_underlabeled.lua" />
+		</simplenumber>
+	</template>
+</root>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="location" copy="record_window_tabbed">
+		<tab>
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>location_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>pictures</name>
+			<resource>tab_pictures</resource>
+			<class>record_content_pictures</class>
+			<embed />
+		</tab>
+	</windowclass>
+
+	<windowclass name="location_main">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "type", "sub_type", "text", }, bReadOnly);
+			end
+			function onTypeChanged()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onDrop(x, y, draginfo)
+				if WindowManager.getWindowReadOnlyState(self) then
+					return;
+				end
+
+				if draginfo.isType("shortcut") then
+					local sClass, sRecord = draginfo.getShortcutData();
+					return LocationManager.addLinkToLocation(getDatabaseNode(), sClass, sRecord);
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="type_label">
+				<static textres="location_label_type" />
+			</label_content_column>
+			<string_content_columnh name="type">
+				<delaykeyupdate />
+				<script>
+					function onValueChanged()
+						window.onTypeChanged();
+					end
+				</script>
+			</string_content_columnh>
+
+			<sub_location_type name="sub_type" />
+
+			<header_content_framed_headersimple name="text_header">
+				<static textres="header_description" />
+			</header_content_framed_headersimple>
+			<ft_content_columnh_full name="text" />
+
+			<sub_content_column_gmnotes name="sub_gmnotes" />
+		</sheetdata>
+	</windowclass>
+	<template name="sub_location_type">
+		<sub_content_column name="sub_type">
+			<script>
+				function setLockMode(bReadOnly)
+					local nodeRecord = window.getDatabaseNode();
+					local sTypeKey = StringManager.simplify(DB.getValue(nodeRecord, "type", ""));
+					local sTypeSub = LocationManager.getLocationTypeSub(sTypeKey);
+					if (sTypeSub or "") == "" then
+						setValue("", "");
+					else
+						setValue(sTypeSub, nodeRecord);
+					end
+				end
+				function getLockMode()
+					return isEmpty();
+				end
+			</script>
+		</sub_content_column>
+	</template>
+
+	<windowclass name="location_main_default">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "list_iadd", "list", }, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="list_header">
+				<static textres="location_header_sublocations" />
+			</header_content_framed_headersimple>
+			<button_iadd name="list_iadd">
+				<anchored to="list_header" position="insidetopright" offset="2,0" />
+			</button_iadd>
+			<list_content_column name="list">
+				<datasource>.sublocations</datasource>
+				<class>location_sublocation_entry</class>
+				<sortby><control>name</control></sortby>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="location_sublocation_entry">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "name", "idelete", }, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_idelete_left name="idelete" />
+			<linkc_listitem_left name="shortcut">
+				<class>location</class>
+			</linkc_listitem_left>
+
+			<string_listitem_center name="name" />
+		</sheetdata>
+	</windowclass>
+</root>

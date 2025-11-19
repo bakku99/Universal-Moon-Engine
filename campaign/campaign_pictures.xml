@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="picture_record">
+		<genericcontrol>
+			<anchored width="28" height="28" />
+			<script file="campaign/scripts/picture_record.lua" />
+			<!-- <widgetsize>28</widgetsize> -->
+		</genericcontrol>
+	</template>
+	<template name="picture_record_header">
+		<picture_record>
+			<anchored to="rightanchor">
+				<top />
+				<right parent="rightanchor" relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</picture_record>
+	</template>
+	<template name="picture_charsheet">
+		<genericcontrol>
+			<anchored to="leftanchor" width="50" height="50">
+				<top />
+				<left relation="relative" offset="5" postoffset="5" />
+			</anchored>
+			<script file="campaign/scripts/picture_charsheet.lua" />
+			<!-- <portraitsize>50</portraitsize> -->
+			<!-- <widgetsize>20</widgetsize> -->
+		</genericcontrol>
+	</template>
+	<template name="picture_charsheet_v2">
+		<genericcontrol>
+			<anchored to="leftanchor" width="50" height="50">
+				<top />
+				<left relation="relative" offset="0" postoffset="5" />
+			</anchored>
+			<script file="campaign/scripts/picture_charsheet.lua" />
+			<!-- <portraitsize>50</portraitsize> -->
+			<!-- <widgetsize>20</widgetsize> -->
+		</genericcontrol>
+	</template>
+
+	<template name="asset_picture">
+		<tokenfield>
+			<frame name="fielddark" offset="10,10,10,10" />
+			<drawmode>fit</drawmode>
+			<script file="campaign/scripts/picture_asset.lua" />
+		</tokenfield>
+	</template>
+	<template name="button_picture_iadd">
+		<button_iadd_base>
+			<anchored position="insidebottomright" offset="-5,-5" />
+			<invisible />
+			<script>
+				function onButtonPress()
+					AssetManager.onAssetFieldAdd(target and target[1]);
+				end
+			</script>
+		</button_iadd_base>
+	</template>
+	<template name="button_picture_idelete">
+		<button_idelete_base>
+			<anchored position="insidebottomright" offset="-5,-5" />
+			<script>
+				function onButtonPress()
+					if getValue() == 0 then
+						window[target[1]].setValue("");
+					end
+				end
+			</script>
+		</button_idelete_base>
+	</template>
+	<template name="button_portrait_iadd">
+		<button_iadd_base>
+			<anchored position="insidebottomright" offset="-5,-5" />
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("portrait_select", "");
+					if w then
+						w.setLocalNode(window.getDatabaseNode());
+					end
+				end
+			</script>
+		</button_iadd_base>
+	</template>
+	<template name="button_record_picture_share">
+		<button_icon>
+			<anchored position="insidetopright" offset="-5,-5" />
+			<state icon="button_toolbar_share_public" tooltipres="pictures_tooltip_share" />
+			<tintable />
+			<script>
+				function onInit()
+					if super and super.onInit then super.onInit(); end
+					setVisible(DB.isOwner(window.getDatabaseNode()));
+				end
+				function onButtonPress()
+					PictureManager.shareRecordPicture(window.getDatabaseNode());
+				end
+			</script>
+		</button_icon>
+	</template>
+	<template name="button_picture_map_center">
+		<button_icon>
+			<anchored width="20" height="20">
+				<top parent="token" anchor="center" offset="-10" />
+				<left anchor="center" offset="-10" />
+			</anchored>
+			<icon normal="button_toolbar_target" />
+			<tooltip textres="pictures_tooltip_map_center" />
+			<tintable />
+			<script>
+				function onInit()
+					super.onInit();
+
+					local bShow = false;
+					local nodeCT = ActorManager.getCTNode(window.getDatabaseNode());
+					if nodeCT and CombatManager.getTokenFromCT(nodeCT) then
+						bShow = true;
+					end
+					setVisible(bShow);
+				end
+				function onButtonPress()
+					if CombatManager.openMap(window.getDatabaseNode()) then
+						local w = WindowManager.getTopWindow(window);
+						if w.getClass() == "pictures" then
+							w.close();
+						end
+					end
+				end
+			</script>
+		</button_icon>
+	</template>
+
+	<windowclass name="pictures">
+		<frame>utilitybox</frame>
+		<sizelimits>
+			<minimum width="400" height="500" />
+			<dynamic />
+		</sizelimits>
+		<script>
+			function onInit()
+				local sRecordType = WindowManager.getRecordType(self);
+				local sContentClassByRecord = string.format("record_content_pictures_%s", sRecordType);
+				if Interface.isWindowClass(sContentClassByRecord) then
+					content.setValue(sContentClassByRecord, getDatabasePath());
+				else
+					content.setValue("record_content_pictures", getDatabasePath());
+				end
+				local sTitle = Interface.getString(string.format("pictures_window_title_%s", sRecordType));
+				if sTitle ~= "" then
+					title.setValue(sTitle);
+				end
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title" />
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+			<anchor_content_utilitybox_bottom />
+
+			<sub_content_framed_groupbox name="content" />
+
+			<resize_utilitybox />
+		</sheetdata>
+	</windowclass>
+</root>

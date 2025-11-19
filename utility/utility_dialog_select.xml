@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+<root>
+	<windowclass name="dialog_buttons_okcancel">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<button_dialog_ok name="button_ok">
+				<anchored position="insidetopright" offset="40,5" />
+			</button_dialog_ok>
+			<button_dialog_cancel name="button_cancel">
+				<anchored position="insidetopright" offset="5,5" />
+			</button_dialog_cancel>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="dialog_buttons_ok">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<button_dialog_ok name="button_ok">
+				<anchored position="insidetopright" offset="40,5" />
+			</button_dialog_ok>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="select_dialog">
+		<frame>utilitybox</frame>
+		<placement>
+			<size width="400" height="400" />
+			<nosave />
+		</placement>
+		<script file="utility/scripts/dialog_select.lua" />
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title" />
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+			<anchor_content_utilitybox_bottom />
+
+			<stringc_content_framed_groupbox_top name="text">
+				<anchored>
+					<sizelimits>
+						<maximum width="100" />
+					</sizelimits>
+				</anchored>
+			</stringc_content_framed_groupbox_top>
+			<scrollbar_content_text />
+
+			<sub_content_bottom name="sub_buttons">
+				<class>dialog_buttons_okcancel</class>
+			</sub_content_bottom>
+
+			<list_content_framed_groupbox name="list">
+				<class>select_dialog_entry</class>
+				<readonly />
+			</list_content_framed_groupbox>
+			<scrollbar_content_list />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="select_dialog_entry">
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<linkc_listitem_left name="shortcut">
+				<invisible />
+			</linkc_listitem_left>
+			<buttonc_listitem_checkbox_left name="selected">
+				<script>
+					function onValueChanged()
+						WindowManager.callOuterWindowFunction(window, "onSelectionChanged", window);
+					end
+				</script>
+			</buttonc_listitem_checkbox_left>
+
+			<label_listitem_center name="text">
+				<font>sheetlabel</font>
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+					function onClickRelease(button, x, y)
+						window.selected.setValue((window.selected.getValue() + 1) % 2);
+						return true;
+					end
+				</script>
+			</label_listitem_center>
+
+			<stringc_static name="module">
+				<anchored to="text" position="belowleft" offset="10,0">
+					<right />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<invisible />
+			</stringc_static>
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+<root>
+	<windowclass name="module_dialog_missinglink">
+		<frame>utilitybox</frame>
+		<placement>
+			<size width="300" height="300" />
+			<nosave />
+		</placement>
+		<script file="utility/scripts/dialog_missinglink.lua" />
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title" />
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+
+			<anchor_content_utilitybox_bottom />
+			<sub_content_bottom name="sub_buttons">
+				<class>dialog_buttons_okcancel</class>
+			</sub_content_bottom>
+
+			<stringc_content_framed_groupbox name="text" />
+			<scrollbar_content_text />
+		</sheetdata>
+	</windowclass>
+</root>

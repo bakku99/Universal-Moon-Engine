@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="battlerandom" copy="record_window">
+		<script>
+			function onDrop(x, y, draginfo)
+				local nodeRecord = getDatabaseNode();
+				if WindowManager.getReadOnlyState(nodeRecord) then
+					return;
+				end
+				if draginfo.isType("shortcut") then
+					local sClass,sRecord = draginfo.getShortcutData();
+					NPCManager.addLinkToBattle(nodeRecord, sClass, sRecord);
+					return true;
+				end
+			end
+		</script>
+		<minimize>minimized_combat</minimize>
+		<sheetdata>
+			<area_content_framed_groupbox_bottom name="area_controls" insertbefore="content">
+				<anchored height="30" />
+			</area_content_framed_groupbox_bottom>
+			<button_text_sm name="button_generate" insertbefore="content">
+				<anchored to="area_controls" width="100">
+					<top offset="5" />
+					<left anchor="center" offset="-50" />
+				</anchored>
+				<state textres="battle_button_generate" />
+				<gmvisibleonly />
+				<script>
+					function onButtonPress()
+						CampaignDataManager.generateEncounterFromRandom(window.getDatabaseNode());
+					end
+				</script>
+			</button_text_sm>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="battlerandom_header" copy="record_header" />
+
+	<windowclass name="battlerandom_main">
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "idelete_header", }, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<list_content_labeled_alternating_top name="list">
+				<datasource>.npclist</datasource>
+				<class>battlerandom_npc</class>
+				<sortby><field>name</field></sortby>
+				<empty font="list-empty" gmtextres="battle_emptylist" />
+				<allowdelete />
+			</list_content_labeled_alternating_top>
+
+			<anchor_list_content_label_left />
+			<anchor_list_content_label_right />
+			<spacer_list_content_idelete_label_left name="idelete_header" />
+			<spacer_list_content_link_label_left name="label_link" />
+			<label_list_content_left name="label_token">
+				<anchored width="28" />
+				<center />
+			</label_list_content_left>
+			<label_list_content_number_left name="label_count">
+				<anchored width="70" />
+				<static>#</static>
+			</label_list_content_number_left>
+			<label_list_content_noframe name="label_name">
+				<static textres="battle_label_name" />
+			</label_list_content_noframe>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="battlerandom_npc">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/battlerandom_npc.lua" />
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete_left name="idelete" />
+			<link_listitem_left name="link" />
+			<token_listitem_left name="token" />
+			<string_listitem_left name="expr">
+				<anchored width="60" />
+				<empty textres="battlerandom_empty_expr" />
+				<center />
+			</string_listitem_left>
+
+			<button_listitem_faction_right name="faction" />
+			<button_record_isidentified name="isidentified" />
+
+			<string_listitem_center_underline name="name" />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_main">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<frame_char name="attributesframe">
+				<bounds>0,0,-1,-50</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="attributesframe" />
+				<static textres="char_label_attributes" />
+			</label_frametop>
+			<list_charmaincategory name="categories">
+				<anchored to="attributesframe">
+					<left offset="15" />
+					<top offset="35" />
+					<right offset="-20" />
+					<bottom offset="-20" />
+				</anchored>
+			</list_charmaincategory>
+			<scrollbar_list>
+				<anchored to="categories" />
+				<target>categories</target>
+			</scrollbar_list>
+
+			<button_iedit name="categories_iedit">
+				<anchored to="categories" position="aboveright" offset="-15,5" />
+				<edittarget>categories</edittarget>
+			</button_iedit>
+			<button_iadd name="categories_iadd">
+				<anchored to="categories" position="aboveright" offset="5,5" />
+				<target>categories</target>
+			</button_iadd>
+
+			<frame_char name="sensesframe">
+				<bounds>0,-50,-1,-5</bounds>
+			</frame_char>
+			<string_labeled name="senses">
+				<anchored to="sensesframe" position="insidetop" offset="-15,10" height="20" />
+				<labelres>char_label_senses</labelres>
+				<delaykeyupdate />
+			</string_labeled>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="char_main_category_header">
+		<margins control="0,0,0,5" />
+		<backcolor>1A40301E</backcolor>
+		<sheetdata>
+			<stringfield name="label">
+				<anchored>
+					<top offset="5" />
+					<left offset="30" />
+					<right offset="-30" />
+				</anchored>
+				<stateframe>
+					<keyedit name="fieldfocus" offset="7,5,7,5" />
+					<hover name="fieldfocus" offset="7,5,7,5" hidereadonly="true" />
+					<drophilight name="fieldfocus" offset="7,5,7,5" hidereadonly="true" />
+				</stateframe>
+				<font>reference-b-large</font>
+				<multilinespacing>20</multilinespacing>
+				<center />
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="char_main_category">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<subwindow name="header">
+				<anchored position="insidetop" />
+				<class>char_main_category_header</class>
+				<fastinit />
+				<activate />
+			</subwindow>
+
+			<button_idelete name="idelete">
+				<anchored position="insidetopleft" offset="15,5" />
+				<editmode>categories_iedit</editmode>
+			</button_idelete>
+			<button_iadd name="attributes_iadd">
+				<anchored position="insidetopright" offset="15,5" />
+				<target>attributes</target>
+			</button_iadd>
+
+			<list_charmainattribute name="attributes">
+				<anchored>
+					<top parent="header" anchor="bottom" offset="2" />
+					<left />
+					<right />
+				</anchored>
+			</list_charmainattribute>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="char_attribute">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.onDiceChanged();
+			end
+			function onDiceChanged()
+				local bShow = not dice.isEmpty();
+				dice.setVisible(bShow);
+				button_roll.setVisible(bShow);
+			end
+			function action(draginfo)
+				if draginfo then
+					if label.isEmpty() and dice.isEmpty() and bonus.getValue() == 0 then
+						return nil;
+					end
+					if dice.isEmpty() then
+						draginfo.setType("number");
+						draginfo.setDescription(label.getValue());
+						draginfo.setStringData(label.getValue());
+						draginfo.setNumberData(bonus.getValue());
+					else
+						local rRoll = { sType = "dice", sDesc = label.getValue(), aDice = dice.getDice(), nMod = bonus.getValue() };
+						ActionsManager.performAction(draginfo, nil, rRoll);
+					end
+				else
+					if dice.isEmpty() then
+						ModifierStack.addSlot(label.getValue(), bonus.getValue());
+					else
+						local rRoll = { sType = "dice", sDesc = label.getValue(), aDice = dice.getDice(), nMod = bonus.getValue() };
+						ActionsManager.performAction(nil, nil, rRoll);
+					end
+				end
+				return true;
+			end
+			function onDrop(x, y, draginfo)
+				local sDragType = draginfo.getType();
+				if sDragType == "dice" then
+					local aDropDice = draginfo.getDiceData();
+					for _,vDie in ipairs(aDropDice) do
+						dice.addDie(vDie.type);
+					end
+					return true;
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_idelete_left name="idelete">
+				<editmode>categories_iedit</editmode>
+			</button_listitem_idelete_left>
+
+			<number_listitem_right name="bonus">
+				<anchored width="30" />
+				<tabtarget prev="label" />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.action(draginfo);
+					end
+				</script>
+			</number_listitem_right>
+			<dice_listitem_right name="dice">
+				<anchored width="30" />
+				<script>
+					function onValueChanged()
+						window.onDiceChanged();
+					end
+					function onDragStart(button, x, y, draginfo)
+						return window.action(draginfo);
+					end
+				</script>
+			</dice_listitem_right>
+			<button_listitem_roll_right name="button_roll">
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.action(draginfo);
+					end
+					function onButtonPress()
+						return window.action();
+					end
+				</script>
+			</button_listitem_roll_right>
+
+			<string_listitem_center_underline name="label">
+				<tabtarget next="bonus" />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.action(draginfo);
+					end
+				</script>
+			</string_listitem_center_underline>
+		</sheetdata>
+	</windowclass>
+</root>
