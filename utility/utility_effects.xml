@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="button_effect_preset">
+		<button_text name="button">
+			<anchored position="insidetop" offset="-7,7" />
+			<script>
+				function onDragStart(button, x, y, draginfo)
+					return window.onDragStart(button, x, y, draginfo);
+				end
+				function onButtonPress(x, y)
+					return window.onButtonPress(x, y);
+				end
+			</script>
+		</button_text>
+	</template>
+
+	<template name="string_effect">
+		<string_listitem_center_underline name="label">
+			<tabtarget next="duration" />
+			<script>
+				function onDragStart(button, x, y, draginfo)
+					return window.actionDrag(draginfo);
+				end
+				function onDoubleClick(x, y)
+					return window.action();
+				end
+			</script>
+		</string_listitem_center_underline>
+	</template>
+	<template name="button_effect_activate">
+		<buttonc_listitem_left>
+			<icon normal="button_action_effect" pressed="button_action_effect_down" />
+			<script>
+				function onDragStart(button, x, y, draginfo)
+					return window.actionDrag(draginfo);
+				end
+				function onButtonPress(x, y)
+					return window.action();
+				end
+			</script>
+		</buttonc_listitem_left>
+	</template>
+	<template name="button_effect_module">
+		<buttonc_listitem_icon_simple_right>
+			<icon normal="button_toolbar_module" />
+			<invisible />
+		</buttonc_listitem_icon_simple_right>
+	</template>
+	<template name="spacer_effect_module">
+		<spacer_listitem_right>
+			<anchored width="24" />
+		</spacer_listitem_right>
+	</template>
+	<template name="button_effect_isgmonly">
+		<button_listitem_right name="isgmonly">
+			<state icon="visibilityon" tooltipres="effect_visibilityon" merge="resetandadd" />
+			<state icon="visibilityoff" tooltipres="effect_visibilityoff" merge="add" />
+			<gmvisibleonly />
+		</button_listitem_right>
+	</template>
+	<template name="number_effect_duration">
+		<number_listitem_right name="duration">
+			<anchored width="20" />
+			<min>0</min>
+			<default>1</default>
+			<tabtarget prev="label" />
+			<script>
+				function onDragStart(button, x, y, draginfo)
+					return window.actionDrag(draginfo);
+				end
+			</script>
+		</number_listitem_right>
+	</template>
+	<template name="button_effect_apply">
+		<button_iconcycler name="apply" insertbefore="label">
+			<anchored to="leftanchor" width="24" height="10">
+				<top offset="5" />
+				<left anchor="right" relation="relative" offset="2" postoffset="2" />
+			</anchored>
+			<parameters>
+				<icons>button_toggle_action|button_toggle_roll|button_toggle_single</icons>
+				<values>action|roll|single</values>
+				<tooltipsres>effect_tooltip_applyone|effect_tooltip_applyroll|effect_tooltip_applysingle</tooltipsres>
+				<defaulticon>button_toggle_all</defaulticon>
+				<defaulttooltipres>effect_tooltip_applyall</defaulttooltipres>
+			</parameters>
+		</button_iconcycler>
+	</template>
+	<template name="button_effect_units">
+		<button_stringcycler name="unit">
+			<anchored to="rightanchor" width="30">
+				<top />
+				<right anchor="left" relation="relative" offset="-5" postoffset="-5" />
+			</anchored>
+			<parameters>
+				<defaultlabelres>effect_label_durunitrnd</defaultlabelres>
+				<labelsres>effect_label_durunitmin|effect_label_durunithr|effect_label_durunitday</labelsres>
+				<values>minute|hour|day</values>
+			</parameters>
+			<script>
+				function onDragStart(button, x, y, draginfo)
+					return window.actionDrag(draginfo);
+				end
+			</script>
+		</button_stringcycler>
+	</template>
+
+	<windowclass name="effectlist">
+		<frame>utilitybox</frame>
+		<sizelimits>
+			<minimum width="650" height="400" />
+			<dynamic />
+		</sizelimits>
+		<helplinkres>help_tool_effects</helplinkres>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title">
+				<resource>library_recordtype_label_effect</resource>
+			</windowtitlebar_utilitybox>
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+			<anchor_content_utilitybox_bottom />
+
+			<sub_content name="sub_preset">
+				<anchored>
+					<right anchor="left" offset="285" />
+				</anchored>
+				<class>effectlist_preset</class>
+			</sub_content>
+			<sub_content name="sub_custom">
+				<anchored>
+					<left offset="285" />
+				</anchored>
+				<class>effectlist_custom</class>
+			</sub_content>
+
+			<resize_utilitybox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="effectlist_preset">
+		<frame>groupbox</frame>
+		<sheetdata>
+			<anchor_content_groupbox_top />
+			<anchor_content_groupbox_bottom />
+
+			<sub_content name="content">
+				<class>effectlist_preset_content</class>
+			</sub_content>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="effectlist_preset_content">
+		<script file="utility/scripts/effectlist_presets.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="lights_label">
+				<static textres="effect_header_lights" />
+			</header_content_framed_headersimple>
+			<list_content_noscroll_top name="lights_list">
+				<columns width="120" fillwidth="true" dynamic="true" />
+				<readonly />
+				<class>effect_preset_item</class>
+			</list_content_noscroll_top>
+
+			<header_content_framed_headersimple name="conditions_label">
+				<static textres="effect_header_conditions" />
+			</header_content_framed_headersimple>
+			<list_content_noscroll_top name="conditions_list">
+				<columns width="120" fillwidth="true" dynamic="true" />
+				<readonly />
+				<class>effect_preset_item</class>
+			</list_content_noscroll_top>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="effect_preset_item">
+		<margins control="0,0,0,7" />
+		<script file="utility/scripts/effect_preset.lua" />
+		<sheetdata>
+			<button_effect_preset name="button" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="effectlist_custom">
+		<script file="utility/scripts/effectwindow.lua" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<area_list_content_controls />
+			<anchor_list_content_controls_right />
+			<button_iedit_list_content_controls>
+				<edittarget>sub_content</edittarget>
+			</button_iedit_list_content_controls>
+			<button_iadd_list_content_controls>
+				<edittarget>sub_content</edittarget>
+			</button_iadd_list_content_controls>
+			<filter_list_content_controls />
+
+			<sub_content_paging />
+
+			<sub_content_framed_groupbox name="sub_content">
+				<class>effectlist_custom_content</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="effectlist_custom_content">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<header_content_framed_headersimple name="header">
+				<static textres="header_custom" />
+			</header_content_framed_headersimple>
+
+			<list_content name="list">
+				<class>effectsmall</class>
+				<sortby><control>label</control></sortby>
+				<child merge="resetandadd"></child>
+				<child merge="add"><backcolor>1A40301E</backcolor></child>
+				<allowdelete />
+				<script file="utility/scripts/effectlist_custom.lua" />
+			</list_content>
+			<scrollbar_content_list />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="effectsmall">
+		<margins control="0,0,0,5" />
+		<script file="utility/scripts/effect.lua" />
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete_left name="idelete">
+				<editmode>list_iedit</editmode>
+			</button_listitem_idelete_left>
+			<button_effect_activate name="activate" />
+
+			<button_effect_module name="module" />
+			<spacer_effect_module name="spacer_module" />
+			<button_effect_isgmonly name="isgmonly" />
+			<number_effect_duration name="duration" />
+
+			<string_effect name="label" />
+		</sheetdata>
+	</windowclass>
+</root>

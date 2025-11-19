@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="sound_settings">
+		<frame>utilitybox</frame>
+		<sizelimits>
+			<minimum width="710" height="530" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_utility</minimize>
+		<helplinkres>help_tool_sound_settings</helplinkres>
+		<script>
+			function onInit()
+				SoundManager.populateSettingsWindow(self);
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title" />
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+			<anchor_content_utilitybox_bottom />
+
+			<sub_content_framed_groupbox_top name="sub_systems">
+				<class>sound_settings_systems</class>
+			</sub_content_framed_groupbox_top>
+			<sub_content_framed_groupbox_top name="sub_manage" />
+
+			<sub_content_framed_groupbox_bottom name="sub_filter" />
+
+			<sub_content_framed_groupbox name="sub_content" />
+
+			<resize_utilitybox />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="sound_settings_systems">
+		<sheetdata>
+			<anchor_content_top />
+
+			<list_content_top name="list">
+				<class>sound_settings_system</class>
+				<columns width="120" fillwidth="true" />
+				<sortby><control>label</control></sortby>
+			</list_content_top>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="sound_settings_system">
+		<margins control="0,0,0,5" />
+		<script>
+			local _sKey;
+			function setData(sKey)
+				_sKey = sKey;
+				button.setStateText(0, Interface.getString("sound_label_system_" .. _sKey));
+			end
+			function getKey()
+				return _sKey;
+			end
+			function onButtonPress()
+				SoundManager.onSettingsSystemButtonPressed(_sKey);
+			end
+		</script>
+		<sheetdata>
+			<button_text_toggle name="button">
+				<anchored position="insidetopleft" offset="10,5" width="100" />
+				<readonly />
+				<script>
+					function onClickDown()
+						return true;
+					end
+					function onClickRelease()
+						window.onButtonPress();
+						return true;
+					end
+				</script>
+			</button_text_toggle>
+		</sheetdata>
+	</windowclass>
+</root>

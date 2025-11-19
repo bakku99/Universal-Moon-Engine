@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="languagelist" copy="settings_list">
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>language_window_title</resource>
+			</windowtitlebar>
+
+			<list_utility_setting name="list">
+				<class>languageitem</class>
+				<datasource>.</datasource>
+				<script file="utility/scripts/language_list.lua"/>
+			</list_utility_setting>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="languageitem">
+		<margins control="0,0,0,5" />
+		<script file="utility/scripts/language.lua"/>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete_left name="idelete">
+				<editmode>list_iedit</editmode>
+			</button_listitem_idelete_left>
+
+			<combobox_listitem_right name="font">
+				<gmvisibleonly />
+			</combobox_listitem_right>
+
+			<string_listitem_center_underline name="name">
+				<cursor hover="hand" />
+				<script>
+					function onDragStart(...)
+						return window.onDragStart(...)
+					end
+				</script>
+			</string_listitem_center_underline>
+		</sheetdata>
+	</windowclass>
+</root>

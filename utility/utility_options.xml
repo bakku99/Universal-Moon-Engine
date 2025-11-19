@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="options">
+		<frame>utilitybox</frame>
+		<placement>
+			<nosave />
+		</placement>
+		<sizelimits>
+			<minimum width="560" height="500" />
+			<dynamic />
+		</sizelimits>
+		<helplinkres>help_tool_options</helplinkres>
+		<script>
+			function onInit()
+				OptionsManager.populate(self);
+			end
+			function onFilterChanged()
+				OptionsManager.populate(self);
+			end
+			function onCollapseAll()
+				for _,w in ipairs(list.getWindows()) do
+					if w.status.getValue() == 0 then
+						w.status.setValue(1);
+						w.options_list.setVisible(false);
+					end
+				end
+			end
+			function onExpandAll()
+				for _,w in ipairs(list.getWindows()) do
+					if w.status.getValue() == 1 then
+						w.status.setValue(0);
+						w.options_list.setVisible(true);
+					end
+				end
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title" />
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+			<anchor_content_utilitybox_bottom />
+
+			<area_content_bottom name="area_controls">
+				<anchored height="30" />
+			</area_content_bottom>
+			<filter name="filter">
+				<anchored to="area_controls" position="insidetopleft" offset="100,5" height="20">
+					<right offset="-10" />
+				</anchored>
+			</filter>
+			<button_expand_base name="button_expand">
+				<anchored to="area_controls" position="insidetopleft" offset="10,5" />
+				<script>
+					function onButtonPress()
+						window.onExpandAll();
+					end
+				</script>
+			</button_expand_base>
+			<button_collapse_base name="button_collapse">
+				<anchored to="area_controls" position="insidetopleft" offset="35,5" />
+				<script>
+					function onButtonPress()
+						window.onCollapseAll();
+					end
+				</script>
+			</button_collapse_base>
+
+			<list_content_framed_groupbox_bottom name="list_buttons">
+				<anchored>
+					<sizelimits>
+						<minimum height="40" />
+						<maximum height="120" />
+					</sizelimits>
+				</anchored>
+				<class>options_button</class>
+				<sortby><control>label</control></sortby>
+				<columns width="150" fillwidth="true" dynamic="true" />
+				<empty font="list-empty" textres="options_empty_list" />
+			</list_content_framed_groupbox_bottom>
+			<scrollbar_content_base>
+				<anchored to="list_buttons" />
+				<target>list_buttons</target>
+			</scrollbar_content_base>
+
+			<list_content_framed_groupbox name="list">
+				<class>options_group</class>
+				<sortby>
+					<control>sort</control>
+					<control>label</control>
+				</sortby>
+				<empty font="list-empty" textres="options_empty_list" />
+			</list_content_framed_groupbox>
+			<scrollbar_content_list />
+
+			<resize_utilitybox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="options_button">
+		<sizelimits>
+			<minimum height="40" />
+		</sizelimits>
+		<script>
+			local _sClass, _sRecord;
+			function setData(tButton)
+				local sLabel = Interface.getString(tButton.sLabelRes);
+				label.setValue(sLabel);
+				button.setText(sLabel);
+				_sClass = tButton.sClass;
+				_sRecord = tButton.sRecord;
+			end
+			function activate()
+				if _sClass then
+					Interface.openWindow(_sClass, _sRecord);
+				end
+			end
+			function onDragStart(draginfo)
+				if _sClass then
+					draginfo.setType("shortcut");
+					draginfo.setIcon(Interface.getLinkIcon(_sClass));
+					draginfo.setShortcutData(_sClass, _sRecord);
+					draginfo.setDescription(label.getValue());
+					return true;
+				end
+			end
+		</script>
+		<sheetdata>
+			<hsc name="label" />
+			<button_text name="button">
+				<anchored position="insidetop" offset="-10,10" />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.onDragStart(draginfo);
+					end
+					function onButtonPress()
+						window.activate();
+					end
+				</script>
+			</button_text>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="options_group">
+		<script>
+			function toggleList()
+				if status.getValue() == 0 then
+					status.setValue(1);
+					options_list.setVisible(false);
+				else
+					status.setValue(0);
+					options_list.setVisible(true);
+				end
+			end
+		</script>
+		<sheetdata>
+			<hnc name="sort" />
+
+			<anchor_content_top />
+
+			<header_content_framed_rowshade name="label">
+				<font>sheetlabel</font>
+				<empty textres="option_emptyset" />
+				<script>
+					function onClickDown(button, x, y)
+						return true;
+					end
+					function onClickRelease(button, x, y)
+						window.toggleList();
+						return true;
+					end
+				</script>
+			</header_content_framed_rowshade>
+			<button_collapse_expand_toggle name="status">
+				<anchored to="label" position="lefthigh" offset="-20,0" />
+				<disabled />
+			</button_collapse_expand_toggle>
+
+			<list_content_noscroll_top name="options_list">
+				<class>option_entry_default</class>
+				<sortby><control>label</control></sortby>
+			</list_content_noscroll_top>
+
+			<spacer_content_top />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="option_entry_default">
+		<margins control="0,0,0,2" />
+		<script file="utility/scripts/option_entry_default.lua" />
+		<sheetdata>
+			<genericcontrol name="icon">
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<left offset="15" />
+				</anchored>
+				<icon>action_option</icon>
+				<tooltip textres="option_tooltip_drag" />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.onDragStart(draginfo);
+					end
+				</script>
+			</genericcontrol>
+			<label name="label">
+				<anchored height="-1">
+					<top offset="5" />
+					<left offset="40" />
+					<right offset="-140" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<static textres="option_empty" />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.onDragStart(draginfo);
+					end
+				</script>
+			</label>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="option_entry_cycler" copy="option_entry_default">
+		<script file="utility/scripts/option_entry_cycler.lua" />
+		<sheetdata>
+			<buttoncontrol name="left">
+				<bounds>-133,5,12,20</bounds>
+				<icon normal="arrow_sm_left" />
+				<script>
+					function onButtonPress()
+						window.cycler.cycleLabel(true);
+					end
+				</script>
+			</buttoncontrol>
+			<button_stringcycler name="cycler">
+				<anchored width="100">
+					<top offset="5" />
+					<left anchor="right" offset="-117" />
+				</anchored>
+				<sourceless />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.onDragStart(draginfo);
+					end
+					function onValueChanged()
+						window.onValueChanged();
+					end
+				</script>
+			</button_stringcycler>
+			<buttoncontrol name="right">
+				<bounds>-12,5,12,20</bounds>
+				<icon normal="arrow_sm_right" />
+				<script>
+					function onButtonPress()
+						window.cycler.cycleLabel(false);
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="option_entry_number" copy="option_entry_default">
+		<script file="utility/scripts/option_entry_number.lua" />
+		<sheetdata>
+			<basicnumberc name="value">
+				<anchored width="100">
+					<top offset="5" />
+					<left anchor="right" offset="-117" />
+				</anchored>
+				<delaykeyupdate />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						return window.onDragStart(draginfo);
+					end
+					function onValueChanged()
+						window.onValueChanged();
+					end
+				</script>
+			</basicnumberc>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="option_entry_checkbox_and_button" copy="option_entry_default">
+		<script file="utility/scripts/option_entry_checkbox_and_button.lua" />
+		<sheetdata>
+			<buttonc_checkbox name="checkbox">
+				<anchored position="insidetopright" offset="105,5" width="20" height="20" />
+				<script>
+					function onValueChanged()
+						window.onValueChanged();
+					end
+				</script>
+			</buttonc_checkbox>
+			<button_text_sm name="button">
+				<anchored position="insidetopright" offset="15,5" width="80" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.onButtonPress();
+					end
+				</script>
+			</button_text_sm>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="option_entry_colorselect_user" copy="option_entry_default">
+		<script file="utility/scripts/option_entry_colorselect_user.lua" />
+		<sheetdata>
+			<colorpick_sm name="color">
+				<anchored position="insidetopright" offset="55,5" width="20" height="20" />
+			</colorpick_sm>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="option_entry_assetselectinit" copy="option_entry_default">
+		<script file="utility/scripts/option_entry_assetselectinit.lua" />
+		<sheetdata>
+			<tokencontrol name="asset">
+				<anchored position="insidetopright" offset="82,5" width="20" height="20" />
+				<frame name="fieldlight" offset="7,7,7,7" />
+				<nodrag />
+				<readonly />
+				<script>
+					function onClickDown()
+						return true;
+					end
+					function onClickRelease()
+						window.onOptionPressed();
+					end
+					function onDrop(x, y, draginfo)
+						window.handleDrop(draginfo);
+					end
+				</script>
+			</tokencontrol>
+			<button_stringcycler name="placement">
+				<anchored to="asset" position="righthigh" offset="10,0" width="40" />
+				<parameters>
+					<defaultlabelres>option_val_under</defaultlabelres>
+					<labelsres>option_val_over</labelsres>
+					<values>over</values>
+				</parameters>
+				<sourceless />
+				<script>
+					function onClickDown()
+						return true;
+					end
+					function onClickRelease()
+						window.onOptionPressed();
+					end
+					function onDrop(x, y, draginfo)
+						window.handleDrop(draginfo);
+					end
+				</script>
+			</button_stringcycler>
+		</sheetdata>
+	</windowclass>
+</root>

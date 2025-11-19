@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="export">
+		<frame>utilitybox</frame>
+		<placement>
+			<nosave />
+		</placement>
+		<sizelimits>
+			<minimum width="700" height="800" />
+			<dynamic />
+		</sizelimits>
+		<script>
+			function onInit()
+				ExportManager.performInit(self);
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title" />
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+			<anchor_content_utilitybox_bottom />
+
+			<sub_content_framed_groupbox_top name="sub_filedata">
+				<class>export_filedata</class>
+			</sub_content_framed_groupbox_top>
+			<sub_content_framed_groupbox_top name="sub_metadata">
+				<class>export_metadata</class>
+			</sub_content_framed_groupbox_top>
+
+			<sub_content_buttons_bottom name="sub_buttons">
+				<class>export_buttons</class>
+			</sub_content_buttons_bottom>
+			<sub_content_framed_groupbox_bottom name="sub_assets">
+				<anchored height="120" />
+				<class>export_assets</class>
+			</sub_content_framed_groupbox_bottom>
+
+			<sub_content_framed_groupbox_left name="sub_recordtypes">
+				<class>export_recordtypes</class>
+			</sub_content_framed_groupbox_left>
+			<sub_content_framed_groupbox_right name="sub_recordviews">
+				<class>export_recordviews</class>
+			</sub_content_framed_groupbox_right>
+
+			<resize_utilitybox />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="export_filedata">
+		<margins control="0,0,0,3"/>
+		<script file="utility/scripts/export_filedata.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column>
+				<static textres="export_label_file" />
+			</label_content_column>
+			<string_content_column_single name="file">
+				<empty textres="export_empty_file" />
+				<script>
+					function onValueChanged()
+						window.onFileValueChanged();
+					end
+				</script>
+			</string_content_column_single>
+
+			<label_content_column>
+				<static textres="export_label_thumbnail" />
+			</label_content_column>
+			<string_content_column_single name="thumbnail">
+				<anchored>
+					<right offset="-40" />
+				</anchored>
+				<empty textres="export_empty_thumbnail" />
+			</string_content_column_single>
+			<button_text_sm name="thumbnail_chooser">
+				<anchored to="thumbnail" position="righthigh" offset="10,0" width="25" />
+				<state text="..." />
+				<script>
+					function onButtonPress()
+						window.onThumbnailButtonPress();
+					end
+				</script>
+			</button_text_sm>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="export_metadata">
+		<margins control="0,0,0,3"/>
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column>
+				<static textres="export_label_name" />
+			</label_content_column>
+			<string_content_column_single name="name">
+				<empty textres="export_empty_name" />
+				<script>
+					function onInit()
+						self.onValueChanged();
+					end
+					function onValueChanged()
+						if isEmpty() then
+							setFrame("fieldrequired", 10,5,10,5);
+						else
+							setFrame("fielddark", 10,5,10,5);
+						end
+					end
+				</script>
+			</string_content_column_single>
+
+			<label_content_column>
+				<static textres="export_label_displayname" />
+			</label_content_column>
+			<string_content_column_single name="displayname">
+				<empty textres="export_empty_displayname" />
+			</string_content_column_single>
+
+			<label_content_column>
+				<static textres="export_label_category" />
+			</label_content_column>
+			<string_content_column_single name="category">
+				<empty textres="export_empty_category" />
+			</string_content_column_single>
+
+			<label_content_column>
+				<static textres="export_label_author" />
+			</label_content_column>
+			<string_content_column_single name="author">
+				<empty textres="export_empty_author" />
+			</string_content_column_single>
+
+			<area_content_top name="area_checkboxes">
+				<anchored height="24" />
+			</area_content_top>
+
+			<button_checkbox name="readonly">
+				<anchored to="area_checkboxes" width="20" height="20">
+					<top offset="2" />
+					<left anchor="center" offset="-100" />
+				</anchored>
+			</button_checkbox>
+			<label>
+				<anchored to="readonly" position="lefthigh" />
+				<static textres="export_label_readonly" />
+			</label>
+
+			<button_checkbox name="playervisible">
+				<anchored to="area_checkboxes" width="20" height="20">
+					<top offset="2" />
+					<left anchor="center" offset="35" />
+				</anchored>
+			</button_checkbox>
+			<label>
+				<anchored to="playervisible" position="lefthigh" />
+				<static textres="export_label_playervisible" />
+			</label>
+
+			<button_checkbox name="anyruleset">
+				<anchored to="area_checkboxes" width="20" height="20">
+					<top offset="2" />
+					<left anchor="center" offset="150" />
+				</anchored>
+			</button_checkbox>
+			<label>
+				<anchored to="anyruleset" position="lefthigh" />
+				<static textres="export_label_anyruleset" />
+			</label>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="export_recordtypes">
+		<script>
+			function onRecordTypeSelectAll()
+				for _,wChild in ipairs(list.getWindows()) do
+					wChild.select.setValue(1);
+				end
+			end
+			function onRecordTypeSelectNone()
+				for _,wChild in ipairs(list.getWindows()) do
+					wChild.select.setValue(0);
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<header_content_framed_headersimple name="header">
+				<static textres="export_header_recordtypes" />
+			</header_content_framed_headersimple>
+			<button_text_sm name="button_select_all">
+				<anchored to="header" position="insidetopleft" width="40" />
+				<state textres="export_button_selectall" />
+				<script>
+					function onButtonPress()
+						window.onRecordTypeSelectAll();
+					end
+				</script>
+			</button_text_sm>
+			<button_text_sm name="button_select_none">
+				<anchored to="header" position="insidetopright" width="40" />
+				<state textres="export_button_deselectall" />
+				<script>
+					function onButtonPress()
+						window.onRecordTypeSelectNone();
+					end
+				</script>
+			</button_text_sm>
+
+			<anchor_content_bottom />
+			<stringc_content_noframe_noscroll_static_bottom name="footer">
+				<static textres="export_label_recordtypes_bottom" />
+				<center />
+			</stringc_content_noframe_noscroll_static_bottom>
+			<line_content_bottom />
+
+			<list_content name="list">
+				<class>export_recordtype</class>
+				<sortby><control>label</control></sortby>
+				<script>
+					function onDrop(x, y, draginfo)
+						return ExportManager.onRecordTypeListDrop(WindowManager.getTopWindow(window), draginfo);
+					end
+				</script>
+			</list_content>
+			<scrollbar_content_list />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="export_recordtype">
+		<script file="utility/scripts/export_recordtype.lua" />
+		<sheetdata>
+			<genericcontrol name="base">
+				<anchored position="insidetop" height="20" />
+				<script>
+					function onClickDown()
+						return true;
+					end
+					function onClickRelease()
+						window.select.setValue((window.select.getValue() == 1) and 0 or 1);
+					end
+				</script>
+			</genericcontrol>
+			<button_checkbox name="select">
+				<anchored position="insidetopleft" width="20" height="20" />
+				<script>
+					function onValueChanged()
+						window.onSelectValueChanged();
+					end
+				</script>
+			</button_checkbox>
+			<label name="label">
+				<anchored to="select" position="righthigh" offset="5,0" />
+				<disabled />
+			</label>
+
+			<windowlist name="entries">
+				<anchored position="insidetop" offset="0,20" />
+				<datasource>.entries</datasource>
+				<class>export_recordtype_single</class>
+				<sortby><control>name</control></sortby>
+				<allowdelete />
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="export_recordtype_single">
+		<script>
+			function onInit()
+				onLinkChanged();
+			end
+			function onLinkChanged()
+				local _,sRecord = link.getValue();
+				local sName = "";
+				if (sRecord or "") ~= "" then
+					local sName = DB.getValue(DB.getPath(sRecord, "name"), "");
+					if sName == "" then
+						sName = Interface.getString("export_empty_recordtype_single");
+					end
+					name.setValue(sName);
+				else
+					name.setValue(Interface.getString("export_missing_recordtype_single"));
+				end
+			end
+		</script>
+		<sheetdata>
+			<linkfield name="link">
+				<bounds>25,0,20,20</bounds>
+				<readonly />
+				<script>
+					function onValueChanged()
+						window.onLinkChanged();
+					end
+				</script>
+			</linkfield>
+			<stringc_noframe_static name="name">
+				<bounds>50,0,-60,20</bounds>
+			</stringc_noframe_static>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="export_recordviews">
+		<sheetdata>
+			<anchor_content_top />
+			<header_content_framed_headersimple name="header">
+				<static textres="export_header_recordviews" />
+			</header_content_framed_headersimple>
+
+			<anchor_content_bottom />
+
+			<list_content name="list">
+				<class>export_recordview</class>
+				<sortby><control>label</control></sortby>
+			</list_content>
+			<scrollbar_content_list />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="export_recordview">
+		<script file="utility/scripts/export_recordview.lua" />
+		<sheetdata>
+			<button_checkbox name="select">
+				<bounds>0,0,20,20</bounds>
+			</button_checkbox>
+			<label name="label">
+				<bounds>25,0,-21,20</bounds>
+			</label>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="export_assets">
+		<sheetdata>
+			<anchor_content_top />
+			<header_content_framed_headersimple name="header">
+				<static textres="export_header_assets" />
+			</header_content_framed_headersimple>
+
+			<anchor_content_bottom />
+			<stringc_content_noframe_noscroll_static_bottom name="footer">
+				<static textres="export_label_assets_bottom" />
+				<center />
+			</stringc_content_noframe_noscroll_static_bottom>
+			<line_content_bottom />
+
+			<list_content name="list">
+				<datasource>.tokens</datasource>
+				<class>export_asset</class>
+				<columns width="22" fillwidth="true" />
+				<allowdelete />
+				<script>
+					function onDrop(x, y, draginfo)
+						return ExportManager.onAssetListDrop(WindowManager.getTopWindow(window), draginfo);
+					end
+				</script>
+			</list_content>
+			<scrollbar_content_list />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="export_asset">
+		<margins control="0,0,1,1" />
+		<sheetdata>
+			<tokenfield name="token">
+				<bounds>1,1,20,20</bounds>
+				<script>
+					function onDrop(x, y, draginfo)
+						return false;
+					end
+				</script>
+			</tokenfield>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="export_buttons">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<button_text name="button_clear">
+				<anchored width="60">
+					<top offset="5" />
+					<right anchor="center" offset="-30" />
+				</anchored>
+				<state textres="export_button_clear" />
+				<script>
+					function onButtonPress()
+						ExportManager.performClear(WindowManager.getTopWindow(window));
+					end
+				</script>
+			</button_text>
+			<button_text name="button_export">
+				<anchored width="60">
+					<top offset="5" />
+					<left anchor="center" offset="30" />
+				</anchored>
+				<state textres="export_button" />
+				<script>
+					function onButtonPress()
+						ExportManager.performExport(WindowManager.getTopWindow(window));
+					end
+				</script>
+			</button_text>
+		</sheetdata>
+	</windowclass>
+</root>
