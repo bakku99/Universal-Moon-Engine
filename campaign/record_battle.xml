@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="battle" copy="record_window">
+		<placement>
+			<size width="450" height="450" />
+		</placement>
+		<sizelimits>
+			<minimum width="450" height="400" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_combat</minimize>
+		<script>
+			function onDrop(x, y, draginfo)
+				local nodeRecord = getDatabaseNode();
+				if WindowManager.getReadOnlyState(nodeRecord) then
+					return;
+				end
+				if draginfo.isType("shortcut") then
+					local sClass,sRecord = draginfo.getShortcutData();
+					NPCManager.addLinkToBattle(nodeRecord, sClass, sRecord);
+					return true;
+				end
+			end
+		</script>
+	</windowclass>
+	<windowclass name="battle_header" copy="record_header" />
+
+	<windowclass name="battle_main">
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "idelete_header", }, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<list_content_labeled_alternating_top name="list">
+				<datasource>.npclist</datasource>
+				<class>battle_npc</class>
+				<sortby><field>name</field></sortby>
+				<empty font="list-empty" gmtextres="battle_emptylist" />
+			</list_content_labeled_alternating_top>
+
+			<anchor_list_content_label_left />
+			<anchor_list_content_label_right />
+			<spacer_list_content_idelete_label_left name="idelete_header" />
+			<spacer_list_content_link_label_left name="label_link" />
+			<label_list_content_left name="label_token">
+				<anchored width="28" />
+				<center />
+			</label_list_content_left>
+			<label_list_content_number_left name="label_count">
+				<anchored width="25" />
+				<static>#</static>
+			</label_list_content_number_left>
+			<label_list_content_noframe name="label_name">
+				<static textres="battle_label_name" />
+			</label_list_content_noframe>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="battle_npc">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/battle_npc.lua" />
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete_left name="idelete" />
+			<link_listitem_left name="link" />
+			<token_listitem_left name="token">
+				<script>
+					function onValueChanged()
+						window.synchTokenView();
+					end
+				</script>
+			</token_listitem_left>
+			<number_listitem_left name="count">
+				<anchored width="25" />
+				<default>1</default>
+				<min>1</min>
+				<script>
+					function onValueChanged()
+						window.synchToCount();
+					end
+				</script>
+			</number_listitem_left>
+
+			<button_listitem_faction_right name="faction" />
+			<button_record_isidentified name="isidentified" />
+
+			<string_listitem_center_underline name="name" />
+
+			<label_listitem_maplinks_encounter name="maplinks_label" />
+			<list_listitem_maplinks_encounter name="maplinks" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="battle_npcmaplink">
+		<margins control="0,0,2,2" />
+		<script file="campaign/scripts/battle_npc_maplink.lua" />
+		<sheetdata>
+			<hn name="imagex" />
+			<hn name="imagey" />
+			<hnc name="imageid" />
+			<hlink name="imageref" />
+
+			<tokencontrol name="token">
+				<bounds>2,2,24,24</bounds>
+				<readonly />
+				<script>
+					function onDragStart(button, x, y, draginfo)
+						local _,sRecord = DB.getValue(window.getDatabaseNode(), "...link");
+						local nSpace,_ = ActorCommonManager.getSpaceReach(sRecord);
+						TokenManager.setDragTokenUnits(nSpace);
+					end
+					function onDragEnd(draginfo)
+						TokenManager.endDragTokenWithUnits();
+
+						local _,dropref = draginfo.getTokenData();
+						window.setLink(dropref);
+						return true;
+					end
+				</script>
+			</tokencontrol>
+			<buttoncontrol name="linked">
+				<bounds>2,2,24,24</bounds>
+				<invisible />
+				<icon normal="poll_check" pressed="poll_check" />
+				<script>
+					function onButtonPress()
+						if Session.IsHost then
+							window.clearLink();
+						end
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+</root>

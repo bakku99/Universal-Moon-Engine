@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<template name="button_stringcycler_sound_type">
+		<button_stringcycler_content_column>
+			<parameters>
+				<labelsres>soundset_label_type_trigger|soundset_label_type_content</labelsres>
+				<values>trigger|content</values>
+				<defaultlabelres>soundset_label_type_none</defaultlabelres>
+			</parameters>
+			<script>
+				function onValueChanged()
+					window.onTypeChanged();
+				end
+			</script>
+		</button_stringcycler_content_column>
+	</template>
+	<template name="button_stringcycler_sound_subtype_trigger">
+		<button_stringcycler_content_column>
+			<parameters>
+				<defaultlabelres>soundset_label_trigger_subtype_chat</defaultlabelres>
+			</parameters>
+			<script>
+				function onInit()
+					local tValues = {};
+					local tLabelRes = {};
+					for k,_ in pairs(SoundsetManager.getAllTriggerSubtypes()) do
+						table.insert(tValues, k);
+						table.insert(tLabelRes, "soundset_label_trigger_subtype_" .. k);
+					end
+					parameters[1].values = { table.concat(tValues, "|") };
+					parameters[1].labelsres = { table.concat(tLabelRes, "|") };
+					super.onInit();
+				end
+			</script>
+		</button_stringcycler_content_column>
+	</template>
+	<template name="button_stringcycler_sound_subtype_content">
+		<button_stringcycler_content_column>
+			<parameters>
+				<labelsres>soundset_label_content_subtype_story|soundset_label_content_subtype_image|soundset_label_content_subtype_npc</labelsres>
+				<values>story|image|npc</values>
+				<defaultlabelres>soundset_label_content_subtype_none</defaultlabelres>
+			</parameters>
+			<script>
+				function onValueChanged()
+					window.onSubtypeChanged();
+				end
+			</script>
+		</button_stringcycler_content_column>
+	</template>
+
+	<windowclass name="soundset" copy="record_window" />
+
+	<windowclass name="soundset_main">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/soundset_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="type_label">
+				<static textres="soundset_label_type" />
+			</label_content_column>
+			<button_stringcycler_sound_type name="type" />
+
+			<sub_content_column name="type_stats" />
+
+			<header_content_framed_headersimple name="list_header">
+				<static textres="soundset_header_sounds" />
+			</header_content_framed_headersimple>
+			<list_content_column name="list">
+				<datasource>.subsounds</datasource>
+				<class>soundset_sound_item</class>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="soundset_main_trigger">
+		<margins control="0,0,0,5" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "subtype", "disabled", "list_iadd", }, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="subtype_label">
+				<static textres="soundset_label_subtype" />
+			</label_content_column>
+			<button_stringcycler_sound_subtype_trigger name="subtype" />
+
+			<label_content_column name="disabled_label">
+				<static textres="soundset_label_disabled"/>
+			</label_content_column>
+			<button_checkbox_content_column name="disabled">
+				<tooltip textres="soundset_tooltip_disabled"/>
+			</button_checkbox_content_column>
+
+			<header_content_framed_headersimple name="list_header">
+				<static textres="soundset_header_trigger_patterns" />
+			</header_content_framed_headersimple>
+			<list_content_column name="list">
+				<datasource>.subpatterns</datasource>
+				<class>soundset_main_trigger_pattern_item</class>
+			</list_content_column>
+			<button_iadd name="list_iadd">
+				<anchored to="list_header" position="righthigh" offset="-20,0" />
+			</button_iadd>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="soundset_main_trigger_pattern_item">
+		<margins control="0,0,0,2"/>
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "regex", "value", "idelete", }, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_idelete_left name="idelete" />
+
+			<button_listitem_checkbox_right name="regex">
+				<tooltip textres="soundset_tooltip_regex"/>
+			</button_listitem_checkbox_right>
+			<label_listitem_right name="regex_label">
+				<static textres="soundset_label_regex" />
+				<tooltip textres="soundset_tooltip_regex"/>
+			</label_listitem_right>
+
+			<string_listitem_center_underline name="value" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="soundset_main_content">
+		<margins control="0,0,0,5" />
+		<script file="campaign/scripts/soundset_main_content.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="subtype_label">
+				<static textres="soundset_label_subtype" />
+			</label_content_column>
+			<button_stringcycler_sound_subtype_content name="subtype" />
+
+			<sub_content_column name="subtype_stats" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="soundset_main_content_npc">
+		<margins control="0,0,0,5" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "value", }, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="label">
+				<static textres="soundset_label_content_npc_name" />
+			</label_content_column>
+			<string_content_column name="value" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="soundset_main_content_story">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="links_header">
+				<static textres="soundset_header_content_story_links" />
+			</header_content_framed_headersimple>
+			<list_content_column name="links">
+				<datasource>.targets</datasource>
+				<class>soundset_main_content_link_item</class>
+			</list_content_column>
+
+			<header_content_framed_headersimple name="included_header">
+				<static textres="soundset_header_content_story_included" />
+			</header_content_framed_headersimple>
+			<list_content_column name="included">
+				<datasource>.links</datasource>
+				<class>soundset_main_content_included_item</class>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="soundset_main_content_image">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="links_header">
+				<static textres="soundset_header_content_image_links" />
+			</header_content_framed_headersimple>
+			<list_content_column name="links">
+				<datasource>.targets</datasource>
+				<class>soundset_main_content_link_item</class>
+			</list_content_column>
+
+			<header_content_framed_headersimple name="included_header">
+				<static textres="soundset_header_content_story_included" />
+			</header_content_framed_headersimple>
+			<list_content_column name="included">
+				<datasource>.links</datasource>
+				<class>soundset_main_content_included_item</class>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="soundset_main_content_link_item">
+		<margins control="0,0,0,2"/>
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "name", "idelete", }, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_idelete_left name="idelete" />
+			<link_listitem_left name="shortcut" />
+
+			<string_listitem_center_noframe_static name="name">
+				<font>sheetlabel</font>
+			</string_listitem_center_noframe_static>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="soundset_main_content_included_item" copy="soundset_main_content_link_item" />
+
+	<windowclass name="soundset_sound_item">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.onSoundIDUpdate();
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "idelete", }, bReadOnly);
+			end
+			function onSoundIDUpdate()
+				local sSoundID = soundid.getValue();
+				local tSound = SoundManager.parseSoundID(sSoundID, (sSoundID ~= ""));
+				if tSound then
+					name.setValue(tSound.sName or "");
+					type.setValue(tSound.sDisplayType or "");
+
+					button_play.setVisible(SoundManager.hasSoundSystemFunctionByID("playSound", sSoundID));
+					button_stop.setVisible(SoundManager.hasSoundSystemFunctionByID("stopSound", sSoundID));
+				else
+					button_play.setVisible(false);
+					button_stop.setVisible(false);
+				end
+			end
+		</script>
+		<sheetdata>
+			<hs name="soundid">
+				<script>
+					function onValueChanged()
+						window.onSoundIDUpdate();
+					end
+				</script>
+			</hs>
+
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_idelete_left name="idelete" />
+			<spacer_listitem_sound_actions name="spacer_actions" />
+			<button_listitem_sound_play name="button_play" />
+			<button_listitem_sound_stop name="button_stop" />
+			<stringc_listitem_right_noframe_static name="type">
+				<anchored width="60" />
+			</stringc_listitem_right_noframe_static>
+
+			<label_listitem_center name="name" />
+		</sheetdata>
+	</windowclass>
+</root>

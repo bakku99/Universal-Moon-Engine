@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Character Selection -->
+	<template name="button_importcharadd">
+		<button_iadd_base>
+			<tooltip textres="charselect_tooltip_importadd" />
+		</button_iadd_base>
+	</template>
+	<template name="button_exportchar">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_export" pressed="button_export_down" />
+			<tooltip textres="charselect_tooltip_export" />
+		</buttoncontrol>
+	</template>
+
+	<!-- Character Sheet -->
+	<template name="anchor_content_charsheet_header_top">
+		<genericcontrol name="contentanchor">
+			<anchored height="0">
+				<top offset="15" />
+				<left offset="15" />
+				<right offset="-15" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_content_charsheet_header_left">
+		<anchor_listitem_left_relative />
+	</template>
+	<template name="anchor_content_charsheet_header_right">
+		<anchor_listitem_right_relative />
+	</template>
+
+	<template name="frame_char">
+		<genericcontrol>
+			<frame name="groupbox" />
+		</genericcontrol>
+	</template>
+
+	<template name="list_charmaincategory">
+		<windowlist>
+			<class>char_main_category</class>
+			<datasource>.maincategorylist</datasource> 
+			<columns width="222" filldown="true" dynamic="true" />
+			<sortby><field>label</field></sortby>
+			<allowdelete />
+		</windowlist>
+	</template>
+
+	<template name="list_charmainattribute">
+		<windowlist>
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<datasource>.attributelist</datasource>
+			<class>char_attribute</class>
+			<noscroll />
+			<sortby><field>label</field></sortby>
+			<allowdelete />
+			<script>
+				function onDrop(x, y, draginfo)
+					local sDragType = draginfo.getType();
+					if sDragType == "number" then
+						local w = createWindow(nil, true);
+						if w then
+							w.label.setValue(draginfo.getDescription());
+							w.bonus.setValue(draginfo.getNumberData());
+						end
+						return true;
+					elseif sDragType == "dice" then
+						local aDropDice = draginfo.getDiceData();
+						local w = getWindowAt(x,y);
+						if w then
+							for _,vDie in ipairs(aDropDice) do
+								w.dice.addDie(vDie.type);
+							end
+						end
+						return true;
+					end
+				end
+			</script>
+		</windowlist>
+	</template>
+
+	<template name="button_char_inv_carried">
+		<buttonfield>
+			<state icon="button_char_inv_none" tooltipres="char_tooltip_inv_none" />
+			<state icon="button_char_inv_carried" tooltipres="char_tooltip_inv_carried" />
+			<state icon="button_char_inv_equipped" tooltipres="char_tooltip_inv_equipped" />
+			<default>1</default>
+			<script file="common/scripts/button_crosslink.lua" />
+		</buttonfield>
+	</template>
+	<template name="list_charinv">
+		<windowlist>
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<datasource>.inventorylist</datasource>
+			<class>char_invitem</class>
+			<script file="campaign/scripts/char_invlist.lua" />
+		</windowlist>
+	</template>
+
+	<template name="button_iadd_charcurrency">
+		<button_iadd name="currency_iadd">
+			<script>
+				function onButtonPress()
+					if window.currencylist then
+						window.currencylist.createWindow(nil, true);
+					elseif window.sub_currency.subwindow.list then
+						window.sub_currency.subwindow.list.createWindow(nil, true);
+					end
+				end
+			</script>				
+		</button_iadd>
+	</template>
+	<template name="button_iedit_charcurrency">
+		<button_iedit name="currency_iedit">
+			<script>
+				function onValueChanged()
+					if window.currencylist then
+						WindowManager.onEditModeChanged(window.currencylist);
+					elseif window.sub_currency.subwindow.list then
+						WindowManager.onEditModeChanged(window.sub_currency.subwindow.list);
+					end
+				end
+			</script>
+		</button_iedit>
+	</template>
+	<template name="list_charcurrency_base">
+		<list_text name="currencylist">
+			<class>char_currencyitem</class>
+			<datasource>.coins</datasource>
+			<child merge="delete" />	
+			<script>
+				function onInit()
+					local nodeCurrencyList = getDatabaseNode();
+					if DB.getChildCount(nodeCurrencyList) == 0 then
+						CurrencyManager.populateCharCurrencies(DB.getParent(nodeCurrencyList));
+					end
+				end
+				function onSortCompare(w1, w2)
+					return CurrencyManager.sortCampaignCurrenciesUsingNames(w1.name.getValue(), w2.name.getValue());
+				end
+			</script>
+		</list_text>
+	</template>
+
+	<template name="list_charcurrency">
+		<list_charcurrency_base name="currencylist">
+			<anchored to="coinframe">
+				<top offset="40" />
+				<left offset="10" />
+				<right offset="-20" />
+				<bottom offset="-10" />
+			</anchored>
+		</list_charcurrency_base>
+	</template>
+	<template name="scrollbar_currencylist">
+		<scrollbar_content_base name="scrollbar_currencylist">
+			<anchored to="currencylist" />
+			<target>currencylist</target>
+		</scrollbar_content_base>
+	</template>
+	<template name="button_iadd_currencylist">
+		<button_iadd_charcurrency>
+			<anchored to="currencylist" position="aboveright" offset="5,10"/>
+		</button_iadd_charcurrency>
+	</template>
+	<template name="button_iedit_currencylist">
+		<button_iedit_charcurrency>
+			<anchored to="currencylist" position="aboveright" offset="-15,10"/>
+		</button_iedit_charcurrency>
+	</template>
+
+	<template name="list_charcurrency_inline">
+		<list_charcurrency_base name="currencylist">
+			<anchored to="moneytitle" >
+				<top anchor="bottom" relation="relative" offset="10" />
+				<left offset="-5"/>
+				<right offset="5"/>
+			</anchored>
+			<columns width="150" fillwidth="true" />
+			<noscroll />
+		</list_charcurrency_base>
+	</template>
+	<template name="button_iadd_currencylist_inline">
+		<button_iadd_charcurrency name="currencylist_iadd">
+			<anchored to="currencylist" position="aboveright" offset="15,10"/>
+		</button_iadd_charcurrency>
+	</template>
+	<template name="button_iedit_currencylist_inline">
+		<button_iedit_charcurrency name="currencylist_iedit">
+			<anchored to="currencylist" position="aboveright" offset="-5,10"/>
+		</button_iedit_charcurrency>
+	</template>
+	<template name="string_coinother_inline">
+		<hsc />
+	</template>
+
+	<template name="sub_charcurrency">
+		<subwindow name="sub_currency">
+			<anchored to="coinframe">
+				<top offset="40" />
+				<left offset="10" />
+				<right offset="-20" />
+				<bottom offset="-10" />
+			</anchored>
+			<class>char_currency</class>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="scrollbar_sub_charcurrency">
+		<scrollbar_content_base name="scrollbar_currency">
+			<anchored to="sub_currency" />
+			<target>sub_currency</target>
+		</scrollbar_content_base>
+	</template>
+	<template name="button_iadd_sub_charcurrency">
+		<button_iadd_charcurrency>
+			<anchored to="sub_currency" position="aboveright" offset="5,10"/>
+		</button_iadd_charcurrency>
+	</template>
+	<template name="button_iedit_sub_charcurrency">
+		<button_iedit_charcurrency>
+			<anchored to="sub_currency" position="aboveright" offset="-15,10"/>
+		</button_iedit_charcurrency>
+	</template>
+	<template name="list_sub_charcurrency">
+		<list_charcurrency_base name="list">
+			<noscroll />
+		</list_charcurrency_base>
+	</template>
+
+	<template name="list_language">
+		<list_text>
+			<datasource>.languagelist</datasource>
+			<class>char_language</class>
+			<sortby><control>name</control></sortby>
+			<allowdelete />
+			<script>
+				function onDrop(x, y, draginfo)
+					local sDragType = draginfo.getType();
+					if sDragType == "string" or sDragType == "language" then
+						local w = createWindow(nil, true);
+						w.name.setValue(draginfo.getStringData());
+						return true;
+					end
+				end
+			</script>
+		</list_text>
+	</template>
+
+	<!-- DEPRECATED (2025-03) -->
+	<template name="button_charactivate">
+		<buttoncontrol>
+			<icon normal="button_speak" pressed="button_speak_down" />
+			<script>
+				function onInit()
+					if Session.IsHost then
+						setTooltipText(Interface.getString("char_tooltip_speak"));
+					else
+						setTooltipText(Interface.getString("char_tooltip_activate"));
+					end
+				end
+				function onButtonPress()
+					if Session.IsHost then
+						local nodeActor = window.getDatabaseNode();
+						GmIdentityManager.addIdentity(window.name.getValue());
+					else
+						UserManager.activatePlayerID(DB.getName(window.getDatabaseNode()));
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="button_charactivate_charsheet">
+		<button_charactivate>
+			<anchored to="rightanchor" width="23" height="22">
+				<top offset="11" />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_charactivate>
+	</template>
+</root>
