@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Templated Windows -->
+	<windowclass name="record_window">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="400" height="500" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="350" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<sharable />
+		<tooltip field="name" />
+		<script file="common/scripts/record_window.lua" />
+		<sheetdata>
+			<windowmenubar_recordsheet name="menubar" />
+
+			<anchor_content_recordsheet_top name="contentanchor" />
+			<anchor_content_recordsheet_bottom name="bottomanchor" />
+
+			<!-- NOTE: Legacy override short term for layout -->
+			<sub_content_framed_groupbox_top name="header">
+				<anchored to="contentanchor">
+					<left offset="10" />
+					<right offset="-10" />
+					<top relation="relative" offset="10" postoffset="10" />
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+				<class>record_header</class>
+			</sub_content_framed_groupbox_top>
+
+			<sub_content_framed_groupbox name="content" />
+			<scrollbar_content />
+
+			<resize_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_window_tabbed">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="400" height="500" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="350" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_reference</minimize>
+		<sharable />
+		<tooltip field="name" />
+		<script file="common/scripts/record_window_tabbed.lua" />
+		<sheetdata>
+			<windowmenubar_recordsheet name="menubar" />
+			<resize_recordsheet />
+
+			<anchor_content_recordsheet_tabbed_top name="contentanchor" />
+			<anchor_content_recordsheet_bottom name="bottomanchor" />
+
+			<!-- NOTE: Legacy override short term for layout -->
+			<sub_content_framed_groupbox_top name="header">
+				<anchored to="contentanchor">
+					<left offset="10" />
+					<right offset="-10" />
+					<top relation="relative" offset="10" postoffset="10" />
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+				<class>record_header</class>
+			</sub_content_framed_groupbox_top>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_window_text" copy="record_window">
+		<sheetdata>
+			<sub_content_framed_groupbox name="content">
+				<class>record_content_text</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_window_text_string" copy="record_window">
+		<sheetdata>
+			<sub_content_framed_groupbox name="content">
+				<class>record_content_text_string</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="record_window_story">
+		<frame>storybox</frame>
+		<placement>
+			<size width="400" height="650" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="350" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_note</minimize>
+		<sharable />
+		<tooltip field="name" />
+		<script file="common/scripts/record_window.lua" />
+		<sheetdata>
+			<windowmenubar_storybox name="menubar" />
+
+			<anchor_content_storybox_top name="contentanchor" />
+			<anchor_content_storybox_bottom name="bottomanchor" />
+
+			<!-- NOTE: Legacy override short term for layout -->
+			<sub_content_framed_groupbox_top name="header">
+				<anchored to="contentanchor">
+					<left offset="10" />
+					<right offset="-10" />
+					<top relation="relative" offset="10" postoffset="10" />
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+				<class>record_header_story</class>
+			</sub_content_framed_groupbox_top>
+
+			<sub_content_framed_groupbox_bottom name="sub_paging">
+				<anchored height="30" />
+				<class>record_paging_story</class>
+			</sub_content_framed_groupbox_bottom>
+
+			<sub_content_framed_groupbox name="content">
+				<class>record_content_story</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+
+			<resize_storybox />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_window_story" merge="join">
+		<script file="campaign/scripts/story.lua" />
+	</windowclass>
+</root>

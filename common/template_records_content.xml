@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Main Content Window Templates-->
+	<windowclass name="record_context_text_base">
+		<script file="common/scripts/record_content_text.lua" />
+		<sheetdata>
+			<anchor_content_top />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_content_text" copy="record_context_text_base">
+		<sheetdata>
+			<ft_content_noframe_noscroll_top name="text" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_content_notes" copy="record_context_text_base">
+		<target>notes</target>
+		<sheetdata>
+			<ft_content_noframe_noscroll_top name="notes" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_content_description" copy="record_context_text_base">
+		<target>description</target>
+		<sheetdata>
+			<ft_content_noframe_noscroll_top name="description" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_content_text_string" copy="record_context_text_base">
+		<sheetdata>
+			<string_content_noframe_noscroll_top name="text">
+				<empty textres="ft_empty" hidereadonly="true" />
+			</string_content_noframe_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="record_content_story" copy="record_context_text_base">
+		<skipid />
+		<sheetdata>
+			<ft_content_noframe_noscroll_top name="text">
+				<script>
+					function onLinkActivated(sClass, sRecord)
+						StoryManager.onLinkActivated(window, sClass, sRecord);
+					end
+				</script>
+			</ft_content_noframe_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Pictures Content Window Templates -->
+	<windowclass name="record_content_pictures">
+		<script>
+			function onInit()
+				local sRecordType = RecordDataManager.getRecordTypeFromRecordPath(getDatabasePath());
+				if sRecordType == "" then
+					sRecordType = RecordDataManager.getRecordTypeFromWindow(WindowManager.getTopWindow(self));
+					if sRecordType == "" then
+						sRecordType = ActorManager.getRecordType(getDatabaseNode());
+					end
+				end
+				if RecordDataManager.getTokenMode(sRecordType) then
+					sub_tokens.setValue("record_content_pictures_sub_tokens", getDatabaseNode());
+					sub_tokens.setVisible(true);
+				end
+				if RecordDataManager.getPictureMode(sRecordType) then
+					sub_picture.setValue("record_content_pictures_sub_picture", getDatabaseNode());
+					sub_picture.setVisible(true);
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_hidden_bottom name="sub_tokens">
+				<anchored height="130" />
+			</sub_content_hidden_bottom>
+
+			<sub_content_hidden name="sub_picture" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_content_pictures_sub_picture">
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				local tFields = { "picture", };
+				WindowManager.callSafeControlsSetLockMode(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<asset_picture name="picture">
+				<anchored position="insidetop" offset="-10,20">
+					<bottom offset="-10" />
+				</anchored>
+			</asset_picture>
+			<label name="picture_label">
+				<anchored to="picture" position="above" />
+				<center />
+				<static textres="pictures_label_picture" />
+			</label>
+			<button_picture_iadd name="picture_iadd">
+				<anchored to="picture" />
+				<target>picture</target>
+			</button_picture_iadd>
+			<button_picture_idelete name="picture_idelete">
+				<anchored to="picture" />
+				<target>picture</target>
+			</button_picture_idelete>
+			<button_record_picture_share name="button_share_picture">
+				<anchored to="picture" />
+				<target>picture</target>
+			</button_record_picture_share>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_content_pictures_sub_tokens">
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				local tFields = { "token", "token3Dflat", };
+				WindowManager.callSafeControlsSetLockMode(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<asset_picture name="token">
+				<anchored position="insidetopleft" offset="10,20" width="100" height="100" />
+			</asset_picture>
+			<label name="token_label">
+				<anchored to="token" position="above" />
+				<center />
+				<static textres="pictures_label_token" />
+			</label>
+			<button_picture_iadd name="token_iadd">
+				<anchored to="token" />
+				<target>token</target>
+			</button_picture_iadd>
+			<button_picture_idelete name="token_idelete">
+				<anchored to="token" />
+				<target>token</target>
+			</button_picture_idelete>
+
+			<asset_picture name="token3Dflat">
+				<anchored position="insidetopright" offset="10,20" width="100" height="100" />
+			</asset_picture>
+			<label name="token3Dflat_label">
+				<anchored to="token3Dflat" position="above" />
+				<center />
+				<static textres="pictures_label_token_camera" />
+				<tooltip textres="pictures_tooltip_token_camera" />
+			</label>
+			<button_picture_iadd name="token3Dflat_iadd">
+				<anchored to="token3Dflat" />
+				<target>token3Dflat</target>
+			</button_picture_iadd>
+			<button_picture_idelete name="token3Dflat_idelete">
+				<anchored to="token3Dflat" />
+				<target>token3Dflat</target>
+			</button_picture_idelete>
+
+			<button_picture_map_center name="button_map_center" />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="record_content_pictures_charsheet">
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				local tFields = { "token", "token3Dflat", };
+				WindowManager.callSafeControlsSetLockMode(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<genericcontrol name="portrait">
+				<anchored position="insidetop" offset="-20,30">
+					<bottom offset="-150" />
+				</anchored>
+				<frame name="fielddark" offset="10,10,10,10" />
+				<drawmode>fit</drawmode>
+				<script>
+					function onInit()
+						setIcon("portrait_" .. DB.getName(window.getDatabaseNode()) .. "_charlist", true);
+					end
+					function onClickDown(button, x, y)
+						return true;
+					end
+					function onClickRelease(button, x, y)
+						window.portrait_iadd.onButtonPress();
+						return true;
+					end
+					function onDrop(x, y, draginfo)
+						return RecordAssetManager.handleCharPortraitDrop(window.getDatabaseNode(), draginfo);
+					end
+				</script>
+			</genericcontrol>
+			<label name="portrait_label">
+				<anchored to="portrait" position="above" />
+				<center />
+				<static textres="pictures_label_portrait" />
+			</label>
+			<button_portrait_iadd name="portrait_iadd">
+				<anchored to="portrait" />
+			</button_portrait_iadd>
+
+			<asset_picture name="token">
+				<anchored position="insidebottomleft" offset="20,20" width="100" height="100" />
+			</asset_picture>
+			<label name="token_label">
+				<anchored to="token" position="above" />
+				<center />
+				<static textres="pictures_label_token" />
+			</label>
+			<button_picture_iadd name="token_iadd">
+				<anchored to="token" />
+				<target>token</target>
+			</button_picture_iadd>
+			<button_picture_idelete name="token_idelete">
+				<anchored to="token" />
+				<target>token</target>
+			</button_picture_idelete>
+
+			<asset_picture name="token3Dflat">
+				<anchored position="insidebottomright" offset="20,20" width="100" height="100" />
+			</asset_picture>
+			<label name="token3Dflat_label">
+				<anchored to="token3Dflat" position="above" />
+				<center />
+				<static textres="pictures_label_token_camera" />
+				<tooltip textres="pictures_tooltip_token_camera" />
+			</label>
+			<button_picture_iadd name="token3Dflat_iadd">
+				<anchored to="token3Dflat" />
+				<target>token3Dflat</target>
+			</button_picture_iadd>
+			<button_picture_idelete name="token3Dflat_idelete">
+				<anchored to="token3Dflat" />
+				<target>token3Dflat</target>
+			</button_picture_idelete>
+
+			<button_picture_map_center name="button_map_center" />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Other Content Templates -->
+	<windowclass name="record_paging_story">
+		<sheetdata>
+			<button_content_page_top>
+				<anchored>
+					<top anchor="center" offset="-10" />
+					<left anchor="center" offset="-10" />
+				</anchored>
+				<script>
+					function onButtonPress()
+						WindowManager.callOuterWindowFunction(window, "handlePageTop");
+						return true;
+					end
+				</script>
+			</button_content_page_top>
+			<button_content_page_prev>
+				<anchored>
+					<top anchor="center" offset="-10" />
+					<right anchor="center" offset="-40" />
+				</anchored>
+				<script>
+					function onButtonPress()
+						WindowManager.callOuterWindowFunction(window, "handlePagePrev");
+						return true;
+					end
+				</script>
+			</button_content_page_prev>
+			<button_content_page_next>
+				<anchored>
+					<top anchor="center" offset="-10" />
+					<left anchor="center" offset="40" />
+				</anchored>
+				<script>
+					function onButtonPress()
+						WindowManager.callOuterWindowFunction(window, "handlePageNext");
+						return true;
+					end
+				</script>
+			</button_content_page_next>
+		</sheetdata>
+	</windowclass>
+
+	<template name="sub_record_nonid_notes">
+		<sub_content_column_hidden name="sub_nonid">
+			<class>record_nonid_notes</class>
+		</sub_content_column_hidden>
+	</template>
+	<windowclass name="record_nonid_notes">
+		<margins control="0,0,0,5" />
+		<script>
+			function onInit()
+				self.onLockModeChanged(WindowManager.getWindowReadOnlyState(self));
+			end
+			function onLockModeChanged(bReadOnly)
+				WindowManager.callSafeControlsSetLockMode(self, { "nonidentified", }, bReadOnly);
+				parentcontrol.setVisible(WindowManager.getAnyControlVisible(self, { "nonidentified", }));
+			end
+			function update(bReadOnly, bID)
+				-- Do Nothing - DEPRECATED call
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="nonidentified_label">
+				<static textres="item_label_unidentifiednotes" />
+			</label_content_column>
+			<string_content_columnh name="nonidentified" />
+
+			<line_content_top name="divider" />
+		</sheetdata>
+	</windowclass>
+
+	<!-- Image Record Content Templates -->
+	<template name="spacer_record_name_image">
+		<spacer_content_top>
+			<anchored height="38" />
+		</spacer_content_top>
+	</template>
+	<template name="anchor_content_image_left">
+		<anchor_listitem_left_relative />
+	</template>
+	<template name="anchor_content_image_right">
+		<anchor_listitem_right_relative />
+	</template>
+	<template name="image_record_step">
+		<imagecontrol name="image">
+			<default snap="on" />
+			<script file="campaign/scripts/image.lua" />
+		</imagecontrol>
+	</template>
+	<template name="imagedata_record_step">
+		<imagedatacontrol>
+			<invisible />
+			<color>000000</color>
+			<backcolor>E8E7E4</backcolor>
+		</imagedatacontrol>
+	</template>
+	<template name="image_content">
+		<image_record_step>
+			<anchored>
+				<top parent="contentanchor" relation="current" />
+				<bottom parent="bottomanchor" relation="current" />
+				<left parent="leftanchor" relation="relative" />
+				<right parent="rightanchor" relation="relative" />
+			</anchored>
+		</image_record_step>
+	</template>
+	<template name="imagedata_content">
+		<imagedata_record_step>
+			<anchored width="288">
+				<top parent="contentanchor" relation="current" />
+				<bottom parent="bottomanchor" relation="current" />
+				<right parent="rightanchor" relation="relative" />
+			</anchored>
+		</imagedata_record_step>
+	</template>
+	<template name="anchor_image_controls_right">
+		<genericcontrol name="image_controls_rightanchor">
+			<anchored to="image" position="insidetopright" offset="2,2" />
+		</genericcontrol>
+	</template>
+	<template name="anchor_image_controls_bottom">
+		<genericcontrol name="image_controls_bottomanchor">
+			<anchored to="image" position="insidebottomright" offset="2,2" />
+		</genericcontrol>
+	</template>
+	<template name="sub_image_token_detail">
+		<subwindow>
+			<frame name="image_token_detail" />
+		</subwindow>
+	</template>
+	<template name="sub_image_view_tokenmove">
+		<subwindow>
+			<anchored to="image_controls_rightanchor" width="140">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+				<bottom parent="image_controls_bottomanchor" relation="current" offset="-2" />
+			</anchored>
+			<class>image_tokenmove</class>
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="sub_image_hover_token_detail">
+		<sub_image_token_detail>
+			<anchored to="image_controls_rightanchor" width="130" height="120">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+			<disabled />
+		</sub_image_token_detail>
+	</template>
+	<template name="sub_image_view_token_detail">
+		<sub_image_token_detail>
+			<anchored to="image" width="130" height="120">
+				<left anchor="center" offset="-60" />
+				<bottom offset="-5" />
+			</anchored>
+		</sub_image_token_detail>
+	</template>
+	<template name="sub_image_camera_controls">
+		<subwindow>
+			<anchored to="image_controls_bottomanchor" width="140" height="64">
+				<bottom relation="relative" offset="-2" postoffset="-2" />
+				<right relation="current" offset="-2" />
+			</anchored> 
+			<frame name="image_token_detail" />
+			<class>image_camera_controls</class>
+		</subwindow>
+	</template>
+	<template name="button_image_camera_move">
+		<button_icon>
+			<anchored position="insidetopleft" />
+			<tintable />
+			<script>
+				function onClickDown()
+					local cImage = WindowManager.callOuterWindowFunction(self, "getImage");
+					cImage.setFocus();
+					WindowManager.callOuterWindowFunction(window, "onStartCameraDirection", direction[1]);
+					return true;
+				end
+				function onClickRelease()
+					WindowManager.callOuterWindowFunction(window, "onEndCameraDirection", direction[1]);
+				end
+				function onDragEnd()
+					WindowManager.callOuterWindowFunction(window, "onEndCameraDirection", direction[1]);
+				end
+				function updateTooltip(sViewMode)
+					if (sViewMode or "") == "" then
+						setTooltipText(Interface.getString("image_tooltip_" .. direction[1]));
+					else
+						setTooltipText(Interface.getString("image_tooltip_" .. direction[1] .. "_viewcamera"));
+					end
+				end
+			</script>
+		</button_icon>
+	</template>
+	<template name="list_viewers">
+		<genericcontrol>
+			<anchored to="bottomanchor" position="aboveleft" />
+			<portraitset>charlist</portraitset>
+			<portraitspacing>22</portraitspacing>
+			<script file="common/scripts/list_viewers.lua" />
+		</genericcontrol>
+	</template>
+
+	<!-- Misc -->
+	<template name="display_actor">
+		<genericcontrol name="display">
+			<anchored width="100" height="100" />
+			<script>
+				local _bNotify = false;
+				function onClose()
+					if _bNotify then
+						ActorDisplayManager.removeDisplayControl(self);
+						_bNotify = false;
+					end
+				end
+				function notifyActorDisplayManagerOnClose()
+					_bNotify = true;
+				end
+
+				local _tData;
+				function initData(tData)
+					if not tData then
+						return;
+					end
+					_tData = tData;
+				end
+				function getData()
+					return _tData;
+				end
+			</script>
+		</genericcontrol>
+	</template>
+	<template name="button_tokenmove_accept">
+		<buttoncontrol name="button_accept">
+			<anchored width="20" height="20" />
+			<icon>token_move_confirm</icon>
+			<tooltip textres="image_tooltip_tokenmove_accept" />
+		</buttoncontrol>
+	</template>
+	<template name="button_tokenmove_cancel">
+		<buttoncontrol name="button_cancel">
+			<anchored width="20" height="20" />
+			<icon>token_move_cancel</icon>
+			<tooltip textres="image_tooltip_tokenmove_cancel" />
+		</buttoncontrol>
+	</template>
+</root>
